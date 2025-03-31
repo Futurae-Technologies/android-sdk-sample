@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+/build
+/qa
+/captures
+/futuraedemoapp/google-services.json
+.DS_Store
+.externalNativeBuild
+.cxx
+local.properties
