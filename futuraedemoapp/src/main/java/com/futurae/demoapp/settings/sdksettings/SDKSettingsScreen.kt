@@ -13,13 +13,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.demoapp.FuturaeDemoApplication
+import com.futurae.demoapp.arch.PinProviderViewModel
 import com.futurae.demoapp.settings.common.SettingsRowComposable
+import com.futurae.demoapp.ui.shared.elements.snackbar.FuturaeSnackbarUIState
 import com.futurae.demoapp.ui.theme.Tertiary
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun SettingsScreen(
-    navigateTo: (route: String) -> Unit
+    navigateTo: (route: String) -> Unit,
+    onPinRequested: () -> Unit,
+    pinProviderViewModel: PinProviderViewModel,
+    showSnackbar: suspend (FuturaeSnackbarUIState) -> Unit
 ) {
     val context = LocalContext.current
     val application = context.applicationContext as FuturaeDemoApplication
@@ -42,11 +48,27 @@ fun SettingsScreen(
     }
 
     LaunchedEffect(Unit) {
-        launch {
-            settingsViewModel.navigationEvent.collect {
-                navigateTo(it)
-            }
-        }
+        settingsViewModel.navigationEvent
+            .onEach { navigateTo(it) }
+            .launchIn(this)
 
+        settingsViewModel.requestSDKPinChange
+            .onEach { onPinRequested() }
+            .launchIn(this)
+
+        pinProviderViewModel
+            .pinFlow
+            .onEach {
+                settingsViewModel.onPinProvided(it)
+                pinProviderViewModel.reset()
+            }
+            .launchIn(this)
+
+        settingsViewModel
+            .notifyUser
+            .onEach {
+                showSnackbar(it)
+            }
+            .launchIn(this)
     }
 }

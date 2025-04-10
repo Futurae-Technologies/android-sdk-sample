@@ -818,9 +818,16 @@ private fun NavGraphBuilder.homeNavigation(
                 )
             }
 
-            SettingsScreen { route ->
-                navController.navigate(route)
-            }
+            SettingsScreen(
+                navigateTo = { route ->
+                    navController.navigate(route)
+                },
+                pinProviderViewModel = pinProviderViewModel,
+                onPinRequested = {
+                    navController.navigateToLockScreen(LockScreenMode.CHANGE_PIN)
+                },
+                showSnackbar = showSnackbar
+            )
         }
 
         composable(route = FuturaeDemoDestinations.SETTINGS_ADAPTIVE_ROUTE.route) {

@@ -80,7 +80,8 @@ fun LockScreen(
         }
 
         LockScreenMode.GET_PIN,
-        LockScreenMode.CREATE_PIN -> {
+        LockScreenMode.CREATE_PIN,
+        LockScreenMode.CHANGE_PIN -> {
             BackHandler(enabled = true) {
                 // if Pin requested for operation, return null pin to pinProviderViewModel
                 viewModel.onPinCanceled()

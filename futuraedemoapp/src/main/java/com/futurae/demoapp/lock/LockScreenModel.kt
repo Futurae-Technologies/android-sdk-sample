@@ -50,6 +50,7 @@ enum class LockScreenMode {
     UNLOCK,
     GET_PIN,
     CREATE_PIN,
+    CHANGE_PIN,
     ACTIVATE_BIO
 }
 

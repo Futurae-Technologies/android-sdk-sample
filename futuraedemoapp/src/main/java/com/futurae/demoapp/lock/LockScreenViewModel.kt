@@ -29,8 +29,7 @@ class LockScreenViewModel(
     private val unlockUseCase: UnlockUseCase,
     private val activateBiometricsUseCase: ActivateBiometricsUseCase,
     application: Application
-) :
-    AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
     private val digitsEnteredRepeat: MutableList<Int> = mutableListOf()
     private val digitsEntered: MutableList<Int> = mutableListOf()
@@ -109,9 +108,14 @@ class LockScreenViewModel(
                 )
             }
 
-            LockScreenMode.CREATE_PIN -> {
+            LockScreenMode.CREATE_PIN,
+            LockScreenMode.CHANGE_PIN -> {
                 LockScreenUIState.PinScreen(
-                    digitsEntered = if (isSecondInput) digitsEnteredRepeat.toTypedArray() else digitsEntered.toTypedArray(),
+                    digitsEntered = if (isSecondInput) {
+                        digitsEnteredRepeat.toTypedArray()
+                    } else {
+                        digitsEntered.toTypedArray()
+                    },
                     supportAlternativeAuthText = null,
                     title = if (isSecondInput) {
                         TextWrapper.Resource(R.string.repeat_new_pin)
@@ -233,7 +237,8 @@ class LockScreenViewModel(
                 }
             }
 
-            LockScreenMode.CREATE_PIN -> {
+            LockScreenMode.CREATE_PIN,
+            LockScreenMode.CHANGE_PIN -> {
                 if (isSecondInput) {
                     if (digitsEnteredRepeat == digitsEntered) {
                         viewModelScope.launch {

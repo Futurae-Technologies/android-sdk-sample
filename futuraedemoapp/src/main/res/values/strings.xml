@@ -142,6 +142,10 @@
     <string name="integrity_check">Integrity Check</string>
     <string name="integrity_check_subtitle">Check your app and device integrity</string>
     <string name="sdk_configuration">SDK Configuration</string>
+    <string name="sdk_pin">SDK Pin</string>
+    <string name="sdk_change_pin">Change SDK Pin</string>
+    <string name="sdk_change_pin_success">SDK pin has been changed successfully</string>
+    <string name="sdk_change_pin_error">SDK pin change failed: %1$s</string>
     <string name="flow_binding">Flow Binding</string>
     <string name="flow_binding_subtitle">When on, you will have to provide a token when enrolling a new account</string>
     <string name="session_info_without_unlock">Allow fetching session info without unlock</string>
