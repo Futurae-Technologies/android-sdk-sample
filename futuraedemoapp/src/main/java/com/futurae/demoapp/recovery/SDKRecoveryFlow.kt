@@ -1,5 +1,6 @@
 package com.futurae.demoapp.recovery
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,7 +43,7 @@ fun SDKRecoveryFlow(
     )
 
     val state by sdkRecoveryViewModel.state.collectAsStateWithLifecycle()
-    val context = LocalContext.current as FragmentActivity
+    val context = LocalActivity.current as FragmentActivity
 
     when (state) {
         is ILCEState.Content -> ResultInformativeScreen(

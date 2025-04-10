@@ -218,7 +218,7 @@ class ConfigurationViewModel(
         }
     }
 
-    fun switchToSDKConfigurationSDKPin(sdkPin: CharArray) {
+    private fun switchToSDKConfigurationSDKPin(sdkPin: CharArray) {
         viewModelScope.launch {
             try {
                 val configuration = generateSDKConfigFromOptions(_configurationItems.value)

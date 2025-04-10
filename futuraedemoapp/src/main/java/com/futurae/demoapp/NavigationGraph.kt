@@ -391,7 +391,7 @@ fun FuturaeNavigationGraph(
                 val message = backStackEntry
                     .arguments
                     ?.getString(NavigationArguments.ErrorRoute.MESSAGE_NAV_ARG)
-                ErrorScreen(title, message, {
+                ErrorScreen(title, message) {
                     FuturaeSDK.reset(context.applicationContext as FuturaeDemoApplication)
                     LocalStorage.reset()
                     navController.navigate(FuturaeDemoDestinations.SPLASH_ROUTE.route) {
@@ -399,7 +399,7 @@ fun FuturaeNavigationGraph(
                             inclusive = true
                         }
                     }
-                })
+                }
             }
 
             composable(FuturaeDemoDestinations.AUTHENTICATION_ROUTE.route) {

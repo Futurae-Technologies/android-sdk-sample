@@ -67,7 +67,7 @@ fun <T> RadioButtonRow(
 @Composable
 @Preview
 fun PreviewRadioButtonGroup() {
-    val selectedOption: String? = "Option 1"
+    val selectedOption = "Option 1"
 
     MaterialTheme {
         RadioButtonGroup(

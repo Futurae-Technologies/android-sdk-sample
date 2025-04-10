@@ -60,7 +60,10 @@ fun FuturaeTopAppBar(
     state: FuturaeTopAppBarUIState,
     navigateUp: () -> Unit
 ) {
-    AnimatedContent(state) {
+    AnimatedContent(
+        targetState = state,
+        label = "FuturaeTopAppBar content animation"
+    ) {
         when (it) {
             is FuturaeTopAppBarUIState.AccountHistory -> AccountHistoryTopAppBar(
                 serviceInfoSectionUIState = it.serviceInfoSectionUIState,

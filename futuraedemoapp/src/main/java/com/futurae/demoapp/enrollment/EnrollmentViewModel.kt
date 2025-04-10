@@ -13,7 +13,6 @@ import com.futurae.demoapp.ui.shared.elements.resultinformativescreen.ResultInfo
 import com.futurae.demoapp.ui.shared.elements.resultinformativescreen.ResultInformativeScreenUIState
 import com.futurae.demoapp.ui.shared.elements.resultinformativescreen.ResultState
 import com.futurae.demoapp.ui.shared.elements.serviceinfosection.ServiceInfoSectionUIState
-import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.account.model.EnrollAccount
 import com.futurae.sdk.public_api.account.model.EnrollAccountAndSetupSDKPin
 import com.futurae.sdk.public_api.account.model.EnrollmentInput

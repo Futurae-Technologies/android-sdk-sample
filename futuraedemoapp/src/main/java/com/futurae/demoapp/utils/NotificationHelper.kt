@@ -16,9 +16,9 @@ object NotificationHelper {
     const val EXTRA_AUTH = "EXTRA_AUTH"
     const val EXTRA_UNENROLL = "EXTRA_UNENROLL"
     const val EXTRA_QR = "EXTRA_QR"
-    const val CHANNEL_ID = "futurae"
-    const val CHANNEL_NAME = "Futurae"
-    const val CHANNEL_DESC = "Futurae Push Notifications"
+    private const val CHANNEL_ID = "futurae"
+    private const val CHANNEL_NAME = "Futurae"
+    private const val CHANNEL_DESC = "Futurae Push Notifications"
 
     fun showNotification(context: Context, notificationUI: NotificationUI) {
         val notificationId = 1

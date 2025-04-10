@@ -13,8 +13,6 @@ private val TAG = FuturaeDemoAppBackUpAgent::class.simpleName
 
 class FuturaeDemoAppBackUpAgent : BackupAgent() {
 
-    private val PREFS_BACKUP_KEY = "prefs_shared_prefs_backup_key"
-
     override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput, newState: ParcelFileDescriptor?) {
         try {
 
@@ -27,7 +25,7 @@ class FuturaeDemoAppBackUpAgent : BackupAgent() {
             sp.edit().putInt(PREF_RANDOM_STRING, randomInt).apply()
 
             val preferenceValue = randomInt.toString()
-            Timber.d("Starting backup of the prefs configuration in " + PREFS_BACKUP_KEY + ", store: " + randomInt + " as " + preferenceValue)
+            Timber.d("Starting backup of the prefs configuration in $PREFS_BACKUP_KEY, store: $randomInt as $preferenceValue")
 
             val bufStream = ByteArrayOutputStream()
             val outWriter = DataOutputStream(bufStream)
@@ -76,6 +74,7 @@ class FuturaeDemoAppBackUpAgent : BackupAgent() {
     }
 
     companion object {
+        const val PREFS_BACKUP_KEY = "prefs_shared_prefs_backup_key"
         const val PREFS_NAME = "PREFS_NAME_CUSTOM"
         const val PREF_RANDOM_STRING = "PREF_RANDOM_STRING"
     }

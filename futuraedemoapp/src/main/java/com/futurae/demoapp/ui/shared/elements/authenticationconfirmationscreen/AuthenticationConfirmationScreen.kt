@@ -74,7 +74,10 @@ fun AuthenticationConfirmationScreen(
 
         TimeoutIndicator(progress = timeoutCountdownProgress)
 
-        AnimatedContent(uiState.content) {
+        AnimatedContent(
+            targetState = uiState.content,
+            label = "authentication confirmation screen content animation"
+        ) {
             Column(modifier = Modifier.fillMaxSize()) {
 
                 val shouldShowMultiNumberedChallenge =
