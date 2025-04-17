@@ -6,7 +6,7 @@ This repository contains a full demo application showcasing the usage of the [Fu
 
 1. **Clone the repository:**
     ```bash
-    git clone git@github.com:Futurae-Technologies/android-sdk-demo.git
+    git clone git@github.com:Futurae-Technologies/android-sdk-sample.git
     ```
 
 2. **Configuration:**

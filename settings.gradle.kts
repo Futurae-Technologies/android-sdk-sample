@@ -31,5 +31,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "android-sdk-demo"
+rootProject.name = "android-sdk-sample"
 include(":futuraedemoapp")
