@@ -6,6 +6,8 @@
 /qa
 /captures
 /futuraedemoapp/google-services.json
+/futuraedemoapp/qa
+/futuraedemoapp/build
 .DS_Store
 .externalNativeBuild
 .cxx
