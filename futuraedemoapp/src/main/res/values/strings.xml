@@ -8,19 +8,6 @@
     <string name="authenticated_successfully">Authenticated successfully</string>
 
     <!-- SDK Configuration -->
-    <string name="configure_sdk_lock_configuration_prompt">Configure SDK lock configuration</string>
-    <string name="sdk_lock_configuration_none">None</string>
-    <string name="sdk_lock_configuration_biometrics_only">Biometrics only</string>
-    <string name="sdk_lock_configuration_biometrics_or_credentials">Biometrics or device credentials</string>
-    <string name="sdk_lock_configuration_sdk_pin_with_biometrics_optional">SDK pin with biometrics optional</string>
-    <string name="configure_sdk_unlock_duration_prompt">Configure SDK unlock duration</string>
-    <string name="sdk_unlock_duration">%1$ds</string>
-    <string name="configure_other_sdk_options_prompt">Configure other SDK options</string>
-    <string name="enable_biometric_invalidation_option">Enable Biometric Invalidation</string>
-    <string name="require_device_unlocked_option">Require Device Unlocked</string>
-    <string name="skip_hardware_storage_option">Skip hardware storage</string>
-    <string name="allow_changesdkpin_with_biometrics_option">Allow changeSDKPin with Biometrics</string>
-    <string name="sdk_configuration_error">Error:\n%1$s</string>
     <string name="sdk_configuration_success">SDK Configuration Updated</string>
 
     <!-- Home Screen -->
@@ -38,10 +25,6 @@
     <string name="locked_account_informative_dialog_content">You have been locked out from your %1$s Account. Please contact your support center.</string>
 
     <!-- QR Scanner Screen -->
-    <string name="error_message_invalid_qr_code">Invalid QR code, matches none of know types.</string>
-    <string name="error_message_unable_to_extract_approve_info">Invalid QR code, unable to extract approve info.</string>
-    <string name="confirm">Confirm</string>
-    <string name="error_message_enrollment_failed">Enrollment failed.\n%1$s</string>
     <string name="error_message_fetching_verification_code_failed">Fetching verification code failed.\n%1$s</string>
     <string name="error_message_authentication_failed">Authentication failed.\n%1$s</string>
     <string name="error_message_session_is_missing_user_id">Invalid QR code, session is missing user id</string>
@@ -61,10 +44,6 @@
     <string name="authenticate_type">Authenticate %1$s</string>
     <string name="authenticate_default_type">Authenticate Login</string>
     <string name="scroll_to_see_all_details_prompt">Please scroll down to see all details</string>
-    <string name="push_notification_encrypted_extra_info">Push notification decrypted extra info</string>
-    <string name="session_extra_info">Session extra info</string>
-    <string name="authenticate_login_info">Would you like to authenticate the request?:\n%1$s</string>
-    <string name="transaction_verification_code_prompt">To approve the transaction, enter %1$s in the browser</string>
     <string name="multi_numbered_challenge_prompt">To confirm your request, please select the number displayed on your other device. If you did not initiate this request, select Deny.</string>
     <string name="cancel">Cancel</string>
     <string name="approve">Approve</string>
@@ -87,9 +66,7 @@
     <string name="sdk_init_error_cryptography_error">SDK Cryptography Error</string>
     <string name="sdk_init_error_missing_key">SDK Missing Key</string>
     <string name="sdk_init_error_initialization_failed">SDK initialization failed</string>
-    <string name="camera_permission_missing">Camera permission is required to scan QR codes.</string>
     <string name="sdk_generic_error_title">SDK Error.</string>
-    <string name="sdk_generic_error_message">Something when wrong.</string>
     <string name="sdk_generic_error_message_ellipsized">Something when wrong…</string>
 
     <!-- Account History Screen -->
@@ -98,7 +75,6 @@
     <string name="account_history_error_blank_slate_description">Unable to fetch account history. Please try again later.</string>
     <string name="login_type">Login</string>
     <string name="transaction_type">Transaction</string>
-    <string name="missing_info">Unknown</string>
     <string name="empty" />
 
     <!-- Manual Entry Screen -->
@@ -142,6 +118,10 @@
     <string name="integrity_check">Integrity Check</string>
     <string name="integrity_check_subtitle">Check your app and device integrity</string>
     <string name="sdk_configuration">SDK Configuration</string>
+    <string name="sdk_pin">SDK Pin</string>
+    <string name="sdk_change_pin">Change SDK Pin</string>
+    <string name="sdk_change_pin_success">SDK pin has been changed successfully</string>
+    <string name="sdk_change_pin_error">SDK pin change failed: %1$s</string>
     <string name="flow_binding">Flow Binding</string>
     <string name="flow_binding_subtitle">When on, you will have to provide a token when enrolling a new account</string>
     <string name="session_info_without_unlock">Allow fetching session info without unlock</string>
@@ -255,7 +235,6 @@
     <string name="sdk_recovery_warning">Warning: If you choose to reset you will loose all of your accounts and setting configurations.This action cannot be undone.</string>
     <string name="sdk_recovery_action_recover">Recover</string>
 
-    <string name="sdk_restore">SDK Restore</string>
     <string name="sdk_informative_notification">SDK Info notification</string>
     <string name="sdk_qr_scan_notification_title">SDK QR code issued</string>
     <string name="sdk_qr_scan_notification_body">A QR was issued for user-id:%1$s.</string>

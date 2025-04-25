@@ -31,7 +31,6 @@ val LightColorScheme = lightColorScheme(
     onSecondary = OnSecondaryColor
 )
 
-val SurfaceWhite = OnPrimaryColor
 val BgLogo = Color(0xFF303042)
 
 val TextDarkColor = Color(0xFF303042)

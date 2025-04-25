@@ -101,7 +101,7 @@ class AccountsViewModel(val getTOTPUseCase: GetTOTPUseCase) : ViewModel() {
         }
     }
 
-    fun getTotps() {
+    private fun getTotps() {
         viewModelScope.launch {
             val totps = mutableMapOf<String, TOTP>()
             viewModelState.value.accounts

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -121,7 +122,7 @@ fun CameraPreview(onQRCodeScanned: (String) -> Unit) {
 
     val debounceDelay = 300L
     val scope = rememberCoroutineScope()
-    var lastScanTime by remember { mutableStateOf(0L) }
+    var lastScanTime by remember { mutableLongStateOf(0L) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(

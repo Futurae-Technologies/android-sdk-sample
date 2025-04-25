@@ -60,7 +60,10 @@ fun FuturaeTopAppBar(
     state: FuturaeTopAppBarUIState,
     navigateUp: () -> Unit
 ) {
-    AnimatedContent(state) {
+    AnimatedContent(
+        targetState = state,
+        label = "FuturaeTopAppBar content animation"
+    ) {
         when (it) {
             is FuturaeTopAppBarUIState.AccountHistory -> AccountHistoryTopAppBar(
                 serviceInfoSectionUIState = it.serviceInfoSectionUIState,
@@ -275,7 +278,7 @@ private fun FuturaeSettingTopAppBar() {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "version: ${BuildConfig.VERSION_NAME}",
+                text = "version: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                 style = SubtitleStyle,
                 color = TextAlternative,
                 textAlign = TextAlign.Center
@@ -300,6 +303,6 @@ private fun FuturaeSettingTopAppBar() {
 fun FuturaeTopAppBarPreview() {
     FuturaeTopAppBar(
         state = FuturaeTopAppBarUIState.None,
-        navigateUp = { }
+        navigateUp = {  }
     )
 }

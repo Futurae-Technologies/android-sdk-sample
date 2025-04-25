@@ -13,7 +13,11 @@ data class AccountRowUIState(
     val userId = account.userId
     val serviceLogo = account.serviceLogo
     val serviceName = account.serviceName
-    val username = account.username ?: "-"
+    val username = if (account.username.isNullOrBlank()) {
+        account.userId
+    } else {
+        account.username ?: ""
+    }
 
     fun getLockedAccountInformativeDialogUIState() = FuturaeAlertDialogUIState(
         title = TextWrapper.Resource(R.string.locked_account_informative_dialog_title),

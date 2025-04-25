@@ -391,7 +391,7 @@ fun FuturaeNavigationGraph(
                 val message = backStackEntry
                     .arguments
                     ?.getString(NavigationArguments.ErrorRoute.MESSAGE_NAV_ARG)
-                ErrorScreen(title, message, {
+                ErrorScreen(title, message) {
                     FuturaeSDK.reset(context.applicationContext as FuturaeDemoApplication)
                     LocalStorage.reset()
                     navController.navigate(FuturaeDemoDestinations.SPLASH_ROUTE.route) {
@@ -399,7 +399,7 @@ fun FuturaeNavigationGraph(
                             inclusive = true
                         }
                     }
-                })
+                }
             }
 
             composable(FuturaeDemoDestinations.AUTHENTICATION_ROUTE.route) {
@@ -818,9 +818,16 @@ private fun NavGraphBuilder.homeNavigation(
                 )
             }
 
-            SettingsScreen { route ->
-                navController.navigate(route)
-            }
+            SettingsScreen(
+                navigateTo = { route ->
+                    navController.navigate(route)
+                },
+                pinProviderViewModel = pinProviderViewModel,
+                onPinRequested = {
+                    navController.navigateToLockScreen(LockScreenMode.CHANGE_PIN)
+                },
+                showSnackbar = showSnackbar
+            )
         }
 
         composable(route = FuturaeDemoDestinations.SETTINGS_ADAPTIVE_ROUTE.route) {

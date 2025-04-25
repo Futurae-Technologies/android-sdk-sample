@@ -1,6 +1,7 @@
 package com.futurae.demoapp.lock
 
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -60,7 +61,7 @@ fun LockScreen(
     configuration: LockScreenConfiguration,
     pinProviderViewModel: PinProviderViewModel
 ) {
-    val fragmentActivity = LocalContext.current as FragmentActivity
+    val fragmentActivity = LocalActivity.current as FragmentActivity
     val application = LocalContext.current.applicationContext as FuturaeDemoApplication
     val viewModel: LockScreenViewModel = viewModel(
         factory = LockScreenViewModel.provideFactory(
@@ -80,7 +81,8 @@ fun LockScreen(
         }
 
         LockScreenMode.GET_PIN,
-        LockScreenMode.CREATE_PIN -> {
+        LockScreenMode.CREATE_PIN,
+        LockScreenMode.CHANGE_PIN -> {
             BackHandler(enabled = true) {
                 // if Pin requested for operation, return null pin to pinProviderViewModel
                 viewModel.onPinCanceled()
