@@ -16,6 +16,7 @@ import com.futurae.sdk.messaging.FTRNotificationEvent
 import com.futurae.sdk.model.internal.FTNotificationData
 import com.futurae.sdk.public_api.account.model.AccountQuery
 import com.futurae.sdk.public_api.common.FuturaeSDKStatus
+import com.futurae.sdk.public_api.exception.FTApiTimeoutException
 import com.futurae.sdk.public_api.session.model.ApproveSession
 import com.futurae.sdk.public_api.uri.model.FTRUriType
 import com.futurae.sdk.utils.FTUriUtils
@@ -27,6 +28,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class FuturaeViewModel(
     private val handleURIUseCase: HandleURIUseCase,
@@ -45,7 +47,13 @@ class FuturaeViewModel(
         }
     }
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, t ->
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (throwable is FTApiTimeoutException) {
+            Timber.e(throwable.diagnostics)
+        } else if (throwable.cause is FTApiTimeoutException) {
+            Timber.e((throwable.cause as FTApiTimeoutException).diagnostics)
+        }
+
         notifyUser(
             message = TextWrapper.Resource(R.string.uri_handling_error_message),
             isError = true
