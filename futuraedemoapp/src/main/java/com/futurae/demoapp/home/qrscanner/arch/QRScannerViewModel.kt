@@ -23,9 +23,6 @@ class QRScannerViewModel : ViewModel() {
         }
     }
 
-    private val _showAccountPicker = MutableSharedFlow<String>()
-    val showAccountPicker: SharedFlow<String> = _showAccountPicker
-
     private val _onAuthRequest = MutableSharedFlow<AuthRequestData>()
     val onAuthRequest: SharedFlow<AuthRequestData> = _onAuthRequest
 
@@ -76,9 +73,8 @@ class QRScannerViewModel : ViewModel() {
     }
 
     private fun QRCode.Usernameless.handleUsernamelessQRCodeScanned() {
-        viewModelScope.launch {
-            _showAccountPicker.emit(this@handleUsernamelessQRCodeScanned.rawCode)
-        }
+        val authRequestData = AuthRequestData.Usernameless.QR(qrCode = this)
+        notifyForAuthRequest(authRequestData)
     }
 
     private fun notifyUserForInvalidQRCodeScanned() {

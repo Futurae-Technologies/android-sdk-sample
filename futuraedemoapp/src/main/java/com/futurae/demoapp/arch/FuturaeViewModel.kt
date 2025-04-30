@@ -60,7 +60,9 @@ class FuturaeViewModel(
         )
     }
 
-    private val _onAuthRequest = MutableSharedFlow<AuthRequestData>()
+    // Replay is needed here to not lose an emission due to cases this flow emitting
+    // prior someone observing, e.g. when app is opened due to an usernameless URI
+    private val _onAuthRequest = MutableSharedFlow<AuthRequestData>(replay = 1)
     val onAuthRequest: SharedFlow<AuthRequestData> = _onAuthRequest
 
     // Replay is needed here to not lose an emission due to cases this flow emitting
@@ -214,10 +216,11 @@ class FuturaeViewModel(
     }
 
     private fun handleUri(uri: String) {
-        when (FTUriUtils.getFTRUriType(uri)) {
+        when (val ftrUriType = FTUriUtils.getFTRUriType(uri)) {
             is FTRUriType.Auth -> handleAuthenticationURI(uri)
             is FTRUriType.Enroll -> handleEnrollmentURI(uri)
-            FTRUriType.Unknown -> {
+            is FTRUriType.UsernamelessAuth -> handleUsernamelessAuth(ftrUriType)
+            is FTRUriType.Unknown -> {
                 // do nothing
             }
         }
@@ -249,6 +252,12 @@ class FuturaeViewModel(
                         isError = true
                     )
                 }
+        }
+    }
+
+    private fun handleUsernamelessAuth(uri: FTRUriType.UsernamelessAuth) {
+        viewModelScope.launch {
+            _onAuthRequest.emit(AuthRequestData.Usernameless.URI(ftrUriType = uri))
         }
     }
 

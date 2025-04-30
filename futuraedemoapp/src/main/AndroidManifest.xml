@@ -51,6 +51,7 @@
                 <data android:host="www.futurae.com"/>
                 <data android:pathPrefix="/futurae_enroll"/>
                 <data android:pathPrefix="/futurae_auth"/>
+                <data android:pathPrefix="/futurae_usernameless_auth"/>
             </intent-filter>
         </activity>
 
