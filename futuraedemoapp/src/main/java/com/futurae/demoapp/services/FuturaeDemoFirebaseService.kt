@@ -1,6 +1,6 @@
 package com.futurae.demoapp.services
 
-import com.futurae.demoapp.SdkWrapper
+import com.futurae.demoapp.utils.SdkWrapper
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.common.FuturaeSDKStatus
 import com.google.firebase.messaging.FirebaseMessagingService

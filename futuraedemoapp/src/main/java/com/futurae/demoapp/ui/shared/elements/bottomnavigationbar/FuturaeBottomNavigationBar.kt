@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.futurae.demoapp.FuturaeDemoDestinations
-import com.futurae.demoapp.home.bottomnavigationbar.BottomNavigationBarItem.Companion.bottomNavigationBarItems
+import com.futurae.demoapp.navigation.FuturaeDemoDestinations
+import com.futurae.demoapp.ui.shared.elements.bottomnavigationbar.BottomNavigationBarItem.Companion.bottomNavigationBarItems
 import com.futurae.demoapp.ui.theme.OnPrimaryColor
 import com.futurae.demoapp.ui.theme.OnSecondaryColor
 import com.futurae.demoapp.ui.theme.PrimaryColor

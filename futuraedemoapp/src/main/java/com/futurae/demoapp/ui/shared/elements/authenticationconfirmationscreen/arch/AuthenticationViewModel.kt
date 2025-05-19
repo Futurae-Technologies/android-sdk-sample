@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.futurae.demoapp.R
 import com.futurae.demoapp.arch.AuthRequestData
-import com.futurae.demoapp.home.usecase.ApproveAuthRequestUserCase
-import com.futurae.demoapp.home.usecase.GetApproveSessionUseCase
-import com.futurae.demoapp.home.usecase.GetOfflineQRVerificationCodeUseCase
-import com.futurae.demoapp.home.usecase.RejectAuthRequestUseCase
+import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.usecase.ApproveAuthRequestUserCase
+import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.usecase.GetApproveSessionUseCase
+import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.usecase.GetOfflineQRVerificationCodeUseCase
+import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.usecase.RejectAuthRequestUseCase
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.AuthenticationConfirmationComposableScreenUIState
 import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.AuthenticationConfirmationUserResponse

@@ -3,9 +3,8 @@ package com.futurae.demoapp.settings.integrity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.futurae.demoapp.ILCEState
+import com.futurae.demoapp.utils.ILCEState
 import com.futurae.demoapp.R
-import com.futurae.demoapp.home.usecase.IntegrityCheckUseCase
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.sdk.public_api.operations.model.AppVerdict
 import com.futurae.sdk.public_api.operations.model.DeviceVerdict

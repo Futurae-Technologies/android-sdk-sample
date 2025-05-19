@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.demoapp.FuturaeDemoApplication
 import com.futurae.demoapp.R
-import com.futurae.demoapp.RootNavigationEvent
+import com.futurae.demoapp.navigation.RootNavigationEvent
+import com.futurae.demoapp.splash.arch.SplashViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

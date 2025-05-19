@@ -3,11 +3,11 @@ package com.futurae.demoapp.arch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.futurae.demoapp.LocalStorage
+import com.futurae.demoapp.utils.LocalStorage
 import com.futurae.demoapp.R
 import com.futurae.demoapp.enrollment.EnrollmentCase
-import com.futurae.demoapp.home.usecase.GetAccountsStatusUseCase
-import com.futurae.demoapp.home.usecase.HandleURIUseCase
+import com.futurae.demoapp.usecase.GetAccountsStatusUseCase
+import com.futurae.demoapp.usecase.HandleURIUseCase
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.alertdialog.FuturaeAlertDialogUIState
 import com.futurae.demoapp.ui.shared.elements.snackbar.FuturaeSnackbarUIState

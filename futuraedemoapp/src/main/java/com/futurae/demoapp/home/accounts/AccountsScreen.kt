@@ -52,7 +52,7 @@ import com.futurae.demoapp.arch.FuturaeViewModel
 import com.futurae.demoapp.home.accounts.arch.AccountsViewModel
 import com.futurae.demoapp.home.accounts.restoreaccountsbanner.RestoreAccountsBanner
 import com.futurae.demoapp.home.accounts.restoreaccountsbanner.RestoreAccountsBannerUIState
-import com.futurae.demoapp.migration.arch.MigrationViewModel
+import com.futurae.demoapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.alertdialog.FuturaeAlertDialog
 import com.futurae.demoapp.ui.shared.elements.alertdialog.FuturaeAlertDialogUIState
@@ -70,7 +70,7 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 fun AccountsScreen(
     futuraeViewModel: FuturaeViewModel,
-    migrationViewModel: MigrationViewModel,
+    accountsRecoveryCheckViewModel: AccountsRecoveryCheckViewModel,
     onAccountClick: (String) -> Unit,
     onAccountRestorationClick: (Boolean) -> Unit
 ) {
@@ -104,7 +104,7 @@ fun AccountsScreen(
             .onEach { clipboardManager.setText(AnnotatedString(it)) }
             .launchIn(this)
 
-        migrationViewModel.migrationInfo
+        accountsRecoveryCheckViewModel.migrationInfo
             .onEach { accountsViewModel.onMigrationInfoChanges(it) }
             .launchIn(this)
     }

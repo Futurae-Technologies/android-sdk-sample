@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.demoapp.FuturaeDemoApplication
 import com.futurae.demoapp.R
-import com.futurae.demoapp.migration.arch.MigrationViewModel
+import com.futurae.demoapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.demoapp.settings.common.SettingsRowComposable
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.alertdialog.FuturaeAlertDialogWithFilledButtons
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MoreScreen(
-    migrationViewModel: MigrationViewModel,
+    accountsRecoveryCheckViewModel: AccountsRecoveryCheckViewModel,
     showSnackBar: suspend (FuturaeSnackbarUIState) -> Unit,
     navigateTo: (route: String, launchSingleTop: Boolean) -> Unit
 ) {
@@ -38,7 +38,7 @@ fun MoreScreen(
     val moreViewModel: MoreViewModel = viewModel(
         factory = MoreViewModel.provideFactory(
             application = application,
-            migrationViewModel = migrationViewModel
+            accountsRecoveryCheckViewModel = accountsRecoveryCheckViewModel
         )
     )
 

@@ -23,7 +23,6 @@ object NotificationHelper {
     fun showNotification(context: Context, notificationUI: NotificationUI) {
         val notificationId = 1
 
-
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance).apply {
             description = CHANNEL_DESC
