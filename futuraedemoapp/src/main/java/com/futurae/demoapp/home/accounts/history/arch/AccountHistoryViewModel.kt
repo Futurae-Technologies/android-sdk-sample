@@ -3,7 +3,7 @@ package com.futurae.demoapp.home.accounts.history.arch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.futurae.demoapp.ILCEState
+import com.futurae.demoapp.utils.ILCEState
 import com.futurae.demoapp.R
 import com.futurae.demoapp.home.accounts.history.AccountHistoryItemUIState
 import com.futurae.demoapp.home.accounts.history.AccountHistoryScreenUIState

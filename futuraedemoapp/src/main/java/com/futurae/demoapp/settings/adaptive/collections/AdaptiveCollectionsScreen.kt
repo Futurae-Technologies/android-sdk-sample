@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.demoapp.R
-import com.futurae.demoapp.error.ErrorScreen
+import com.futurae.demoapp.ui.shared.elements.error.ErrorScreen
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.buttons.ActionButton
 import com.futurae.demoapp.ui.theme.OnPrimaryColor

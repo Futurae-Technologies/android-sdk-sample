@@ -3,12 +3,12 @@ package com.futurae.demoapp.home.accounts.arch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.futurae.demoapp.ILCEState
-import com.futurae.demoapp.LocalStorage
+import com.futurae.demoapp.utils.ILCEState
+import com.futurae.demoapp.utils.LocalStorage
 import com.futurae.demoapp.home.accounts.AccountRowUIState
 import com.futurae.demoapp.home.accounts.AccountsScreenUIState
 import com.futurae.demoapp.home.accounts.restoreaccountsbanner.RestoreAccountsBannerUIState
-import com.futurae.demoapp.home.usecase.GetTOTPUseCase
+import com.futurae.demoapp.home.accounts.usecase.GetTOTPUseCase
 import com.futurae.demoapp.ui.shared.elements.timeoutIndicator.startCountdown
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.auth.model.SDKAuthMode

@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.futurae.demoapp.FuturaeDemoApplication
 import com.futurae.demoapp.R
-import com.futurae.demoapp.SdkWrapper
-import com.futurae.demoapp.home.usecase.SwitchSDKConfigurationUseCase
+import com.futurae.demoapp.utils.SdkWrapper
+import com.futurae.demoapp.configuration.usecase.SwitchSDKConfigurationUseCase
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.configuration.ConfigurationItem
 import com.futurae.demoapp.ui.shared.elements.configuration.LockConfigurationItem

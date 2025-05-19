@@ -42,9 +42,9 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.futurae.demoapp.ILCEState
+import com.futurae.demoapp.utils.ILCEState
 import com.futurae.demoapp.R
-import com.futurae.demoapp.error.ErrorScreen
+import com.futurae.demoapp.ui.shared.elements.error.ErrorScreen
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.theme.FuturaeTypography
 import com.futurae.demoapp.ui.theme.OnPrimaryColor

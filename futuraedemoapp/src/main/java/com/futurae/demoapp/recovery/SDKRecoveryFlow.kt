@@ -10,12 +10,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.futurae.demoapp.FuturaeDemoApplication
-import com.futurae.demoapp.FuturaeDemoDestinations
-import com.futurae.demoapp.ILCEState
+import com.futurae.demoapp.navigation.FuturaeDemoDestinations
+import com.futurae.demoapp.utils.ILCEState
 import com.futurae.demoapp.R
 import com.futurae.demoapp.arch.PinProviderViewModel
-import com.futurae.demoapp.lock.LockScreenMode
-import com.futurae.demoapp.navigateToLockScreen
+import com.futurae.demoapp.lock.arch.LockScreenMode
+import com.futurae.demoapp.navigation.navigateToLockScreen
+import com.futurae.demoapp.recovery.arch.SDKRecoveryViewModel
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.decisionmodal.FuturaeFullScreenDecisionModal
 import com.futurae.demoapp.ui.shared.elements.decisionmodal.FuturaeFullScreenDecisionModalUIState

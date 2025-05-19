@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.futurae.demoapp.FuturaeDemoApplication
-import com.futurae.demoapp.FuturaeDemoDestinations
-import com.futurae.demoapp.LocalStorage
+import com.futurae.demoapp.navigation.FuturaeDemoDestinations
+import com.futurae.demoapp.utils.LocalStorage
 import com.futurae.demoapp.R
 import com.futurae.demoapp.settings.SettingsListItem
 import com.futurae.demoapp.settings.SettingsNestedToggle

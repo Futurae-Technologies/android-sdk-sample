@@ -1,7 +1,6 @@
 package com.futurae.demoapp.utils
 
 import androidx.fragment.app.FragmentActivity
-import com.futurae.demoapp.LocalStorage
 import com.futurae.sdk.public_api.common.LockConfigurationType.BIOMETRICS_ONLY
 import com.futurae.sdk.public_api.common.LockConfigurationType.BIOMETRICS_OR_DEVICE_CREDENTIALS
 import com.futurae.sdk.public_api.common.LockConfigurationType.NONE

@@ -19,10 +19,12 @@ import androidx.lifecycle.lifecycleScope
 import com.futurae.demoapp.arch.FuturaeViewModel
 import com.futurae.demoapp.arch.PinProviderViewModel
 import com.futurae.demoapp.arch.ResultInformativeViewModel
-import com.futurae.demoapp.migration.arch.MigrationViewModel
+import com.futurae.demoapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
+import com.futurae.demoapp.navigation.FuturaeNavigationGraph
 import com.futurae.demoapp.ui.shared.elements.authenticationconfirmationscreen.arch.AuthenticationViewModel
-import com.futurae.demoapp.ui.shared.elements.topappbar.FuturaeAppBarViewModel
+import com.futurae.demoapp.ui.shared.elements.topappbar.arch.FuturaeAppBarViewModel
 import com.futurae.demoapp.ui.theme.FuturaeTheme
+import com.futurae.demoapp.utils.LocalStorage
 import com.futurae.demoapp.utils.NotificationHelper
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.common.LockConfigurationType
@@ -40,8 +42,8 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
         AuthenticationViewModel.provideFactory()
     }
     private val pinProviderViewModel: PinProviderViewModel by viewModels()
-    private val migrationViewModel: MigrationViewModel by viewModels {
-        MigrationViewModel.provideFactory()
+    private val accountsRecoveryCheckViewModel: AccountsRecoveryCheckViewModel by viewModels {
+        AccountsRecoveryCheckViewModel.provideFactory()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,7 +117,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
                 resultViewModel = resultViewModel,
                 authenticationViewModel = authenticationViewModel,
                 pinProviderViewModel = pinProviderViewModel,
-                migrationViewModel = migrationViewModel,
+                accountsRecoveryCheckViewModel = accountsRecoveryCheckViewModel,
                 modifier = Modifier.fillMaxSize(),
             )
         }

@@ -31,7 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.futurae.demoapp.ILCEState
+import com.futurae.demoapp.utils.ILCEState
 import com.futurae.demoapp.R
 import com.futurae.demoapp.home.accounts.history.arch.AccountHistoryViewModel
 import com.futurae.demoapp.ui.shared.elements.serviceinfosection.ServiceInfoSectionUIState

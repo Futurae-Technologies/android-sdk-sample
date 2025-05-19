@@ -13,13 +13,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.futurae.demoapp.FuturaeDemoApplication
-import com.futurae.demoapp.FuturaeDemoDestinations
-import com.futurae.demoapp.ILCEState
-import com.futurae.demoapp.LocalStorage
-import com.futurae.demoapp.NavigationArguments
+import com.futurae.demoapp.navigation.FuturaeDemoDestinations
+import com.futurae.demoapp.utils.ILCEState
+import com.futurae.demoapp.utils.LocalStorage
+import com.futurae.demoapp.navigation.NavigationArguments
 import com.futurae.demoapp.R
-import com.futurae.demoapp.home.usecase.LogoutUseCase
-import com.futurae.demoapp.migration.arch.MigrationViewModel
+import com.futurae.demoapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.demoapp.settings.SettingsItem
 import com.futurae.demoapp.settings.SettingsListItem
 import com.futurae.demoapp.settings.SettingsSpacer
@@ -45,14 +44,14 @@ class MoreViewModel(
     companion object {
         fun provideFactory(
             application: FuturaeDemoApplication,
-            migrationViewModel: MigrationViewModel
+            accountsRecoveryCheckViewModel: AccountsRecoveryCheckViewModel
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(
                 modelClass: Class<T>
             ): T = MoreViewModel(
                 logoutUseCase = LogoutUseCase(),
-                migrationInfo = migrationViewModel.migrationInfo,
+                migrationInfo = accountsRecoveryCheckViewModel.migrationInfo,
                 application = application
             ) as T
         }

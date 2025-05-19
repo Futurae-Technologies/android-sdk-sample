@@ -44,6 +44,11 @@ import androidx.navigation.NavController
 import com.futurae.demoapp.FuturaeDemoApplication
 import com.futurae.demoapp.R
 import com.futurae.demoapp.arch.PinProviderViewModel
+import com.futurae.demoapp.lock.arch.LockScreenConfiguration
+import com.futurae.demoapp.lock.arch.LockScreenMode
+import com.futurae.demoapp.lock.arch.LockScreenUIState
+import com.futurae.demoapp.lock.arch.LockScreenViewModel
+import com.futurae.demoapp.lock.arch.UnlockRequired
 import com.futurae.demoapp.ui.theme.BgLogo
 import com.futurae.demoapp.ui.theme.H2TestStyle
 import com.futurae.demoapp.ui.theme.ItemTitleStyle

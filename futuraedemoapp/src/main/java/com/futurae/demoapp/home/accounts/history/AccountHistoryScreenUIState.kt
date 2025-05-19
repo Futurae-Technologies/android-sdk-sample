@@ -1,6 +1,6 @@
 package com.futurae.demoapp.home.accounts.history
 
-import com.futurae.demoapp.ILCEState
+import com.futurae.demoapp.utils.ILCEState
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.serviceinfosection.ServiceInfoSectionUIState
 

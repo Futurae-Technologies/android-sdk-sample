@@ -2,7 +2,7 @@ package com.futurae.demoapp.arch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.futurae.demoapp.FuturaeDemoDestinations
+import com.futurae.demoapp.navigation.FuturaeDemoDestinations
 import com.futurae.demoapp.R
 import com.futurae.demoapp.ui.TextWrapper
 import com.futurae.demoapp.ui.shared.elements.resultinformativescreen.ResultInformativeComposableUIState
