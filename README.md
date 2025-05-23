@@ -1,4 +1,4 @@
-# 🚀 Futurae - Android SDK Demo App
+# 🚀 Futurae - Android SDK Sample App
 
 This repository contains a full sample android application showcasing the usage of both [Futurae SDK](https://github.com/Futurae-Technologies/android-sdk) and [Futurae Adaptive SDK](https://github.com/Futurae-Technologies/android-adaptive-sdk). It is an open-source app using all of our available features using the latest Android architectural and UI patterns. 
 
@@ -18,7 +18,7 @@ This repository contains a full sample android application showcasing the usage 
     Build and run the application on your device or emulator.
 
 ## 🌿 Branches
-This demo app is also used for development of our new SDK features. You can follow GIT Tags, to see the version of the sample app corresponding to the SDK version you want to use. Use branch `/master`: stable & released versions of the demo. Every other branch is WIP. 
+This sample app is also used for development of our new SDK features. You can follow GIT Tags, to see the version of the sample app corresponding to the SDK version you want to use. Use branch `/master`: stable & released versions of the SDK. Every other branch is WIP. 
 
 ## 🧩 Architecture
 
