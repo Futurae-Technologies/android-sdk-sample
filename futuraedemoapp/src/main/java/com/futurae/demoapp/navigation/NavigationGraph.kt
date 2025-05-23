@@ -189,10 +189,6 @@ object NavigationArguments {
         const val MESSAGE_NAV_ARG = "message"
     }
 
-    object AccountPickerRoute {
-        const val QR_CODE_NAV_ARG = "qr_code"
-    }
-
     object AccountHistoryRoute {
         const val USER_ID_NAV_ARG = "user_id"
     }
@@ -431,29 +427,14 @@ fun FuturaeNavigationGraph(
                 )
             }
 
-            composable(
-                route = FuturaeDemoDestinations.ACCOUNT_PICKER_ROUTE.route +
-                        "?${NavigationArguments.AccountPickerRoute.QR_CODE_NAV_ARG}={qr_code}",
-                arguments = listOf(
-                    navArgument(name = NavigationArguments.AccountPickerRoute.QR_CODE_NAV_ARG) {
-                        type = NavType.StringType
-                    }
-                )
-            ) { backStackEntry ->
+            composable(route = FuturaeDemoDestinations.ACCOUNT_PICKER_ROUTE.route) {
                 LaunchedEffect(Unit) {
                     futuraeAppBarViewModel.showAccountPickerTopAppBar()
                 }
 
-                val qrCode = backStackEntry
-                    .arguments
-                    ?.getString(NavigationArguments.AccountPickerRoute.QR_CODE_NAV_ARG) ?: ""
                 AccountPicker(
                     onAccountSelectionConfirmed = {
-                        val authRequestData = AuthRequestData.UsernamelessQRCode(
-                            qrCode = FuturaeSDK.client.qrCodeApi.getQRCode(qrCode) as QRCode.Usernameless,
-                            ftAccount = it
-                        )
-                        authenticationViewModel.handleAuthRequest(authRequestData)
+                        authenticationViewModel.proceedWithUsernamelessAuthentication(it)
                     }
                 )
             }
@@ -640,6 +621,10 @@ fun FuturaeNavigationGraph(
             }
             .launchIn(this)
 
+        authenticationViewModel.showAccountPicker
+            .onEach { navController.navigate(FuturaeDemoDestinations.ACCOUNT_PICKER_ROUTE.route) }
+            .launchIn(this)
+
         authenticationViewModel.notifyUser
             .onEach {
                 snackbarHostState.showSnackbar(
@@ -775,13 +760,7 @@ private fun NavGraphBuilder.homeNavigation(
             QRScannerScreen(
                 onInvalidQRCode = { resultViewModel.onInvalidQRCode() },
                 onEnrollmentRequest = { navController.navigateToEnrollmentFlowRoute(it) },
-                onAuthRequest = { authenticationViewModel.handleAuthRequest(it) },
-                showAccountPicker = {
-                    navController.navigate(
-                        "${FuturaeDemoDestinations.ACCOUNT_PICKER_ROUTE.route}?" +
-                                "${NavigationArguments.AccountPickerRoute.QR_CODE_NAV_ARG}=$it"
-                    )
-                }
+                onAuthRequest = { authenticationViewModel.handleAuthRequest(it) }
             )
         }
 

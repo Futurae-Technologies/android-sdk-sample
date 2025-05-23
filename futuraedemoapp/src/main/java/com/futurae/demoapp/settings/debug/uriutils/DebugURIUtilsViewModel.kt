@@ -118,12 +118,19 @@ class DebugURIUtilsViewModel: ViewModel() {
             )
         }
 
-        FTRUriType.Unknown -> {
+        is FTRUriType.Unknown -> {
             URIHandlingResult(
                 type = URI.UNKNOWN,
                 extractedInfo = emptyMap()
             )
         }
+
+        is FTRUriType.UsernamelessAuth -> URIHandlingResult(
+            type = URI.AUTH,
+            extractedInfo = mapOf(
+                "sessionToken" to result.sessionToken
+            )
+        )
     }
 
     sealed class DebugURIUtilsUIState {

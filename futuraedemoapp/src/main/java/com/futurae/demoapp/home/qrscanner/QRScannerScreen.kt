@@ -51,8 +51,7 @@ import kotlinx.coroutines.launch
 fun QRScannerScreen(
     onInvalidQRCode: () -> Unit,
     onEnrollmentRequest: (EnrollmentCase.QRCodeScan) -> Unit,
-    onAuthRequest: (AuthRequestData) -> Unit,
-    showAccountPicker: (String) -> Unit
+    onAuthRequest: (AuthRequestData) -> Unit
 ) {
     val qrScannerViewModel: QRScannerViewModel = viewModel(
         factory = QRScannerViewModel.provideFactory()
@@ -96,10 +95,6 @@ fun QRScannerScreen(
         if (isPermissionPermanentlyDenied) {
             showGoToSettingsDialog = true
         }
-
-        qrScannerViewModel.showAccountPicker
-            .onEach { showAccountPicker(it) }
-            .launchIn(this)
 
         qrScannerViewModel.onAuthRequest
             .onEach { onAuthRequest(it) }
