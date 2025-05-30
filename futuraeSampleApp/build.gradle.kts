@@ -50,7 +50,7 @@ val getVersionName: () -> String = {
 }
 
 android {
-    namespace = "com.futurae.demoapp"
+    namespace = "com.futurae.sampleapp"
     compileSdk = 35
 
     buildFeatures {
@@ -63,7 +63,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.futurae.demoapp"
+        applicationId = "com.futurae.sampleapp"
         minSdk = 26
         targetSdk = 35
         versionCode = getCommitCount()
@@ -81,7 +81,7 @@ android {
             isMinifyEnabled = false
             manifestPlaceholders["appNameSuffix"] = " DEV"
             signingConfig = signingConfigs.getByName("debug")
-            resValue("string", "app_name", "DemoDebug")
+            resValue("string", "app_name", "SampleDebug")
         }
 
         create("qa") {
@@ -89,13 +89,13 @@ android {
             applicationIdSuffix = ".qa"
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release", "debug")
-            resValue("string", "app_name", "DemoQA")
+            resValue("string", "app_name", "SampleQA")
         }
         getByName("release") {
             isMinifyEnabled = true
             applicationIdSuffix = ".prod"
             signingConfig = signingConfigs.getByName("debug")
-            resValue("string", "app_name", "Demo")
+            resValue("string", "app_name", "Sample")
         }
     }
 
