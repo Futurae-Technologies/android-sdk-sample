@@ -5,9 +5,9 @@
 /build
 /qa
 /captures
-/futuraedemoapp/google-services.json
-/futuraedemoapp/qa
-/futuraedemoapp/build
+/futuraeSampleApp/google-services.json
+/futuraeSampleApp/qa
+/futuraeSampleApp/build
 .DS_Store
 .externalNativeBuild
 .cxx

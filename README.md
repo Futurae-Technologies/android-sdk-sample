@@ -1,6 +1,9 @@
-# 🚀 Futurae - Android SDK Demo App
+# 🚀 Futurae - Android SDK Sample App
 
 This repository contains a full sample android application showcasing the usage of both [Futurae SDK](https://github.com/Futurae-Technologies/android-sdk) and [Futurae Adaptive SDK](https://github.com/Futurae-Technologies/android-adaptive-sdk). It is an open-source app using all of our available features using the latest Android architectural and UI patterns. 
+
+## 📢 Disclaimer
+The SDK Sample App in this repository is provided as is and is intended solely as an example implementation to assist customers in integrating Futurae’s SDKs. This SDK Sample App is not designed for production use, and Futurae does not offer support or maintenance for it. Futurae makes no representations or warranties, express or implied, including but not limited to, any warranties of merchantability or suitability, or fitness for a particular purpose, or non-infringement, regarding the SDK Sample App. Futurae does not warrant that the SDK Sample App will be uninterrupted or error free or without delay.
 
 ## 🛠 Getting Started
 
@@ -10,7 +13,7 @@ This repository contains a full sample android application showcasing the usage 
     ```
 
 2. **Configuration:**
-    * You need a valid `google-services.json` file from Firebase using the package-name `com.futurae.demoapp`
+    * You need a valid `google-services.json` file from Firebase using the package-name `com.futurae.sampleapp`
     * You need to define valid SDK credentials (ref [here](https://www.futurae.com/docs/guide/futurae-sdks/mobile-sdk/#sdk-credentials)). This project reads gradle properties: `SDK_ID`, `SDK_KEY` and `BASE_URL` and creates the respective string resources, read by `futurae.xml`
     * Refer to [Authenticating to Github Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-to-github-packages) in order to access the published Futurae SDK artifacts, to build the project. You can set `gradle.properties` for `GITHUB_ACTOR` & `GITHUB_TOKEN`.  
 
@@ -18,7 +21,7 @@ This repository contains a full sample android application showcasing the usage 
     Build and run the application on your device or emulator.
 
 ## 🌿 Branches
-This demo app is also used for development of our new SDK features. You can follow GIT Tags, to see the version of the sample app corresponding to the SDK version you want to use. Use branch `/master`: stable & released versions of the demo. Every other branch is WIP. 
+This Sample app is also used for development of our new SDK features. The master branch represents the latest stable version. Development and feature branches may be unstable or WIP. 
 
 ## 🧩 Architecture
 
@@ -35,16 +38,16 @@ The structure within each feature package typically follows this approach:
 
 Throughout the project's packages, there are dedicated README.md files to assist navigation and provide clarifications for each feature or flow.
 
-| Feature / Flow             | Description                                     | README                                                                                          |
-|----------------------------|-------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| SDK Configuration          | Overview and usage of SDK configuration options | [SDK Configuration](futuraedemoapp/src/main/java/com/futurae/demoapp/configuration/README.md)   |
-| Enrollment                 | Flows for enrolling the device                  | [Enrollment](futuraedemoapp/src/main/java/com/futurae/demoapp/enrollment/README.md)             |
-| Account Management         | Active account list                             | [Account List](futuraedemoapp/src/main/java/com/futurae/demoapp/home/accounts/README.md)        |
-| Manual Entry               | Enrolling using ShortCode                       | [Manual Entry](futuraedemoapp/src/main/java/com/futurae/demoapp/home/activationcode/README.md)  |
-| QR Code Scanning           | Flows initiated via QR code scanning            | [QR Code Scanning](futuraedemoapp/src/main/java/com/futurae/demoapp/home/qrscanner/README.md)   |
-| Lock SDK                   | Handling locking and unlocking of the SDK       | [Lock SDK](futuraedemoapp/src/main/java/com/futurae/demoapp/lock/README.md)                     |
-| Automatic Account Recovery | Account recovery from previous installments     | [Account Recovery](futuraedemoapp/src/main/java/com/futurae/demoapp/accountsrecovery/README.md) |
-| SDK Recovery               | Recover SDK from corrupt state                  | [SDK Recovery](futuraedemoapp/src/main/java/com/futurae/demoapp/recovery/README.md)             |
+| Feature / Flow             | Description                                     | README                                                                                            |
+|----------------------------|-------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| SDK Configuration          | Overview and usage of SDK configuration options | [SDK Configuration](futuraeSampleApp/src/main/java/com/futurae/sampleapp/configuration/README.md) |
+| Enrollment                 | Flows for enrolling the device                  | [Enrollment](futuraeSampleApp/src/main/java/com/futurae/sampleapp/enrollment/README.md)               |
+| Account Management         | Active account list                             | [Account List](futuraeSampleApp/src/main/java/com/futurae/sampleapp/home/accounts/README.md)          |
+| Manual Entry               | Enrolling using ShortCode                       | [Manual Entry](futuraeSampleApp/src/main/java/com/futurae/sampleapp/home/activationcode/README.md)    |
+| QR Code Scanning           | Flows initiated via QR code scanning            | [QR Code Scanning](futuraeSampleApp/src/main/java/com/futurae/sampleapp/home/qrscanner/README.md)     |
+| Lock SDK                   | Handling locking and unlocking of the SDK       | [Lock SDK](futuraeSampleApp/src/main/java/com/futurae/sampleapp/lock/README.md)                       |
+| Automatic Account Recovery | Account recovery from previous installments     | [Account Recovery](futuraeSampleApp/src/main/java/com/futurae/sampleapp/accountsrecovery/README.md)   |
+| SDK Recovery               | Recover SDK from corrupt state                  | [SDK Recovery](futuraeSampleApp/src/main/java/com/futurae/sampleapp/recovery/README.md)               |
 
 ## 📄 Documentation
 
