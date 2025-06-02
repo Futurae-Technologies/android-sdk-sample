@@ -13,7 +13,7 @@ The behavior also depends on whether [Adaptive Account Recovery](https://www.fut
 - `AccountsRecoveryViewModel` is responsible for checking whether there are accounts to be recovered.
 - `GetMigratableAccountsUseCase` wraps the SDK's `MigrationApi.getMigratableAccounts` response into a Kotlin `Result`.
 - `AccountsRecoveryFlow` is the main composable responsible for handling the entire recovery process. The `Flow` suffix indicates it encapsulates a complete logical flow, not just a simple UI element.
-- `AccountsRecoveryFlowViewModel` manages the UI state and business logic. It emits states using the sealed class [`ILCEState`](https://github.com/Futurae-Technologies/android-sdk-sample/blob/11b7b3039c1b65f828dbf7ca34d9caf2a819355e/futuraeSampleApp/src/main/java/com/futurae/demoapp/utils/ILCEState.kt), which represents loading, content, and error states.
+- `AccountsRecoveryFlowViewModel` manages the UI state and business logic. It emits states using the sealed class [`ILCEState`](https://github.com/Futurae-Technologies/android-sdk-sample/blob/11b7b3039c1b65f828dbf7ca34d9caf2a819355e/futuraeSampleApp/src/main/java/com/futurae/sampleapp/utils/ILCEState.kt), which represents loading, content, and error states.
 - `MigrateAccountsUseCase` wraps the SDK's `migrationApi.migrateAccounts` response into a Kotlin `Result`.
 
 ---
@@ -27,6 +27,6 @@ The behavior also depends on whether [Adaptive Account Recovery](https://www.fut
       - If the SDK is configured with `SDK_PIN_WITH_BIOMETRICS_OPTIONAL` or if `MigratableAccounts.pinProtected` is `true`, the user will be prompted to enter their SDK PIN.
       - If `MigratableAccounts.adaptiveEnabled` is `true`, you must first enable Adaptive and Adaptive Account Recovery before proceeding; otherwise, the account recovery will fail. This is done by calling `FuturaeAdaptiveApi.enableAdaptive` and `FuturaeAdaptiveApi.enableAdaptiveSubmissionOnAccountMigration`.
 3. Upon successful recovery, a confirmation message is displayed.
-4. The recovered accounts are shown in the [AccountsScreen](https://github.com/Futurae-Technologies/android-sdk-sample/blob/e27816039ab5e9786913f51c229c4fe661cf0d0b/futuraeSampleApp/src/main/java/com/futurae/demoapp/home/accounts/AccountsScreen.kt), using the SDK's `FuturaeAccountApi.activeAccountsFlow` Kotlin `Flow`.
+4. The recovered accounts are shown in the [AccountsScreen](https://github.com/Futurae-Technologies/android-sdk-sample/blob/e27816039ab5e9786913f51c229c4fe661cf0d0b/futuraeSampleApp/src/main/java/com/futurae/sampleapp/home/accounts/AccountsScreen.kt), using the SDK's `FuturaeAccountApi.activeAccountsFlow` Kotlin `Flow`.
 
 Please **note** that Account Recovery is possible as long as no accounts have been enrolled on this installation.
