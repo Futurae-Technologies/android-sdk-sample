@@ -622,7 +622,7 @@ fun FuturaeNavigationGraph(
             .launchIn(this)
 
         authenticationViewModel.showAccountPicker
-            .onEach { navController.navigate(FuturaeDemoDestinations.ACCOUNT_PICKER_ROUTE.route) }
+            .onEach { navController.navigate(FuturaeSampleDestinations.ACCOUNT_PICKER_ROUTE.route) }
             .launchIn(this)
 
         authenticationViewModel.notifyUser
