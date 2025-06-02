@@ -3,11 +3,13 @@ package com.futurae.sampleapp.arch
 import com.futurae.sdk.public_api.auth.model.OnlineQR
 import com.futurae.sdk.public_api.auth.model.SessionIdentificationOption
 import com.futurae.sdk.public_api.auth.model.UsernamelessQR
+import com.futurae.sdk.public_api.auth.model.UsernamelessURI
 import com.futurae.sdk.public_api.common.model.FTAccount
 import com.futurae.sdk.public_api.qr_code.model.QRCode
 import com.futurae.sdk.public_api.session.model.ApproveSession
 import com.futurae.sdk.public_api.session.model.ByToken
 import com.futurae.sdk.public_api.session.model.SessionInfoQuery
+import com.futurae.sdk.public_api.uri.model.FTRUriType
 
 sealed class AuthRequestData {
 
@@ -27,20 +29,40 @@ sealed class AuthRequestData {
             OnlineQR(qrCodeContent = qrCode.rawCode)
     }
 
-    data class UsernamelessQRCode(
-        private val qrCode: QRCode.Usernameless,
-        val ftAccount: FTAccount
-    ): AuthRequestData() {
+    sealed class Usernameless: AuthRequestData() {
 
-        private val sessionToken = qrCode.sessionToken
+        protected abstract val sessionToken: String
 
-        val sessionInfoQuery: SessionInfoQuery = SessionInfoQuery(
-            ByToken(sessionToken),
-            ftAccount.userId
+        abstract fun getSessionIdentificationOption(account: FTAccount): SessionIdentificationOption
+
+        fun getSessionInfoQuery(account: FTAccount): SessionInfoQuery = SessionInfoQuery(
+            sessionIdentifier = ByToken(sessionToken),
+            userId = account.userId
         )
 
-        val sessionIdentificationOption: SessionIdentificationOption =
-            UsernamelessQR(userId = ftAccount.userId, qrCodeContent = qrCode.rawCode)
+        data class QR(private val qrCode: QRCode.Usernameless): Usernameless() {
+
+            override val sessionToken = qrCode.sessionToken
+
+            override fun getSessionIdentificationOption(
+                account: FTAccount
+            ): SessionIdentificationOption = UsernamelessQR(
+                userId = account.userId,
+                qrCodeContent = qrCode.rawCode
+            )
+        }
+
+        data class URI(val ftrUriType: FTRUriType.UsernamelessAuth) : Usernameless() {
+
+            override val sessionToken = ftrUriType.sessionToken
+
+            override fun getSessionIdentificationOption(
+                account: FTAccount
+            ): SessionIdentificationOption = UsernamelessURI(
+                userId = account.userId,
+                uri = ftrUriType.uri
+            )
+        }
     }
 
     data class OfflineQRCode(

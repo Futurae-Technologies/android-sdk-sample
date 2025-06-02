@@ -26,10 +26,12 @@ import com.futurae.sdk.public_api.exception.FTException
 import com.futurae.sdk.public_api.session.model.ApproveInfo
 import com.futurae.sdk.public_api.session.model.ApproveSession
 import com.futurae.sdk.public_api.session.model.ById
+import com.futurae.sdk.public_api.session.model.ByToken
 import com.futurae.sdk.public_api.session.model.SessionInfoQuery
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -63,6 +65,12 @@ class AuthenticationViewModel(
     private var countdownJob: Job? = null
 
     private val _state = MutableStateFlow(FuturaeViewModelState())
+    private var pendingAccountPickRequest: AuthRequestData.Usernameless? = null
+
+    // Replay is needed here to not lose an emission due to cases this flow emitting
+    // prior someone observing, e.g. when app is opened due to an usernameless URI
+    private val _showAccountPicker = MutableSharedFlow<Unit>(replay = 1)
+    val showAccountPicker: SharedFlow<Unit> = _showAccountPicker
 
     val approvalUIState = _state
         .map(FuturaeViewModelState::toAuthenticationConfirmationScreenUIState)
@@ -144,20 +152,37 @@ class AuthenticationViewModel(
         }
 
         when (authRequestData) {
-            is AuthRequestData.OnlineQRCode -> handleOnlineQRAuthRequest(
+            is AuthRequestData.OnlineQRCode -> fetchSessionInfoAndPromptUserForApproval(
                 authRequestData.sessionInfoQuery,
                 authRequestData.sessionIdentificationOption
             )
 
-            is AuthRequestData.UsernamelessQRCode -> handleOnlineQRAuthRequest(
-                authRequestData.sessionInfoQuery,
-                authRequestData.sessionIdentificationOption,
-                authRequestData.ftAccount
-            )
+            is AuthRequestData.Usernameless -> handleUsernamelessRequest(authRequestData)
 
             is AuthRequestData.PushNotification -> handlePushAuthRequest(authRequestData)
+
             is AuthRequestData.OfflineQRCode -> handleOfflineQRAuthRequest(authRequestData)
+
             is AuthRequestData.AuthSession -> handleApproveSession(authRequestData)
+        }
+    }
+
+    fun proceedWithUsernamelessAuthentication(account: FTAccount) {
+        val authRequestData = pendingAccountPickRequest!!
+        pendingAccountPickRequest = null
+
+        fetchSessionInfoAndPromptUserForApproval(
+            sessionInfoQuery = authRequestData.getSessionInfoQuery(account),
+            sessionIdentificationOption = authRequestData.getSessionIdentificationOption(account),
+            ftAccount = account
+        )
+    }
+
+    private fun handleUsernamelessRequest(authRequestData: AuthRequestData.Usernameless) {
+        pendingAccountPickRequest = authRequestData
+
+        viewModelScope.launch {
+            _showAccountPicker.emit(Unit)
         }
     }
 
@@ -202,7 +227,7 @@ class AuthenticationViewModel(
         }
     }
 
-    private fun handleOnlineQRAuthRequest(
+    private fun fetchSessionInfoAndPromptUserForApproval(
         sessionInfoQuery: SessionInfoQuery,
         sessionIdentificationOption: SessionIdentificationOption,
         ftAccount: FTAccount? = null
@@ -469,7 +494,6 @@ class AuthenticationViewModel(
             _navigateToAccounts.emit(Unit)
         }
     }
-
 
     data class FuturaeViewModelState(
         val session: ApproveSession? = null,
