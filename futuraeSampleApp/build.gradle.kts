@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization")
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.crashlytics)
@@ -57,9 +58,6 @@ android {
         buildConfig = true
         viewBinding = true
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
     }
 
     defaultConfig {
