@@ -117,7 +117,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
     implementation("com.futurae.sdk:adaptive:1.1.1-alpha")
-    implementation("com.futurae.sdk:futuraekit-beta:3.7.0-beta")
+    implementation("com.futurae.sdk:futuraekit-beta:3.7.1-beta")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping
