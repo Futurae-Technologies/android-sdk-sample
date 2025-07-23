@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization")
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.crashlytics)
@@ -57,9 +58,6 @@ android {
         buildConfig = true
         viewBinding = true
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
     }
 
     defaultConfig {
@@ -117,7 +115,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
     implementation("com.futurae.sdk:adaptive:1.1.1-alpha")
-    implementation("com.futurae.sdk:futuraekit-beta:3.7.1-beta")
+    implementation("com.futurae.sdk:futuraekit-beta:3.7.2-beta")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping

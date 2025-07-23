@@ -7,6 +7,7 @@ import com.futurae.sampleapp.utils.ILCEState
 import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.lock.arch.LockScreenMode
 import com.futurae.sampleapp.accountsrecovery.usecase.MigrateAccountsUseCase
+import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.migration.model.MigrationUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +67,7 @@ class AccountsRecoveryFlowViewModel(
 
             migrateAccountsUseCase(migrationUseCase, null)
                 .onSuccess {
+                    LocalStorage.setDeviceEnrolled()
                     _state.emit(ILCEState.Content(Unit))
                 }
                 .onFailure {
