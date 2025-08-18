@@ -19,37 +19,6 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val getLatestGitTag: () -> String = {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine("git", "describe", "--tags", "--abbrev=0", "--match=v*")
-        standardOutput = stdout
-    }
-    stdout.toString().trim()
-}
-
-val getCommitsSinceLastTag: () -> Int = {
-    val latestTag = getLatestGitTag()
-    val stdout = ByteArrayOutputStream()
-    try {
-        exec {
-            commandLine("git", "rev-list", "$latestTag..HEAD", "--count")
-            standardOutput = stdout
-        }
-    } catch (e: Exception) {
-        println("Error executing git command: ${e.message}")
-    }
-    stdout.toString().trim().toIntOrNull() ?: 0
-}
-
-val getVersionName: () -> String = {
-    val latestTag = getLatestGitTag().trim()
-    val commitsSinceLastTag = getCommitsSinceLastTag()
-    val versionName = "$latestTag.$commitsSinceLastTag"
-    println("Version Name: $versionName")
-    versionName
-}
-
 android {
     namespace = "com.futurae.sampleapp"
     compileSdk = 35
@@ -65,13 +34,17 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = getCommitCount()
-        versionName = getVersionName()
+        versionName = "3.7.2-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        resValue("string", "sdk_id", extra.properties["SDK_ID"] as String)
-        resValue("string", "sdk_key", extra.properties["SDK_KEY"] as String)
-        resValue("string", "base_url", extra.properties["BASE_URL"] as String)
+        val sdkId = project.findProperty("SDK_ID") as String
+        val sdkKey = project.findProperty("SDK_KEY") as String
+        val baseUrl = project.findProperty("BASE_URL") as String
+
+        resValue("string", "sdk_id", sdkId)
+        resValue("string", "sdk_key", sdkKey)
+        resValue("string", "base_url", baseUrl)
     }
 
     buildTypes {
