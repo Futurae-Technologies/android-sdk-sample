@@ -1,3 +1,9 @@
+// Unauthorized copying of this file, via any medium is strictly prohibited.
+// Proprietary and Confidential.
+//
+// Copyright (C) 2025 Futurae Technologies AG - All rights reserved.
+// For any inquiry, contact: legal@futurae.com
+
 import java.io.ByteArrayOutputStream
 
 plugins {
@@ -19,6 +25,8 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
+val sdkVersionName = "3.7.3-rc"
+
 android {
     namespace = "com.futurae.sampleapp"
     compileSdk = 35
@@ -34,7 +42,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = getCommitCount()
-        versionName = "3.7.2-beta"
+        versionName = sdkVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -88,7 +96,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
     implementation("com.futurae.sdk:adaptive:1.1.1-alpha")
-    implementation("com.futurae.sdk:futuraekit-beta:3.7.2-beta")
+    implementation("com.futurae.sdk:futuraekit-beta:${sdkVersionName}")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping
