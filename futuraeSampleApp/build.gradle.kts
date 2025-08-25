@@ -19,7 +19,7 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersionName = "3.7.2-beta"
+val sdkVersionName = "3.7.3-rc"
 
 android {
     namespace = "com.futurae.sampleapp"
