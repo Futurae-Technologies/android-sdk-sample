@@ -19,7 +19,7 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersionName = "3.7.2-beta"
+val sdkVersionName = "3.7.3-rc2"
 
 android {
     namespace = "com.futurae.sampleapp"
@@ -47,6 +47,10 @@ android {
         resValue("string", "sdk_id", sdkId)
         resValue("string", "sdk_key", sdkKey)
         resValue("string", "base_url", baseUrl)
+
+
+        val cpn =  project.findProperty("CLOUD_PROJECT_NUMBER") as String? ?: "-"
+        resValue("string", "cloud_project_number", "\"$cpn\"")
     }
 
     buildTypes {
@@ -64,6 +68,7 @@ android {
             matchingFallbacks += listOf("release", "debug")
             resValue("string", "app_name", "SampleQA")
         }
+
         getByName("release") {
             isMinifyEnabled = true
             applicationIdSuffix = ".prod"

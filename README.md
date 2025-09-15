@@ -15,6 +15,7 @@ The SDK Sample App in this repository is provided as is and is intended solely a
 2. **Configuration:**
     * You need a valid `google-services.json` file from Firebase using the package-name `com.futurae.sampleapp`
     * You need to define valid SDK credentials (ref [here](https://www.futurae.com/docs/guide/futurae-sdks/mobile-sdk/#sdk-credentials)). This project reads gradle properties: `SDK_ID`, `SDK_KEY` and `BASE_URL` and creates the respective string resources, read by `futurae.xml`
+    * If you are using _Application Integrity Check Embedded into Enrollment and Authentication flow_, you need to enable the Integrity API on your Google Cloud project, and include your Cloud Project Number found on your Google Cloud Console as `CLOUD_PROJECT_NUMBER` gradle property to be able to use your quota during those embedded Integrity Verdict requests. This will also create a string resource, read by `futurae.xml`.
     * Refer to [Authenticating to Github Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-to-github-packages) in order to access the published Futurae SDK artifacts, to build the project. You can set `gradle.properties` for `GITHUB_ACTOR` & `GITHUB_TOKEN`.  
 
 3. **Run the app:**
