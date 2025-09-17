@@ -47,8 +47,8 @@ android {
         resValue("string", "sdk_id", sdkId)
         resValue("string", "sdk_key", sdkKey)
         resValue("string", "base_url", baseUrl)
-
-
+        
+        
         val cpn =  project.findProperty("CLOUD_PROJECT_NUMBER") as String? ?: "-"
         resValue("string", "cloud_project_number", "\"$cpn\"")
     }
