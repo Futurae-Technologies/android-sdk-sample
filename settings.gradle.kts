@@ -16,7 +16,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
         maven("https://maven.pkg.github.com/Futurae-Technologies/android-sdk-beta") {
+            credentials {
+                username = extra.properties["GITHUB_ACTOR"] as String
+                password = extra.properties["GITHUB_TOKEN"] as String
+            }
+        }
+        maven("https://maven.pkg.github.com/Futurae-Technologies/android-sdk") {
             credentials {
                 username = extra.properties["GITHUB_ACTOR"] as String
                 password = extra.properties["GITHUB_TOKEN"] as String

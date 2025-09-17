@@ -19,6 +19,8 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
+val sdkVersionName = "3.8.0-beta"
+
 android {
     namespace = "com.futurae.sampleapp"
     compileSdk = 35
@@ -34,7 +36,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = getCommitCount()
-        versionName = "3.7.2-beta"
+        versionName = sdkVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -45,6 +47,10 @@ android {
         resValue("string", "sdk_id", sdkId)
         resValue("string", "sdk_key", sdkKey)
         resValue("string", "base_url", baseUrl)
+        
+        
+        val cpn =  project.findProperty("CLOUD_PROJECT_NUMBER") as String? ?: "-"
+        resValue("string", "cloud_project_number", "\"$cpn\"")
     }
 
     buildTypes {
@@ -62,6 +68,7 @@ android {
             matchingFallbacks += listOf("release", "debug")
             resValue("string", "app_name", "SampleQA")
         }
+
         getByName("release") {
             isMinifyEnabled = true
             applicationIdSuffix = ".prod"
@@ -88,7 +95,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
     implementation("com.futurae.sdk:adaptive:1.1.1-alpha")
-    implementation("com.futurae.sdk:futuraekit-beta:3.7.2-beta")
+    implementation("com.futurae.sdk:futuraekit-beta:${sdkVersionName}")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping
