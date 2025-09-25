@@ -30,7 +30,6 @@ data class SettingsNestedToggleGroup(
 
 data object SettingsSpacer : SettingsListItem()
 
-
 data class SettingsNestedToggle(
     val title: TextWrapper,
     val isEnabled: Boolean,

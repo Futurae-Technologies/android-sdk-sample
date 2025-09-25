@@ -68,6 +68,16 @@ class SDKSettingsViewModel(
                 }
             ),
             SettingsItem(
+                title = TextWrapper.Resource(R.string.geofencing_overview),
+                subtitle = TextWrapper.Resource(R.string.adaptive_overview_subtitle),
+                icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                actionCallback = {
+                    viewModelScope.launch {
+                        _navigationEvent.emit(FuturaeSampleDestinations.SETTINGS_GEOFENCING_ROUTE.route)
+                    }
+                }
+            ),
+            SettingsItem(
                 title = TextWrapper.Resource(R.string.integrity_check),
                 subtitle = TextWrapper.Resource(R.string.integrity_check_subtitle),
                 icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
