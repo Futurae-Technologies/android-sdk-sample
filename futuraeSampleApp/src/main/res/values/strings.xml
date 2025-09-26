@@ -115,6 +115,8 @@
     <string name="adaptive_no_collections_yet">No collections yet</string>
     <string name="adaptive_clear_collections">Clear collections</string>
     <string name="adaptive_overview_subtitle">Configure where adaptive will be used</string>
+    <string name="geofencing_overview">Geofencing Overview</string>
+    <string name="geofencing_overview_subtitle">Configure where geofencing will be used</string>
     <string name="integrity_check">Integrity Check</string>
     <string name="integrity_check_subtitle">Check your app and device integrity</string>
     <string name="sdk_configuration">SDK Configuration</string>
@@ -148,6 +150,8 @@
     <string name="adaptive_subtitle">Enable Adaptive capabilities</string>
     <string name="authentication">Authentication</string>
     <string name="migration">Migration</string>
+    <string name="geofencing">Location Collection</string>
+    <string name="geofencing_subtitle">If enabled Geolocation data will be submitted on Authentication when required and periodically.</string>
     <string name="lock_mechanism">Lock Mechanism</string>
     <string name="lock_mechanism_subtitle">Select SDK lock Configuration</string>
     <string name="unlock_duration">Unlock Duration</string>
