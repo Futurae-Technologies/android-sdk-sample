@@ -65,6 +65,7 @@ import com.futurae.sampleapp.settings.adaptive.collections.AdaptiveCollectionsSc
 import com.futurae.sampleapp.settings.debug.SDKDebugUtilScreen
 import com.futurae.sampleapp.settings.debug.qrcodeutils.DebugQRCodeUtilsScreen
 import com.futurae.sampleapp.settings.debug.uriutils.DebugURIUtilsScreen
+import com.futurae.sampleapp.settings.geofencing.GeofencingSettingsScreen
 import com.futurae.sampleapp.settings.integrity.IntegritySettingsScreen
 import com.futurae.sampleapp.settings.more.MoreScreen
 import com.futurae.sampleapp.settings.sdksettings.SettingsScreen
@@ -131,6 +132,11 @@ enum class FuturaeSampleDestinations(
     SETTINGS_ADAPTIVE_ROUTE(
         route = "home/more/settings/adaptive",
         titleResId = R.string.adaptive_overview,
+        hasBackNavigation = true
+    ),
+    SETTINGS_GEOFENCING_ROUTE(
+        route = "home/more/settings/geofencing",
+        titleResId = R.string.geofencing_overview,
         hasBackNavigation = true
     ),
     SETTINGS_ADAPTIVE_COLLECTIONS_ROUTE(
@@ -823,6 +829,17 @@ private fun NavGraphBuilder.homeNavigation(
             AdaptiveSettingsScreen { route ->
                 navController.navigate(route)
             }
+        }
+
+        composable(route = FuturaeSampleDestinations.SETTINGS_GEOFENCING_ROUTE.route) {
+            LaunchedEffect(Unit) {
+                appBarViewModel.showCommonTopBar(
+                    titleResId = FuturaeSampleDestinations.SETTINGS_GEOFENCING_ROUTE.titleResId,
+                    hasBackNavigation = FuturaeSampleDestinations.SETTINGS_GEOFENCING_ROUTE.hasBackNavigation
+                )
+            }
+
+            GeofencingSettingsScreen()
         }
 
         composable(route = FuturaeSampleDestinations.SETTINGS_ADAPTIVE_COLLECTIONS_ROUTE.route) {
