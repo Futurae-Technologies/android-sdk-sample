@@ -19,7 +19,8 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersionName = "3.8.0-beta"
+val sdkVersion = "3.8.0-beta"
+val adaptiveSdkVersion = "1.1.2-alpha"
 
 android {
     namespace = "com.futurae.sampleapp"
@@ -36,7 +37,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = getCommitCount()
-        versionName = sdkVersionName
+        versionName = sdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -94,8 +95,8 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
-    implementation("com.futurae.sdk:adaptive:1.1.1-alpha")
-    implementation("com.futurae.sdk:futuraekit-beta:${sdkVersionName}")
+    implementation("com.futurae.sdk:adaptive:${adaptiveSdkVersion}")
+    implementation("com.futurae.sdk:futuraekit-beta:${sdkVersion}")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping
