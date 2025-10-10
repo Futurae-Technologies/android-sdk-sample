@@ -19,7 +19,7 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersion = "3.8.0-beta"
+val sdkVersion = "3.9.0-beta"
 val adaptiveSdkVersion = "1.1.2-alpha"
 
 android {
