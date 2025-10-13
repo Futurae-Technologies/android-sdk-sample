@@ -19,7 +19,7 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersion = "3.8.0-beta"
+val sdkVersion = "3.9.0-beta"
 val adaptiveSdkVersion = "1.1.2-alpha"
 
 android {
@@ -44,11 +44,15 @@ android {
         val sdkId = project.findProperty("SDK_ID") as String
         val sdkKey = project.findProperty("SDK_KEY") as String
         val baseUrl = project.findProperty("BASE_URL") as String
+        val trustSignalsServiceUrl = project.findProperty("TRUST_SIGNALS_SERVICE_URL") as String?
 
         resValue("string", "sdk_id", sdkId)
         resValue("string", "sdk_key", sdkKey)
         resValue("string", "base_url", baseUrl)
 
+        trustSignalsServiceUrl?.let {
+            resValue("string", "trust_signals_service_url", it)
+        }
 
         val cpn =  project.findProperty("CLOUD_PROJECT_NUMBER") as String? ?: "-"
         resValue("string", "cloud_project_number", "\"$cpn\"")
