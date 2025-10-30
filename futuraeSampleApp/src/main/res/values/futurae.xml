@@ -3,6 +3,5 @@
     <string name="ftr_sdk_id">@string/sdk_id</string>
     <string name="ftr_sdk_key">@string/sdk_key</string>
     <string name="ftr_base_url">@string/base_url</string>
-    <string name="trust_signals_service_url">@string/trust_signals_service_url</string>
     <string name="ftr_cloud_project_number">@string/cloud_project_number</string>
 </resources>
