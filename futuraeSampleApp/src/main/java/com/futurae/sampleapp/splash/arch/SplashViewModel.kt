@@ -9,13 +9,6 @@ import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.navigation.RootNavigationEvent
 import com.futurae.sampleapp.utils.SdkWrapper
 import com.futurae.sdk.FuturaeSDK
-import com.futurae.sdk.public_api.exception.FTCorruptedStateException
-import com.futurae.sdk.public_api.exception.FTInvalidArgumentException
-import com.futurae.sdk.public_api.exception.FTInvalidStateException
-import com.futurae.sdk.public_api.exception.FTKeystoreException
-import com.futurae.sdk.public_api.exception.FTLockInvalidConfigurationException
-import com.futurae.sdk.public_api.exception.FTLockMechanismUnavailableException
-import com.futurae.sdk.public_api.exception.FTMigrationFailedException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -56,38 +49,12 @@ class SplashViewModel(application: FuturaeSampleApplication) : AndroidViewModel(
             }
 
             LocalStorage.hasExistingConfiguration -> {
-                try {
-                    SdkWrapper.attemptToLaunchSDK(
-                        application = application,
-                        sdkConfiguration = LocalStorage.persistedSDKConfig
-                    )
-                    dispatchCheckForMigratableAccounts()
-                    dispatchNavigationInfo(navigationInfo = RootNavigationEvent.Home)
-                } catch (t: Throwable) {
-                    when (t) {
-                        is FTInvalidArgumentException,
-                        is FTLockInvalidConfigurationException,
-                        is FTLockMechanismUnavailableException,
-                        is FTKeystoreException -> {
-                            dispatchNavigationInfo(
-                                navigationInfo = RootNavigationEvent.Error(
-                                    title = SdkWrapper.getStringForSDKError(t),
-                                    message = t.message ?: "Unknown Error"
-                                )
-                            )
-                        }
-                        is FTInvalidStateException -> {
-                            // Already init. Proceed with navigation
-                            dispatchCheckForMigratableAccounts()
-                            dispatchNavigationInfo(navigationInfo = RootNavigationEvent.Home)
-                        }
-                        is FTMigrationFailedException,
-                        is FTCorruptedStateException -> {
-                            // show SDK recovery
-                            dispatchNavigationInfo(navigationInfo = RootNavigationEvent.Recovery)
-                        }
-                    }
-                }
+                val navigationInfo = SdkWrapper.attemptToLaunchSdkWithErrorHandling(
+                    application = application,
+                    sdkConfiguration = LocalStorage.persistedSDKConfig
+                )
+
+                dispatchNavigationInfo(navigationInfo)
             }
 
             else -> {
@@ -103,6 +70,10 @@ class SplashViewModel(application: FuturaeSampleApplication) : AndroidViewModel(
     }
 
     private fun dispatchNavigationInfo(navigationInfo: RootNavigationEvent) {
+        if (navigationInfo == RootNavigationEvent.Home) {
+            dispatchCheckForMigratableAccounts()
+        }
+
         viewModelScope.launch {
             delay(SPLASH_DURATION)
             _navigationInfo.emit(navigationInfo)
