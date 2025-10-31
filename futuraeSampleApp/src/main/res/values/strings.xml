@@ -9,6 +9,7 @@
 
     <!-- SDK Configuration -->
     <string name="sdk_configuration_success">SDK Configuration Updated</string>
+    <string name="corrupt_v1">Corrupt v1</string>
 
     <!-- Home Screen -->
     <string name="bottom_navigation_accounts_item">Accounts</string>
