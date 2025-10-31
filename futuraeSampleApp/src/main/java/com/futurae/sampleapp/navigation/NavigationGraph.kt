@@ -343,6 +343,13 @@ fun FuturaeNavigationGraph(
                             }
                         }
                     },
+                    navigateToRecovery = {
+                        navController.navigate(RootNavigationEvent.Recovery.route) {
+                            popUpTo(FuturaeSampleDestinations.CONFIGURATION_ROUTE.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
                     showSnackbar = {
                         snackbarHostState.showSnackbar(
                             FuturaeSnackbarVisuals(
@@ -900,6 +907,7 @@ private fun NavGraphBuilder.homeNavigation(
                 onPinRequested = {
                     navController.navigateToLockScreen(LockScreenMode.CREATE_PIN)
                 },
+                navigateToRecovery = {},
                 showSnackbar = showSnackbar
             )
         }

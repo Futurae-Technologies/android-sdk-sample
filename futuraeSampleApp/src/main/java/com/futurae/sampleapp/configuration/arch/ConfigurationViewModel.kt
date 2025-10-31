@@ -10,12 +10,15 @@ import com.futurae.sampleapp.FuturaeSampleApplication
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.utils.SdkWrapper
 import com.futurae.sampleapp.configuration.usecase.SwitchSDKConfigurationUseCase
+import com.futurae.sampleapp.navigation.RootNavigationEvent
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.configuration.ConfigurationItem
 import com.futurae.sampleapp.ui.shared.elements.configuration.LockConfigurationItem
 import com.futurae.sampleapp.ui.shared.elements.configuration.LockDurationItem
 import com.futurae.sampleapp.ui.shared.elements.configuration.OptionConfigurationsItem
 import com.futurae.sampleapp.ui.shared.elements.configuration.SdkConfigOptionalFlag
+import com.futurae.sampleapp.utils.LocalStorage
+import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.common.LockConfigurationType
 import com.futurae.sdk.public_api.common.SDKConfiguration
 import com.futurae.sdk.public_api.common.model.PresentationConfigurationForBiometricsPrompt
@@ -55,6 +58,9 @@ class ConfigurationViewModel(
     private val _operationStatusFlow = MutableSharedFlow<Result<Unit>>()
     val operationStatusFlow = _operationStatusFlow.asSharedFlow()
 
+    private val _navigateToRecovery = MutableSharedFlow<Unit>()
+    val navigateToRecovery = _navigateToRecovery.asSharedFlow()
+
     private val _configurationItems = MutableStateFlow<List<ConfigurationItem>>(
         generateConfigurationItems()
     )
@@ -82,11 +88,36 @@ class ConfigurationViewModel(
                             )
                     _onUnlockRequired.emit(lockConfigurationType)
                 } else {
-                    SdkWrapper.attemptToLaunchSDK(getApplication(), sdkConfig)
-                    _operationStatusFlow.emit(Result.success(Unit))
+                    handleSdkInitialLaunch(sdkConfig)
                 }
             } catch (t: Throwable) {
                 _operationStatusFlow.emit(Result.failure(t))
+            }
+        }
+    }
+
+    private suspend fun handleSdkInitialLaunch(sdkConfiguration: SDKConfiguration) {
+        val rootNavigationEvent = SdkWrapper.attemptToLaunchSdkWithErrorHandling(
+            application = getApplication(),
+            sdkConfiguration = sdkConfiguration
+        )
+
+        when (rootNavigationEvent) {
+            is RootNavigationEvent.Error -> {
+                _operationStatusFlow.emit(Result.failure(Throwable(rootNavigationEvent.message)))
+            }
+
+            RootNavigationEvent.Recovery -> {
+                if (sdkConfiguration.lockConfigurationType == LockConfigurationType.NONE) {
+                    LocalStorage.persistSDKConfiguration(sdkConfiguration)
+                    _navigateToRecovery.emit(Unit)
+                } else {
+                    _operationStatusFlow.emit(Result.failure(Throwable("Cannot migrate from old version with other than NONE config")))
+                }
+            }
+
+            else -> {
+                _operationStatusFlow.emit(Result.success(Unit))
             }
         }
     }
