@@ -2,22 +2,61 @@ package com.futurae.sampleapp.utils
 
 import android.app.Application
 import com.futurae.sampleapp.R
+import com.futurae.sampleapp.navigation.RootNavigationEvent
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.common.SDKConfiguration
+import com.futurae.sdk.public_api.exception.FTCorruptedStateException
 import com.futurae.sdk.public_api.exception.FTInvalidArgumentException
 import com.futurae.sdk.public_api.exception.FTInvalidStateException
 import com.futurae.sdk.public_api.exception.FTKeyNotFoundException
+import com.futurae.sdk.public_api.exception.FTKeystoreException
 import com.futurae.sdk.public_api.exception.FTKeystoreOperationException
 import com.futurae.sdk.public_api.exception.FTLockInvalidConfigurationException
 import com.futurae.sdk.public_api.exception.FTLockMechanismUnavailableException
+import com.futurae.sdk.public_api.exception.FTMigrationFailedException
 
 object SdkWrapper {
 
-    fun attemptToLaunchSDK(
+    fun attemptToLaunchSdkWithErrorHandling(
         application: Application,
-        sdkConfiguration: SDKConfiguration,
+        sdkConfiguration: SDKConfiguration
+    ) = try {
+            attemptToLaunchSDK(
+                application = application,
+                sdkConfiguration = sdkConfiguration
+            )
+            RootNavigationEvent.Home
+        } catch (t: Throwable) {
+            when (t) {
+                is FTInvalidArgumentException,
+                is FTLockInvalidConfigurationException,
+                is FTLockMechanismUnavailableException,
+                is FTKeystoreException -> {
+                    RootNavigationEvent.Error(
+                        title = getStringForSDKError(t),
+                        message = t.message ?: "Unknown Error"
+                    )
+                }
+                is FTInvalidStateException -> {
+                    RootNavigationEvent.Home
+                }
+                is FTMigrationFailedException,
+                is FTCorruptedStateException -> {
+                    RootNavigationEvent.Recovery
+                }
+                else -> {
+                    RootNavigationEvent.Error(
+                        title = getStringForSDKError(t),
+                        message = "Unknown Error"
+                    )
+                }
+            }
+    }
 
-        ) {
+    private fun attemptToLaunchSDK(
+        application: Application,
+        sdkConfiguration: SDKConfiguration
+    ) {
         FuturaeSDK.launch(
             application = application,
             sdkConfiguration = sdkConfiguration
