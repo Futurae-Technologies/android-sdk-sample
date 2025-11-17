@@ -204,7 +204,14 @@ private fun ConfigurationScreenComposable(
                     onClick = {
                         FuturaeDebugUtil.corruptDBTokens(appContext)
                     },
-                    text = TextWrapper.Resource(R.string.corrupt_v1)
+                    text = TextWrapper.Resource(R.string.corrupt_v1_db)
+                )
+                ActionButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        FuturaeDebugUtil.corruptV1Keys(appContext)
+                    },
+                    text = TextWrapper.Resource(R.string.corrupt_v1_keys)
                 )
             }
 
