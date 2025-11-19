@@ -25,7 +25,9 @@ import com.futurae.sampleapp.ui.shared.elements.resultinformativescreen.ResultIn
 import com.futurae.sampleapp.ui.shared.elements.resultinformativescreen.ResultInformativeScreenContentUIState
 import com.futurae.sampleapp.ui.shared.elements.resultinformativescreen.ResultInformativeScreenUIState
 import com.futurae.sampleapp.ui.shared.elements.resultinformativescreen.ResultState
+import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.utils.UserPresenceVerificationHelper
+import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.lock.model.UserPresenceVerificationFactor
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -94,6 +96,8 @@ fun SDKRecoveryFlow(
             ),
             onPrimaryActionClick = sdkRecoveryViewModel::requestSDKRecovery,
             onSecondaryActionClick = {
+                FuturaeSDK.reset(context)
+                LocalStorage.reset()
                 navController.popBackStack()
                 navController.navigate(FuturaeSampleDestinations.SPLASH_ROUTE.route)
             },

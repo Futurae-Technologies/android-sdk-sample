@@ -19,7 +19,8 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersionName = "3.8.1-beta"
+val sdkVersionName = "3.9.0-beta"
+val adaptiveSdkVersionName = "1.1.2-alpha"
 
 android {
     namespace = "com.futurae.sampleapp"
@@ -94,7 +95,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
-    implementation("com.futurae.sdk:adaptive:1.1.1-alpha")
+    implementation("com.futurae.sdk:adaptive:${adaptiveSdkVersionName}")
     implementation("com.futurae.sdk:futuraekit-beta:${sdkVersionName}")
 
     // Refer to BOM mapping page to verify individual app versions used
