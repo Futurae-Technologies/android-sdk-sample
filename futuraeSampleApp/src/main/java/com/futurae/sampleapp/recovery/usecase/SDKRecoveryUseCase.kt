@@ -13,6 +13,10 @@ class SDKRecoveryUseCase {
         application: Application,
         userPresenceVerificationMode: UserPresenceVerificationMode?
     ): Unit = suspendCoroutine { continuation ->
+            if(!LocalStorage.hasExistingConfiguration) {
+                continuation.resumeWith(Result.failure(IllegalStateException("LockScreen shown without SDK configuration")))
+                return@suspendCoroutine
+            }
             val sdkConfiguration = LocalStorage.persistedSDKConfig
             FuturaeSDK.launchAccountRecovery(
                 application = application,
