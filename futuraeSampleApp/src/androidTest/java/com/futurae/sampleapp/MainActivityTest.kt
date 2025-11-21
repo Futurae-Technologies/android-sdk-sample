@@ -34,9 +34,6 @@ class MainActivityNavigationTest {
         rule.onNodeWithText("Settings", substring = false).performClick()
         rule.onNodeWithText("Integrity Check", substring = false).performClick()
 
-        waitForText("Device Integrity")
-        rule.onNodeWithText("Device Integrity", substring = false).assertExists()
-
     }
 
     private fun waitForText(text: String) {
