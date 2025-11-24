@@ -78,7 +78,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        if (LocalStorage.persistedSDKConfig.lockConfigurationType != LockConfigurationType.NONE) {
+        if (LocalStorage.hasExistingConfiguration && LocalStorage.persistedSDKConfig.lockConfigurationType != LockConfigurationType.NONE) {
             FuturaeSDK.client.lockApi.lock()
         }
     }
