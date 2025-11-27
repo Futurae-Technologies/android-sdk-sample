@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="selector_manual_entry_input" translatable="false">manual_entry_input</string>
+    <string name="selector_accounts_list" translatable="false">accounts_list</string>
+</resources>

@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -74,6 +75,7 @@ fun ActivationCodeScreen(
             )
 
 
+            val textFieldSelector = stringResource(R.string.selector_manual_entry_input)
             TextField(
                 value = code,
                 onValueChange = { activationCodeViewModel.onCodeChange(it) },
@@ -83,7 +85,9 @@ fun ActivationCodeScreen(
                         text = "0000 0000 0000 0000",
                         color = OnSecondaryColor,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag(textFieldSelector)
                     )
                 },
                 textStyle = TextStyle(
