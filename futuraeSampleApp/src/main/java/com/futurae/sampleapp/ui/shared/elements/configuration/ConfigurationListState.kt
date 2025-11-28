@@ -32,9 +32,9 @@ data class OptionConfigurationsItem(
     val items: Map<SdkConfigOptionalFlag, Boolean>,
 ) : ConfigurationItem(title, subtitle, isExpanded)
 
-enum class SdkConfigOptionalFlag(@StringRes val title: Int) {
-    SKIP_HW_SECURITY(R.string.sdk_flag_skip_hw_sec),
-    REQUIRE_UNLOCKED_DEVICE(R.string.sdk_flag_req_unlocked_device),
-    BIOMETRIC_INVALIDATION(R.string.sdk_flag_biometric_invalidation),
-    CHANGE_PIN_WITH_BIOMETRICS(R.string.sdk_flag_change_pin_with_bio),
+enum class SdkConfigOptionalFlag(@StringRes val title: Int, @StringRes val testTag : Int) {
+    SKIP_HW_SECURITY(R.string.sdk_flag_skip_hw_sec, R.string.selector_toggle_skip_hw_sec),
+    REQUIRE_UNLOCKED_DEVICE(R.string.sdk_flag_req_unlocked_device, R.string.selector_toggle_req_unlocked_device),
+    BIOMETRIC_INVALIDATION(R.string.sdk_flag_biometric_invalidation, R.string.selector_toggle_biometric_invalidation),
+    CHANGE_PIN_WITH_BIOMETRICS(R.string.sdk_flag_change_pin_with_bio, R.string.selector_toggle_change_pin_with_bio),
 }

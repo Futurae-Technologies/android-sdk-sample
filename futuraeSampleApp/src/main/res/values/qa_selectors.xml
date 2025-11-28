@@ -2,4 +2,14 @@
 <resources>
     <string name="selector_manual_entry_input" translatable="false">manual_entry_input</string>
     <string name="selector_accounts_list" translatable="false">accounts_list</string>
+    <string name="selector_toggle_skip_hw_sec" translatable="false">toggle_skip_hw_sec</string>
+    <string name="selector_toggle_req_unlocked_device" translatable="false">toggle_req_unlocked_device</string>
+    <string name="selector_toggle_change_pin_with_bio" translatable="false">toggle_change_pin_with_bio</string>
+    <string name="selector_toggle_biometric_invalidation" translatable="false">toggle_biometric_invalidation</string>
+    <string name="selector_toggle_flow_binding" translatable="false">toggle_flow_binding</string>
+    <string name="selector_toggle_session_fetch_unprotected" translatable="false">toggle_session_fetch_unprotected</string>
+    <string name="selector_header_back_button" translatable="false">header_back_button</string>
+    <string name="selector_accounts_history_list" translatable="false">accounts_history_list</string>
+    <string name="selector_account_history_success" translatable="false">account_history_success</string>
+    <string name="selector_account_history_failure" translatable="false">account_history_failure</string>
 </resources>

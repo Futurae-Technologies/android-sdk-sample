@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -70,11 +71,13 @@ fun FuturaeTopAppBar(
                 navigateUp = navigateUp
             )
 
-            is FuturaeTopAppBarUIState.CommonTopBar -> CommonTopAppBar(
-                titleResId = it.titleResId,
-                hasBackNavigation = it.hasBackNavigation,
-                navigateUp = navigateUp
-            )
+            is FuturaeTopAppBarUIState.CommonTopBar -> {
+                CommonTopAppBar(
+                    titleResId = it.titleResId,
+                    hasBackNavigation = it.hasBackNavigation,
+                    navigateUp = navigateUp
+                )
+            }
 
             FuturaeTopAppBarUIState.FuturaeMore -> FuturaeSettingTopAppBar()
 
@@ -144,7 +147,11 @@ private fun CommonTopAppBar(
         ),
         navigationIcon = {
             if (hasBackNavigation) {
-                IconButton(onClick = navigateUp) {
+                val navIconTestTag = stringResource(R.string.selector_header_back_button)
+                IconButton(
+                    onClick = navigateUp,
+                    modifier = Modifier.testTag(navIconTestTag)
+                ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                         contentDescription = "Back",
@@ -303,6 +310,6 @@ private fun FuturaeSettingTopAppBar() {
 fun FuturaeTopAppBarPreview() {
     FuturaeTopAppBar(
         state = FuturaeTopAppBarUIState.None,
-        navigateUp = {  }
+        navigateUp = { }
     )
 }

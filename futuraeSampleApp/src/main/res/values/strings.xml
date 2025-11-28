@@ -48,6 +48,7 @@
     <string name="multi_numbered_challenge_prompt">To confirm your request, please select the number displayed on your other device. If you did not initiate this request, select Deny.</string>
     <string name="cancel">Cancel</string>
     <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
     <string name="deny">Deny</string>
     <string name="ok">OK</string>
     <string name="approved">Approved</string>

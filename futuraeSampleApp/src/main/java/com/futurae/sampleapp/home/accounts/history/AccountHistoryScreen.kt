@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -90,8 +91,19 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
             }
             val fullDescription = "${item.description.first.value(context)} " +
                     item.description.second.value(context)
+            val imageTestTag = stringResource(
+                if (item.isSuccessful) {
+                    R.string.selector_account_history_success
+                } else {
+                    R.string.selector_account_history_failure
+                }
+            )
 
-            Column {
+            val listTestTag = stringResource(R.string.selector_accounts_history_list)
+
+            Column(
+                modifier = Modifier.testTag(listTestTag)
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -102,7 +114,8 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
                 ) {
                     Image(
                         painterResource(icon),
-                        modifier = Modifier.size(22.dp),
+                        modifier = Modifier.size(22.dp)
+                            .testTag(imageTestTag),
                         contentDescription = "Result"
                     )
 

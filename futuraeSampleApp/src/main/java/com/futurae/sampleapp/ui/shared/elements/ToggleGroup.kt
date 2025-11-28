@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.futurae.sampleapp.ui.shared.elements.configuration.SdkConfigOptionalFlag
 import com.futurae.sampleapp.ui.theme.SubtitleStyle
@@ -52,7 +53,8 @@ fun ToggleRow(
         Switch(
             checked = isChecked,
             onCheckedChange = { onCheckChanged(flag to it) },
-            colors = fTSwitchTheme()
+            colors = fTSwitchTheme(),
+            modifier = Modifier.testTag(LocalContext.current.getString(flag.testTag))
         )
     }
 }

@@ -102,6 +102,7 @@ class SDKSettingsViewModel(
                 title = TextWrapper.Resource(R.string.flow_binding),
                 subtitle = TextWrapper.Resource(R.string.flow_binding_subtitle),
                 isEnabled = LocalStorage.isFlowBindingEnabled(),
+                testTag = TextWrapper.Resource(R.string.selector_toggle_flow_binding),
                 onToggleChanged = {
                     LocalStorage.setFlowBindingEnabled(
                         !LocalStorage.isFlowBindingEnabled()
@@ -115,6 +116,7 @@ class SDKSettingsViewModel(
                 title = TextWrapper.Resource(R.string.session_info_without_unlock),
                 subtitle = TextWrapper.Resource(R.string.session_info_without_unlock_subtitle),
                 isEnabled = LocalStorage.isSessionInfoWithoutUnlockEnabled,
+                testTag = TextWrapper.Resource(R.string.selector_toggle_flow_binding),
                 onToggleChanged = {
                     LocalStorage.setSessionInfoWithoutUnlockEnabled(
                         !LocalStorage.isSessionInfoWithoutUnlockEnabled
