@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class LockScreenViewModel(
     private val configuration: LockScreenConfiguration,
@@ -292,6 +293,7 @@ class LockScreenViewModel(
                 unlockUseCase.invoke(upv)
                 _exitScreenFlow.emit(null)
             } catch (t: Throwable) {
+                Timber.e(t)
                 when (val state = _uiStateFlow.value) {
                     is LockScreenUIState.BioCredsScreen -> {
                         _uiStateFlow.emit(

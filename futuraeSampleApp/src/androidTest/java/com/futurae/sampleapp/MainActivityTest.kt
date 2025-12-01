@@ -23,16 +23,22 @@ class MainActivityNavigationTest {
     @Test
     fun App_launches_configs_and_sends_enroll_with_expired_shortcode() {
 
-        waitForText("Lock Mechanism")
-        rule.onNodeWithText("Lock Mechanism", substring = false).performClick()
+        val lockType = rule.activity.getString(R.string.lock_mechanism)
+        val submit = rule.activity.getString(R.string.submit)
+        val more = rule.activity.getString(R.string.bottom_navigation_more_item)
+        val settings = rule.activity.getString(R.string.settings)
+        val intCheck = rule.activity.getString(R.string.integrity_check)
+
+        waitForText(lockType)
+        rule.onNodeWithText(lockType, substring = false).performClick()
         rule.onNodeWithText("NONE", substring = false).performClick()
-        rule.onNodeWithText("Submit", substring = false).performClick()
+        rule.onNodeWithText(submit, substring = false).performClick()
 
 
-        waitForText("More")
-        rule.onNodeWithText("More", substring = false).performClick()
-        rule.onNodeWithText("Settings", substring = false).performClick()
-        rule.onNodeWithText("Integrity Check", substring = false).performClick()
+        waitForText(more)
+        rule.onNodeWithText(more, substring = false).performClick()
+        rule.onNodeWithText(settings, substring = false).performClick()
+        rule.onNodeWithText(intCheck, substring = false).performClick()
 
     }
 

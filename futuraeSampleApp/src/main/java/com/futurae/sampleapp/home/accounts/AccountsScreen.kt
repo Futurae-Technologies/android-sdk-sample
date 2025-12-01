@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -48,11 +49,11 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.sampleapp.R
+import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.arch.FuturaeViewModel
 import com.futurae.sampleapp.home.accounts.arch.AccountsViewModel
 import com.futurae.sampleapp.home.accounts.restoreaccountsbanner.RestoreAccountsBanner
 import com.futurae.sampleapp.home.accounts.restoreaccountsbanner.RestoreAccountsBannerUIState
-import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.alertdialog.FuturaeAlertDialog
 import com.futurae.sampleapp.ui.shared.elements.alertdialog.FuturaeAlertDialogUIState
@@ -64,6 +65,7 @@ import com.futurae.sampleapp.ui.theme.Gray75
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.PrimaryColor
 import com.futurae.sampleapp.ui.theme.WarningColor
+import com.futurae.sampleapp.utils.UITestTags
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -134,7 +136,7 @@ private fun AccountsScreen(
     onRestoreAccountsClick: (Boolean) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        if (uiState.hasEnrolledAccounts)  {
+        if (uiState.hasEnrolledAccounts) {
             AccountList(
                 accountUIStates = uiState.accountRowUIStates,
                 timeoutProgress = timeoutProgress,
@@ -185,6 +187,7 @@ private fun AccountList(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .testTag(UITestTags.AccountsList.tag)
             .background(color = OnPrimaryColor)
     ) {
         items(
@@ -366,7 +369,7 @@ private fun AccountActionsPopup(
 
 @Composable
 private fun AccountsBlankSlate() {
-    Column (
+    Column(
         modifier = Modifier
             .background(color = OnPrimaryColor)
             .fillMaxSize()

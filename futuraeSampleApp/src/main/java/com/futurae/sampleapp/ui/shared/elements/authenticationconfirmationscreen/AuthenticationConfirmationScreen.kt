@@ -155,7 +155,7 @@ fun AuthenticationConfirmationScreen(
                     when (it) {
                         is AuthenticationScreenContent.Details -> {
                             ActionButton(
-                                text = TextWrapper.Resource(R.string.cancel),
+                                text = TextWrapper.Resource(R.string.reject),
                                 iconResId = R.drawable.ic_failure,
                                 type = ActionButtonType.Warning,
                                 onClick = onReject,

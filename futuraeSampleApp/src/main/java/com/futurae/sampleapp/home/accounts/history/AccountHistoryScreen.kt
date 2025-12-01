@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +40,7 @@ import com.futurae.sampleapp.ui.theme.FuturaeTypography
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.PrimaryColor
 import com.futurae.sampleapp.ui.theme.SecondaryColor
+import com.futurae.sampleapp.utils.UITestTags
 
 @Composable
 fun AccountHistoryScreen(
@@ -90,8 +92,15 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
             }
             val fullDescription = "${item.description.first.value(context)} " +
                     item.description.second.value(context)
+            val imageTestTag = if (item.isSuccessful) {
+                UITestTags.AccountsHistorySuccess
+            } else {
+                UITestTags.AccountsHistoryFail
+            }
 
-            Column {
+            Column(
+                modifier = Modifier.testTag(UITestTags.AccountsHistoryList.tag)
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -102,7 +111,8 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
                 ) {
                     Image(
                         painterResource(icon),
-                        modifier = Modifier.size(22.dp),
+                        modifier = Modifier.size(22.dp)
+                            .testTag(imageTestTag.tag),
                         contentDescription = "Result"
                     )
 

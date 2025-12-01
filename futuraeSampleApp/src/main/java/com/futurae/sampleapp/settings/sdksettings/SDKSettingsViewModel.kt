@@ -16,6 +16,7 @@ import com.futurae.sampleapp.settings.SettingsSpacer
 import com.futurae.sampleapp.settings.SettingsToggle
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.snackbar.FuturaeSnackbarUIState
+import com.futurae.sampleapp.utils.UITestTags
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -102,6 +103,7 @@ class SDKSettingsViewModel(
                 title = TextWrapper.Resource(R.string.flow_binding),
                 subtitle = TextWrapper.Resource(R.string.flow_binding_subtitle),
                 isEnabled = LocalStorage.isFlowBindingEnabled(),
+                testTag = UITestTags.ToggleFlowBinding.tag,
                 onToggleChanged = {
                     LocalStorage.setFlowBindingEnabled(
                         !LocalStorage.isFlowBindingEnabled()
@@ -115,6 +117,7 @@ class SDKSettingsViewModel(
                 title = TextWrapper.Resource(R.string.session_info_without_unlock),
                 subtitle = TextWrapper.Resource(R.string.session_info_without_unlock_subtitle),
                 isEnabled = LocalStorage.isSessionInfoWithoutUnlockEnabled,
+                testTag = UITestTags.ToggleSessionFetchUnprotected.tag,
                 onToggleChanged = {
                     LocalStorage.setSessionInfoWithoutUnlockEnabled(
                         !LocalStorage.isSessionInfoWithoutUnlockEnabled

@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -54,6 +55,7 @@ import com.futurae.sampleapp.ui.theme.PrimaryColor
 import com.futurae.sampleapp.ui.theme.SubtitleStyle
 import com.futurae.sampleapp.ui.theme.SuccessColor
 import com.futurae.sampleapp.ui.theme.TextAlternative
+import com.futurae.sampleapp.utils.UITestTags
 
 @Composable
 fun FuturaeTopAppBar(
@@ -70,11 +72,13 @@ fun FuturaeTopAppBar(
                 navigateUp = navigateUp
             )
 
-            is FuturaeTopAppBarUIState.CommonTopBar -> CommonTopAppBar(
-                titleResId = it.titleResId,
-                hasBackNavigation = it.hasBackNavigation,
-                navigateUp = navigateUp
-            )
+            is FuturaeTopAppBarUIState.CommonTopBar -> {
+                CommonTopAppBar(
+                    titleResId = it.titleResId,
+                    hasBackNavigation = it.hasBackNavigation,
+                    navigateUp = navigateUp
+                )
+            }
 
             FuturaeTopAppBarUIState.FuturaeMore -> FuturaeSettingTopAppBar()
 
@@ -144,7 +148,10 @@ private fun CommonTopAppBar(
         ),
         navigationIcon = {
             if (hasBackNavigation) {
-                IconButton(onClick = navigateUp) {
+                IconButton(
+                    onClick = navigateUp,
+                    modifier = Modifier.testTag(UITestTags.HeaderBackButton.tag)
+                ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                         contentDescription = "Back",
@@ -303,6 +310,6 @@ private fun FuturaeSettingTopAppBar() {
 fun FuturaeTopAppBarPreview() {
     FuturaeTopAppBar(
         state = FuturaeTopAppBarUIState.None,
-        navigateUp = {  }
+        navigateUp = { }
     )
 }

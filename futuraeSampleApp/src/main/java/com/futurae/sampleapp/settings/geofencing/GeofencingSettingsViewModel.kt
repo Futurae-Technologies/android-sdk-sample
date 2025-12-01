@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.settings.SettingsToggle
 import com.futurae.sampleapp.ui.TextWrapper
+import com.futurae.sampleapp.utils.UITestTags
 import com.futurae.sdk.FuturaeSDK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +21,7 @@ class GeofencingSettingsViewModel : ViewModel() {
             title = TextWrapper.Resource(R.string.geofencing),
             subtitle = TextWrapper.Resource(R.string.geofencing_subtitle),
             isEnabled = FuturaeSDK.client.geofencingApi.isLocationCollectionEnabled,
+            testTag = UITestTags.ToggleGeofencing.tag,
             onToggleChanged = {
                 FuturaeSDK.client.geofencingApi.enableOrDisableLocationCollection(it)
                 reEvaluateState()

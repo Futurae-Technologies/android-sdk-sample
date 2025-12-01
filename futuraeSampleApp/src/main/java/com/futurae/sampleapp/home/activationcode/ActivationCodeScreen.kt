@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -35,6 +36,7 @@ import com.futurae.sampleapp.ui.theme.FuturaeTypography
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.OnSecondaryColor
 import com.futurae.sampleapp.ui.theme.Tertiary
+import com.futurae.sampleapp.utils.UITestTags
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -83,7 +85,9 @@ fun ActivationCodeScreen(
                         text = "0000 0000 0000 0000",
                         color = OnSecondaryColor,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag(UITestTags.ManualEntryInput.tag)
                     )
                 },
                 textStyle = TextStyle(

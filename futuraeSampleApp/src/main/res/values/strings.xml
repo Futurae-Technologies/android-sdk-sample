@@ -48,6 +48,7 @@
     <string name="multi_numbered_challenge_prompt">To confirm your request, please select the number displayed on your other device. If you did not initiate this request, select Deny.</string>
     <string name="cancel">Cancel</string>
     <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
     <string name="deny">Deny</string>
     <string name="ok">OK</string>
     <string name="approved">Approved</string>
@@ -153,7 +154,7 @@
     <string name="migration">Migration</string>
     <string name="geofencing">Location Collection</string>
     <string name="geofencing_subtitle">If enabled Geolocation data will be submitted on Authentication when required and periodically.</string>
-    <string name="lock_mechanism">Lock Mechanism</string>
+    <string name="lock_mechanism">Lock Type</string>
     <string name="lock_mechanism_subtitle">Select SDK lock Configuration</string>
     <string name="unlock_duration">Unlock Duration</string>
     <string name="unlock_duration_subtitle">Select SDK unlock duration</string>

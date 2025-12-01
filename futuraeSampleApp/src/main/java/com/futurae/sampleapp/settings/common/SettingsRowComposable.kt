@@ -242,6 +242,7 @@ fun SettingsToggleComposablePreview() {
     val item = SettingsToggle(
         title = TextWrapper.Primitive("Adaptive Settings"),
         subtitle = TextWrapper.Primitive("Manage your adaptive features"),
+        testTag = "test",
         isEnabled = true,
         onToggleChanged = { },
     )
