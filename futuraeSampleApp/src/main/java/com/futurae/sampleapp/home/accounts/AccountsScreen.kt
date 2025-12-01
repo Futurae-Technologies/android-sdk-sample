@@ -65,6 +65,7 @@ import com.futurae.sampleapp.ui.theme.Gray75
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.PrimaryColor
 import com.futurae.sampleapp.ui.theme.WarningColor
+import com.futurae.sampleapp.utils.UITestTags
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -183,11 +184,10 @@ private fun AccountList(
 
     TimeoutIndicator(progress = timeoutProgress)
 
-    val qaSelector = stringResource(R.string.selector_accounts_list)
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .testTag(qaSelector)
+            .testTag(UITestTags.AccountsList.tag)
             .background(color = OnPrimaryColor)
     ) {
         items(

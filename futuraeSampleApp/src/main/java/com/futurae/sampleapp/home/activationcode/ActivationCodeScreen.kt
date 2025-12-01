@@ -36,6 +36,7 @@ import com.futurae.sampleapp.ui.theme.FuturaeTypography
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.OnSecondaryColor
 import com.futurae.sampleapp.ui.theme.Tertiary
+import com.futurae.sampleapp.utils.UITestTags
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -75,7 +76,6 @@ fun ActivationCodeScreen(
             )
 
 
-            val textFieldSelector = stringResource(R.string.selector_manual_entry_input)
             TextField(
                 value = code,
                 onValueChange = { activationCodeViewModel.onCodeChange(it) },
@@ -87,7 +87,7 @@ fun ActivationCodeScreen(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .testTag(textFieldSelector)
+                            .testTag(UITestTags.ManualEntryInput.tag)
                     )
                 },
                 textStyle = TextStyle(

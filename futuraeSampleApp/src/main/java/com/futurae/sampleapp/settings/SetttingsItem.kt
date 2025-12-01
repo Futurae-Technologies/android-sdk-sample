@@ -16,7 +16,7 @@ data class SettingsItem(
 data class SettingsToggle(
     val title: TextWrapper,
     val subtitle: TextWrapper,
-    val testTag: TextWrapper,
+    val testTag: String,
     val isEnabled: Boolean,
     val onToggleChanged: (Boolean) -> Unit,
 ) : SettingsListItem()

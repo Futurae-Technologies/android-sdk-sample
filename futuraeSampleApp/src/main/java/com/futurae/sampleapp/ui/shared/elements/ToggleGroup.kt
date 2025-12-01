@@ -54,7 +54,7 @@ fun ToggleRow(
             checked = isChecked,
             onCheckedChange = { onCheckChanged(flag to it) },
             colors = fTSwitchTheme(),
-            modifier = Modifier.testTag(LocalContext.current.getString(flag.testTag))
+            modifier = Modifier.testTag(flag.testTag)
         )
     }
 }

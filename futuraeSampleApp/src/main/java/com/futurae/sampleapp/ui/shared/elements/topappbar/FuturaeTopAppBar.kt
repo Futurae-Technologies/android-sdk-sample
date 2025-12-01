@@ -55,6 +55,7 @@ import com.futurae.sampleapp.ui.theme.PrimaryColor
 import com.futurae.sampleapp.ui.theme.SubtitleStyle
 import com.futurae.sampleapp.ui.theme.SuccessColor
 import com.futurae.sampleapp.ui.theme.TextAlternative
+import com.futurae.sampleapp.utils.UITestTags
 
 @Composable
 fun FuturaeTopAppBar(
@@ -147,10 +148,9 @@ private fun CommonTopAppBar(
         ),
         navigationIcon = {
             if (hasBackNavigation) {
-                val navIconTestTag = stringResource(R.string.selector_header_back_button)
                 IconButton(
                     onClick = navigateUp,
-                    modifier = Modifier.testTag(navIconTestTag)
+                    modifier = Modifier.testTag(UITestTags.HeaderBackButton.tag)
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,

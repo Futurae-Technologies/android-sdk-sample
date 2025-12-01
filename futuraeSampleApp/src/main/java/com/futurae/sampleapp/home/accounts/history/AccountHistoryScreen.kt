@@ -40,6 +40,7 @@ import com.futurae.sampleapp.ui.theme.FuturaeTypography
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.PrimaryColor
 import com.futurae.sampleapp.ui.theme.SecondaryColor
+import com.futurae.sampleapp.utils.UITestTags
 
 @Composable
 fun AccountHistoryScreen(
@@ -91,18 +92,14 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
             }
             val fullDescription = "${item.description.first.value(context)} " +
                     item.description.second.value(context)
-            val imageTestTag = stringResource(
-                if (item.isSuccessful) {
-                    R.string.selector_account_history_success
-                } else {
-                    R.string.selector_account_history_failure
-                }
-            )
-
-            val listTestTag = stringResource(R.string.selector_accounts_history_list)
+            val imageTestTag = if (item.isSuccessful) {
+                UITestTags.AccountsHistorySuccess
+            } else {
+                UITestTags.AccountsHistoryFail
+            }
 
             Column(
-                modifier = Modifier.testTag(listTestTag)
+                modifier = Modifier.testTag(UITestTags.AccountsHistoryList.tag)
             ) {
                 Row(
                     modifier = Modifier
@@ -115,7 +112,7 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
                     Image(
                         painterResource(icon),
                         modifier = Modifier.size(22.dp)
-                            .testTag(imageTestTag),
+                            .testTag(imageTestTag.tag),
                         contentDescription = "Result"
                     )
 
