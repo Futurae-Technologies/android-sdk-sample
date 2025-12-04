@@ -293,8 +293,7 @@ class FuturaeViewModel(
             _onAuthRequest.emit(
                 AuthRequestData.PushNotification(
                     authenticationSessionData.session,
-                    authenticationSessionData.session.userId,
-                    authenticationSessionData.encryptedExtras
+                    authenticationSessionData.session.userId
                 )
             )
             _notifyUser.emit(

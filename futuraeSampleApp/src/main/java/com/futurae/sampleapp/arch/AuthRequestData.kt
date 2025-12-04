@@ -71,8 +71,7 @@ sealed class AuthRequestData {
 
     data class PushNotification(
         val approveSession: ApproveSession,
-        val userId: String?,
-        val encryptedExtras: String?
+        val userId: String?
     ): AuthRequestData()
 
     data class AuthSession(
