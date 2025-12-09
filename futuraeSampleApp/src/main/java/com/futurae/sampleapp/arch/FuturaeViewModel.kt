@@ -11,6 +11,7 @@ import com.futurae.sampleapp.usecase.HandleURIUseCase
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.alertdialog.FuturaeAlertDialogUIState
 import com.futurae.sampleapp.ui.shared.elements.snackbar.FuturaeSnackbarUIState
+import com.futurae.sampleapp.usecase.GetPendingSessionsInfoUseCase
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.messaging.FTRNotificationEvent
 import com.futurae.sdk.model.internal.FTNotificationData
@@ -33,6 +34,7 @@ import timber.log.Timber
 class FuturaeViewModel(
     private val handleURIUseCase: HandleURIUseCase,
     private val getAccountsStatusUseCase: GetAccountsStatusUseCase,
+    private val getPendingSessionsInfoUseCase: GetPendingSessionsInfoUseCase,
 ) : ViewModel() {
 
     companion object {
@@ -42,7 +44,8 @@ class FuturaeViewModel(
                 modelClass: Class<T>
             ): T = FuturaeViewModel(
                 handleURIUseCase = HandleURIUseCase(),
-                getAccountsStatusUseCase = GetAccountsStatusUseCase()
+                getAccountsStatusUseCase = GetAccountsStatusUseCase(),
+                getPendingSessionsInfoUseCase = GetPendingSessionsInfoUseCase()
             ) as T
         }
     }
@@ -112,6 +115,26 @@ class FuturaeViewModel(
 
                         _onAuthRequest.emit(authRequestData)
                     }
+                }.onFailure {
+                    _snackbarUIState.emit(
+                        FuturaeSnackbarUIState.Error(
+                            TextWrapper.Primitive(
+                                it.message ?: "Unknown Error"
+                            )
+                        )
+                    )
+                }
+        }
+    }
+
+    fun fetchPendingSessionInfo() {
+        viewModelScope.launch {
+            val userIds = FuturaeSDK.client.accountApi.getActiveAccounts().map { it.userId }
+            if (userIds.isEmpty()) return@launch
+
+            getPendingSessionsInfoUseCase.invoke(userIds)
+                .onSuccess { pendingSessionsResult ->
+                    // handle pending sessions if necessary
                 }.onFailure {
                     _snackbarUIState.emit(
                         FuturaeSnackbarUIState.Error(
