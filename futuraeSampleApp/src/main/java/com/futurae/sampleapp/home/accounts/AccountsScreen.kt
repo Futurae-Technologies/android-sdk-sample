@@ -113,6 +113,7 @@ fun AccountsScreen(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 futuraeViewModel.fetchAccountsStatus()
+                futuraeViewModel.fetchPendingSessionInfo()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
