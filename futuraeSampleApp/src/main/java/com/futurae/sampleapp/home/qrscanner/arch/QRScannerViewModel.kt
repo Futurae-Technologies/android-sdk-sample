@@ -8,9 +8,13 @@ import com.futurae.sampleapp.enrollment.EnrollmentCase
 import com.futurae.sampleapp.home.qrscanner.QRScannerScreenUserInteraction
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.qr_code.model.QRCode
+import com.futurae.sdk.public_api.session.model.ApproveSession
+import com.futurae.sdk.public_api.session.model.ByToken
+import com.futurae.sdk.public_api.session.model.SessionInfoQuery
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class QRScannerViewModel : ViewModel() {
 
@@ -29,8 +33,8 @@ class QRScannerViewModel : ViewModel() {
     private val _onFailure = MutableSharedFlow<Unit>()
     val onFailure: SharedFlow<Unit> = _onFailure
 
-    private val _onEnrollmentFlowRequested = MutableSharedFlow<EnrollmentCase.QRCodeScan>()
-    val onEnrollmentFlowRequest: SharedFlow<EnrollmentCase.QRCodeScan> = _onEnrollmentFlowRequested
+    private val _onEnrollmentFlowRequested = MutableSharedFlow<EnrollmentCase.ActivationCodeInput>()
+    val onEnrollmentFlowRequest: SharedFlow<EnrollmentCase.ActivationCodeInput> = _onEnrollmentFlowRequested
 
     fun handleUserInteraction(userInteraction: QRScannerScreenUserInteraction) {
         when (userInteraction) {
@@ -47,6 +51,8 @@ class QRScannerViewModel : ViewModel() {
             is QRCode.Offline -> qrCode.handleOfflineAuthQRCodeScanned()
             is QRCode.Online -> qrCode.handleOnlineAuthQRCodeScanned()
             is QRCode.Usernameless -> qrCode.handleUsernamelessQRCodeScanned()
+            is QRCode.EnrollTokenExchange -> qrCode.handleEnrollExchangeToken()
+            is QRCode.AuthTokenExchange -> qrCode.handleAuthExchangeToken()
         }
     }
 
@@ -58,7 +64,7 @@ class QRScannerViewModel : ViewModel() {
 
     private fun initiateEnrollmentFlow(qrCode: String) {
         viewModelScope.launch {
-            _onEnrollmentFlowRequested.emit(EnrollmentCase.QRCodeScan(qrCode))
+            _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(qrCode))
         }
     }
 
@@ -80,6 +86,44 @@ class QRScannerViewModel : ViewModel() {
     private fun notifyUserForInvalidQRCodeScanned() {
         viewModelScope.launch {
             _onFailure.emit(Unit)
+        }
+    }
+
+    private fun QRCode.AuthTokenExchange.handleAuthExchangeToken() {
+        viewModelScope.launch {
+            try {
+                val sessionToken =
+                    FuturaeSDK.client.operationsApi.exchangeTokenForSessionToken(exchangeToken)
+                        .await()
+                val sessionInfo = FuturaeSDK.client.sessionApi.getSessionInfo(
+                    SessionInfoQuery(
+                        ByToken(sessionToken),
+                        userId = userId
+                    )
+                ).await()
+                _onAuthRequest.emit(
+                    AuthRequestData.AuthSession(
+                        userId,
+                        ApproveSession(sessionInfo)
+                    )
+                )
+            } catch (e: Throwable) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    private fun QRCode.EnrollTokenExchange.handleEnrollExchangeToken() {
+        viewModelScope.launch {
+            try {
+                val activationCode =
+                    FuturaeSDK.client.operationsApi.exchangeTokenForEnrollmentActivationCode(
+                        exchangeToken
+                    ).await()
+                _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(activationCode))
+            } catch (e: Throwable) {
+                Timber.e(e)
+            }
         }
     }
 }

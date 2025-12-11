@@ -15,7 +15,7 @@ sealed class AuthRequestData {
 
     data class OnlineQRCode(
         private val qrCode: QRCode.Online
-    ): AuthRequestData() {
+    ) : AuthRequestData() {
 
         private val userId = qrCode.userId
         private val sessionToken = qrCode.sessionToken
@@ -29,7 +29,7 @@ sealed class AuthRequestData {
             OnlineQR(qrCodeContent = qrCode.rawCode)
     }
 
-    sealed class Usernameless: AuthRequestData() {
+    sealed class Usernameless : AuthRequestData() {
 
         protected abstract val sessionToken: String
 
@@ -40,7 +40,7 @@ sealed class AuthRequestData {
             userId = account.userId
         )
 
-        data class QR(private val qrCode: QRCode.Usernameless): Usernameless() {
+        data class QR(private val qrCode: QRCode.Usernameless) : Usernameless() {
 
             override val sessionToken = qrCode.sessionToken
 
@@ -67,13 +67,13 @@ sealed class AuthRequestData {
 
     data class OfflineQRCode(
         val qrCode: QRCode.Offline
-    ): AuthRequestData()
+    ) : AuthRequestData()
 
     data class PushNotification(
         val approveSession: ApproveSession,
         val userId: String?,
         val encryptedExtras: String?
-    ): AuthRequestData()
+    ) : AuthRequestData()
 
     data class AuthSession(
         val userId: String,

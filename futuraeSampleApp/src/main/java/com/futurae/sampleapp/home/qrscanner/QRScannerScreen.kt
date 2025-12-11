@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun QRScannerScreen(
     onInvalidQRCode: () -> Unit,
-    onEnrollmentRequest: (EnrollmentCase.QRCodeScan) -> Unit,
+    onEnrollmentRequest: (EnrollmentCase.ActivationCodeInput) -> Unit,
     onAuthRequest: (AuthRequestData) -> Unit
 ) {
     val qrScannerViewModel: QRScannerViewModel = viewModel(

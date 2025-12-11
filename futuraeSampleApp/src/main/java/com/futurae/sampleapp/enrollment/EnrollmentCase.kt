@@ -11,7 +11,7 @@ sealed class EnrollmentCase {
     abstract fun toEnrollmentInput(): EnrollmentInput
 
     @Serializable
-    data class QRCodeScan(val code: String) : EnrollmentCase() {
+    data class ActivationCodeInput(val code: String) : EnrollmentCase() {
 
         override fun toEnrollmentInput(): EnrollmentInput = ActivationCode(code)
     }

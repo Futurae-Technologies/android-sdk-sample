@@ -141,10 +141,14 @@
     <string name="debug_qr_code_invalid_type">Invalid QR code</string>
     <string name="debug_qr_code_user_id">User id: %1$s</string>
     <string name="debug_qr_code_session_token">Session token: %1$s</string>
+    <string name="debug_qr_code_enroll_token_exchange">Enroll Exchange Token: %1$s</string>
+    <string name="debug_qr_code_auth_token_exchange">Auth Exchange Token: %1$s</string>
     <string name="debug_uri_utils">Debug URI utils</string>
     <string name="debug_uri_utils_subtitle">Solely for testing purposes to verify URI utils alternatives work as expected</string>
     <string name="debug_uri_utils_enroll_uri">Enroll URI</string>
+    <string name="debug_uri_utils_enroll_token_exchange_uri">Enroll URI with token exchange</string>
     <string name="debug_uri_utils_auth_uri">Auth URI</string>
+    <string name="debug_uri_utils_auth_token_exchange_uri">Auth URI with token exchange</string>
     <string name="debug_uri_utils_unknown_uri">Unknown URI</string>
     <string name="adaptive">Adaptive</string>
     <string name="adaptive_subtitle">Enable Adaptive capabilities</string>
