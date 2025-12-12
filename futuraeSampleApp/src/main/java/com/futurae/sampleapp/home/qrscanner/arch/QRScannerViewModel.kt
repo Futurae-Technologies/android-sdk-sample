@@ -109,6 +109,7 @@ class QRScannerViewModel : ViewModel() {
                 )
             } catch (e: Throwable) {
                 Timber.e(e)
+                _onFailure.emit(Unit)
             }
         }
     }
@@ -123,6 +124,7 @@ class QRScannerViewModel : ViewModel() {
                 _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(activationCode))
             } catch (e: Throwable) {
                 Timber.e(e)
+                _onFailure.emit(Unit)
             }
         }
     }
