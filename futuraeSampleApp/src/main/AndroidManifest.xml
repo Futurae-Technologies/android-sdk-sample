@@ -52,6 +52,9 @@
                 <data android:pathPrefix="/futurae_enroll"/>
                 <data android:pathPrefix="/futurae_auth"/>
                 <data android:pathPrefix="/futurae_usernameless_auth"/>
+                <data android:pathPrefix="/enroll_exchange"/>
+                <data android:pathPrefix="/auth_exchange"/>
+
             </intent-filter>
         </activity>
 
