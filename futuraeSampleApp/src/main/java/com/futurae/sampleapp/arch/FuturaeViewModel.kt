@@ -19,6 +19,8 @@ import com.futurae.sdk.public_api.account.model.AccountQuery
 import com.futurae.sdk.public_api.common.FuturaeSDKStatus
 import com.futurae.sdk.public_api.exception.FTApiTimeoutException
 import com.futurae.sdk.public_api.session.model.ApproveSession
+import com.futurae.sdk.public_api.session.model.ByToken
+import com.futurae.sdk.public_api.session.model.SessionInfoQuery
 import com.futurae.sdk.public_api.uri.model.FTRUriType
 import com.futurae.sdk.utils.FTUriUtils
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -243,8 +245,62 @@ class FuturaeViewModel(
             is FTRUriType.Auth -> handleAuthenticationURI(uri)
             is FTRUriType.Enroll -> handleEnrollmentURI(uri)
             is FTRUriType.UsernamelessAuth -> handleUsernamelessAuth(ftrUriType)
+            is FTRUriType.AuthExchangeToken -> handleTokenExchangeAuthUri(ftrUriType)
+            is FTRUriType.EnrollExchangeToken -> handleTokenExchangeEnrollUri(ftrUriType)
             is FTRUriType.Unknown -> {
                 // do nothing
+            }
+        }
+    }
+
+    private fun handleTokenExchangeEnrollUri(ftrUriType: FTRUriType.EnrollExchangeToken) {
+        viewModelScope.launch {
+            try {
+                val activationCode =
+                    FuturaeSDK.client.operationsApi.exchangeTokenForEnrollmentActivationCode(
+                        ftrUriType.exchangeToken
+                    ).await()
+                _onEnrollmentRequest.emit(EnrollmentCase.ActivationCodeInput(activationCode))
+            } catch (e: Throwable) {
+                Timber.e(e)
+                notifyUser(
+                    message = TextWrapper.Resource(
+                        R.string.account_enrollment_failed,
+                        listOf(e.localizedMessage ?: "")
+                    ),
+                    isError = true
+                )
+            }
+        }
+    }
+
+    private fun handleTokenExchangeAuthUri(ftrUriType: FTRUriType.AuthExchangeToken) {
+        viewModelScope.launch {
+            try {
+                val sessionToken =
+                    FuturaeSDK.client.operationsApi.exchangeTokenForSessionToken(ftrUriType.exchangeToken)
+                        .await()
+                val sessionInfo = FuturaeSDK.client.sessionApi.getSessionInfo(
+                    SessionInfoQuery(
+                        ByToken(sessionToken),
+                        userId = ftrUriType.userId
+                    )
+                ).await()
+                _onAuthRequest.emit(
+                    AuthRequestData.AuthSession(
+                        ftrUriType.userId,
+                        ApproveSession(sessionInfo)
+                    )
+                )
+            } catch (e: Throwable) {
+                Timber.e(e)
+                notifyUser(
+                    message = TextWrapper.Resource(
+                        R.string.error_message_authentication_failed,
+                        listOf(e.localizedMessage ?: "")
+                    ),
+                    isError = true
+                )
             }
         }
     }

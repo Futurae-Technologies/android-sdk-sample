@@ -151,6 +151,9 @@ class DebugQRCodeUtilsViewModel : ViewModel() {
                     qrCodeType.sessionToken
                 )
             }
+
+            is QRCode.EnrollTokenExchange,
+            is QRCode.AuthTokenExchange->  throw UnsupportedOperationException("Token exchange is not supported with legacy QR api")
         }
     }
 
@@ -161,6 +164,8 @@ class DebugQRCodeUtilsViewModel : ViewModel() {
         is QRCode.Offline -> R.string.debug_qr_code_offline_type
         is QRCode.Online -> R.string.debug_qr_code_online_type
         is QRCode.Usernameless -> R.string.debug_qr_code_usernameless_type
+        is QRCode.EnrollTokenExchange -> R.string.debug_qr_code_enroll_token_exchange
+        is QRCode.AuthTokenExchange -> R.string.debug_qr_code_auth_token_exchange
     }
 
     sealed class DebugQRCodeUtilsUIState {

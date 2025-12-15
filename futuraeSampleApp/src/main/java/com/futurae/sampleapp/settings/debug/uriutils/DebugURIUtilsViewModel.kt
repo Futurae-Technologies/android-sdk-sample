@@ -65,7 +65,9 @@ class DebugURIUtilsViewModel: ViewModel() {
 
     private fun String.handleUsingLegacyImplementation(): URIHandlingResult {
         val isEnroll = FTUriUtils.isEnrollUri(this)
+        val isEnrollWithTokenExchange = FTUriUtils.isEnrollWithTokenExchangeUri(this)
         val isAuth = FTUriUtils.isAuthUri(this)
+        val isAuthWithTokenExchange = FTUriUtils.isAuthWithTokenExchangeUri(this)
 
         return when {
             isEnroll -> {
@@ -86,7 +88,7 @@ class DebugURIUtilsViewModel: ViewModel() {
                     )
                 )
             }
-
+            // Token exchange uris are not supported for legacy implementation. Please use `FTRUriType` instead.
             else -> {
                 URIHandlingResult(
                     type = URI.UNKNOWN,
@@ -131,6 +133,20 @@ class DebugURIUtilsViewModel: ViewModel() {
                 "sessionToken" to result.sessionToken
             )
         )
+
+        is FTRUriType.AuthExchangeToken -> URIHandlingResult(
+            type = URI.AUTH_TOKEN_EXCHANGE,
+            extractedInfo = mapOf(
+                "exchangeToken" to result.exchangeToken
+            )
+        )
+
+        is FTRUriType.EnrollExchangeToken -> URIHandlingResult(
+            type = URI.ENROLL_TOKEN_EXCHANGE,
+            extractedInfo = mapOf(
+                "exchangeToken" to result.exchangeToken
+            )
+        )
     }
 
     sealed class DebugURIUtilsUIState {
@@ -152,7 +168,9 @@ class DebugURIUtilsViewModel: ViewModel() {
 
     enum class URI(@Suppress val label: Int) {
         ENROLL(R.string.debug_uri_utils_enroll_uri),
+        ENROLL_TOKEN_EXCHANGE(R.string.debug_uri_utils_enroll_token_exchange_uri),
         AUTH(R.string.debug_uri_utils_auth_uri),
+        AUTH_TOKEN_EXCHANGE(R.string.debug_uri_utils_auth_token_exchange_uri),
         UNKNOWN(R.string.debug_uri_utils_unknown_uri);
     }
 }
