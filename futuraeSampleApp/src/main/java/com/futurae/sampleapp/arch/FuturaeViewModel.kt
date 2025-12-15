@@ -263,6 +263,13 @@ class FuturaeViewModel(
                 _onEnrollmentRequest.emit(EnrollmentCase.ActivationCodeInput(activationCode))
             } catch (e: Throwable) {
                 Timber.e(e)
+                notifyUser(
+                    message = TextWrapper.Resource(
+                        R.string.account_enrollment_failed,
+                        listOf(e.localizedMessage ?: "")
+                    ),
+                    isError = true
+                )
             }
         }
     }
@@ -287,6 +294,13 @@ class FuturaeViewModel(
                 )
             } catch (e: Throwable) {
                 Timber.e(e)
+                notifyUser(
+                    message = TextWrapper.Resource(
+                        R.string.error_message_authentication_failed,
+                        listOf(e.localizedMessage ?: "")
+                    ),
+                    isError = true
+                )
             }
         }
     }
