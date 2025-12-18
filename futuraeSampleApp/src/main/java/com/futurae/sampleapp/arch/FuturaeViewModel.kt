@@ -80,6 +80,7 @@ class FuturaeViewModel(
     private var pendingBroadcastReceivedMessage: FTRNotificationEvent? = null
 
     private var getAccountStatus: Job? = null
+    private var lastHandledSessionId: String? = null
 
     init {
         viewModelScope.launch {
@@ -110,7 +111,10 @@ class FuturaeViewModel(
                             ApproveSession(activeSession)
                         )
 
-                        _onAuthRequest.emit(authRequestData)
+                        if (lastHandledSessionId != activeSession.sessionId) {
+                            lastHandledSessionId = activeSession.sessionId
+                            _onAuthRequest.emit(authRequestData)
+                        }
                     }
                 }.onFailure {
                     _snackbarUIState.emit(
