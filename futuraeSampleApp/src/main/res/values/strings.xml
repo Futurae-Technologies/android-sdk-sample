@@ -202,6 +202,11 @@
     <string name="sdk_clear_keys_subtitle">Delete all SDK keys to corrupt SDK state. This is unrecoverable</string>
     <string name="sdk_corrut_db">Corrupt DB tokens</string>
     <string name="sdk_corrut_db_subtitle">Clear DB tokens for enrolled accounts to corrupt SDK state</string>
+    <string name="sdk_clear_auth_sig_key">Delete authentication signing key</string>
+    <string name="sdk_clear_signing_key_subtitle">Delete key to corrupt SDK state. On following SDK launch new key will be generated and shared with backend to recover the SDK state.</string>
+    <string name="sdk_clear_tx_sig_key">Delete transaction signing key</string>
+    <string name="sdk_clear_e2ee_kek">Delete e2ee kek</string>
+    <string name="sdk_clear_e2ee_key">Delete e2ee key</string>
 
     <string name="account_migration_confirmation_dialog">SDK Account Migration</string>
     <string name="restore_accounts_banner_title">You have active accounts</string>

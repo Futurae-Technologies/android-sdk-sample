@@ -123,6 +123,70 @@ class SDKDebugUtilViewModel(
                     }
                 }
             ),
+            SettingsItem(
+                title = TextWrapper.Resource(R.string.sdk_clear_auth_sig_key),
+                subtitle = TextWrapper.Resource(R.string.sdk_clear_signing_key_subtitle),
+                isItemWithWarning = true,
+                actionCallback = {
+                    val snackbarUIState = try {
+                        FuturaeDebugUtil.corruptAuthenticationSigningKey(getApplication())
+                        FuturaeSnackbarUIState.Success(TextWrapper.Primitive("Corrupted SDK Authentication Signing Key"))
+                    } catch (t : Throwable) {
+                        FuturaeSnackbarUIState.Error(TextWrapper.Primitive(t.message ?: "Unknown Error"))
+                    }
+                    viewModelScope.launch {
+                        _snackbarUIState.emit(snackbarUIState)
+                    }
+                }
+            ),
+            SettingsItem(
+                title = TextWrapper.Resource(R.string.sdk_clear_tx_sig_key),
+                subtitle = TextWrapper.Resource(R.string.sdk_clear_signing_key_subtitle),
+                isItemWithWarning = true,
+                actionCallback = {
+                    val snackbarUIState = try {
+                        FuturaeDebugUtil.corruptTransactionSigningKey(getApplication())
+                        FuturaeSnackbarUIState.Success(TextWrapper.Primitive("Corrupted SDK Transaction Signing Key"))
+                    } catch (t : Throwable) {
+                        FuturaeSnackbarUIState.Error(TextWrapper.Primitive(t.message ?: "Unknown Error"))
+                    }
+                    viewModelScope.launch {
+                        _snackbarUIState.emit(snackbarUIState)
+                    }
+                }
+            ),
+            SettingsItem(
+                title = TextWrapper.Resource(R.string.sdk_clear_e2ee_kek),
+                subtitle = TextWrapper.Resource(R.string.sdk_clear_signing_key_subtitle),
+                isItemWithWarning = true,
+                actionCallback = {
+                    val snackbarUIState = try {
+                        FuturaeDebugUtil.corruptE2EEKEK(getApplication())
+                        FuturaeSnackbarUIState.Success(TextWrapper.Primitive("Corrupted E2EEKEK"))
+                    } catch (t : Throwable) {
+                        FuturaeSnackbarUIState.Error(TextWrapper.Primitive(t.message ?: "Unknown Error"))
+                    }
+                    viewModelScope.launch {
+                        _snackbarUIState.emit(snackbarUIState)
+                    }
+                }
+            ),
+            SettingsItem(
+                title = TextWrapper.Resource(R.string.sdk_clear_e2ee_key),
+                subtitle = TextWrapper.Resource(R.string.sdk_clear_signing_key_subtitle),
+                isItemWithWarning = true,
+                actionCallback = {
+                    val snackbarUIState = try {
+                        FuturaeDebugUtil.corruptE2EEKey(getApplication())
+                        FuturaeSnackbarUIState.Success(TextWrapper.Primitive("Corrupted E2EE Key"))
+                    } catch (t : Throwable) {
+                        FuturaeSnackbarUIState.Error(TextWrapper.Primitive(t.message ?: "Unknown Error"))
+                    }
+                    viewModelScope.launch {
+                        _snackbarUIState.emit(snackbarUIState)
+                    }
+                }
+            ),
             activateBiometricsItem(),
             deactivateBiometricsItem(),
             SettingsItem(
