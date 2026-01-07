@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -16,10 +17,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.arch.FuturaeViewModel
 import com.futurae.sampleapp.arch.PinProviderViewModel
 import com.futurae.sampleapp.arch.ResultInformativeViewModel
-import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.navigation.FuturaeNavigationGraph
 import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.arch.AuthenticationViewModel
 import com.futurae.sampleapp.ui.shared.elements.topappbar.arch.FuturaeAppBarViewModel
@@ -47,6 +48,10 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
         enableEdgeToEdge()
         super<FragmentActivity>.onCreate(savedInstanceState)
         setContent {
