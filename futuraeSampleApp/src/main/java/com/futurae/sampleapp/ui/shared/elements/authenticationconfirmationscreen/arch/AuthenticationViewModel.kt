@@ -5,15 +5,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.arch.AuthRequestData
-import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.ApproveAuthRequestUserCase
-import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.GetApproveSessionUseCase
-import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.GetOfflineQRVerificationCodeUseCase
-import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.RejectAuthRequestUseCase
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.AuthenticationConfirmationComposableScreenUIState
 import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.AuthenticationConfirmationUserResponse
 import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.AuthenticationScreenContent
 import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.InfoItemUIState
+import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.ApproveAuthRequestUserCase
+import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.GetApproveSessionUseCase
+import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.GetOfflineQRVerificationCodeUseCase
+import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.usecase.RejectAuthRequestUseCase
 import com.futurae.sampleapp.ui.shared.elements.serviceinfosection.ServiceInfoSectionUIState
 import com.futurae.sampleapp.ui.shared.elements.snackbar.FuturaeSnackbarUIState
 import com.futurae.sampleapp.ui.shared.elements.timeoutIndicator.startCountdown
@@ -22,11 +22,9 @@ import com.futurae.sdk.public_api.account.model.AccountQuery
 import com.futurae.sdk.public_api.auth.model.SessionId
 import com.futurae.sdk.public_api.auth.model.SessionIdentificationOption
 import com.futurae.sdk.public_api.common.model.FTAccount
-import com.futurae.sdk.public_api.exception.FTException
 import com.futurae.sdk.public_api.session.model.ApproveInfo
 import com.futurae.sdk.public_api.session.model.ApproveSession
 import com.futurae.sdk.public_api.session.model.ById
-import com.futurae.sdk.public_api.session.model.ByToken
 import com.futurae.sdk.public_api.session.model.SessionInfoQuery
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -39,7 +37,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class AuthenticationViewModel(
     private val getApproveSessionUseCase: GetApproveSessionUseCase,
@@ -344,19 +341,6 @@ class AuthenticationViewModel(
         }
 
         when {
-            authRequestData.encryptedExtras != null -> {
-                decryptExtras(
-                    userId = userId,
-                    encryptedExtras = authRequestData.encryptedExtras
-                ) {
-                    notifyUserForApproval(
-                        sessionIdentificationOption = SessionId(userId, approveSession.sessionId),
-                        approveSession = approveSession,
-                        extraInfo = it
-                    )
-                }
-            }
-
             approveSession.hasExtraInfo() -> {
                 viewModelScope.launch {
                     getSessionInfo(
@@ -381,24 +365,6 @@ class AuthenticationViewModel(
                 )
             }
         }
-    }
-
-    private fun decryptExtras(
-        userId: String,
-        encryptedExtras: String,
-        onSuccessfulDecryption: (List<ApproveInfo>?) -> Unit
-    ) {
-        val decryptedExtras = try {
-            FuturaeSDK.client.operationsApi.decryptPushNotificationExtraInfo(
-                userId = userId,
-                encryptedExtrasString = encryptedExtras
-            )
-        } catch (e: FTException) {
-            Timber.e("Unable to parse decrypted extra info: ${e.message}")
-            null
-        }
-
-        onSuccessfulDecryption(decryptedExtras)
     }
 
     private fun notifyUserForApproval(
@@ -539,13 +505,9 @@ class AuthenticationViewModel(
                     )
                 } else {
                     val details = mutableListOf<InfoItemUIState>()
-                    session.info?.forEach {
-                        details.add(it.mapToInfoItemUIState())
-                    }
                     extraInfo?.forEach {
                         details.add(it.mapToInfoItemUIState())
                     }
-
                     AuthenticationScreenContent.Details(details = details)
                 },
                 authenticationType = TextWrapper.Resource(
