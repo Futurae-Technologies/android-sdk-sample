@@ -33,8 +33,8 @@ class QRScannerViewModel : ViewModel() {
     private val _onFailure = MutableSharedFlow<Unit>()
     val onFailure: SharedFlow<Unit> = _onFailure
 
-    private val _onEnrollmentFlowRequested = MutableSharedFlow<EnrollmentCase.ActivationCodeInput>()
-    val onEnrollmentFlowRequest: SharedFlow<EnrollmentCase.ActivationCodeInput> = _onEnrollmentFlowRequested
+    private val _onEnrollmentFlowRequested = MutableSharedFlow<EnrollmentCase>()
+    val onEnrollmentFlowRequest: SharedFlow<EnrollmentCase> = _onEnrollmentFlowRequested
 
     fun handleUserInteraction(userInteraction: QRScannerScreenUserInteraction) {
         when (userInteraction) {
@@ -64,7 +64,7 @@ class QRScannerViewModel : ViewModel() {
 
     private fun initiateEnrollmentFlow(qrCode: String) {
         viewModelScope.launch {
-            _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(qrCode))
+            _onEnrollmentFlowRequested.emit(EnrollmentCase.ManualEntry(qrCode))
         }
     }
 
@@ -117,11 +117,11 @@ class QRScannerViewModel : ViewModel() {
     private fun QRCode.EnrollTokenExchange.handleEnrollExchangeToken() {
         viewModelScope.launch {
             try {
-                val activationCode =
+                val activationShortCode =
                     FuturaeSDK.client.operationsApi.exchangeTokenForEnrollmentActivationCode(
                         exchangeToken
                     ).await()
-                _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(activationCode))
+                _onEnrollmentFlowRequested.emit(EnrollmentCase.ManualEntry(activationShortCode))
             } catch (e: Throwable) {
                 Timber.e(e)
                 _onFailure.emit(Unit)
