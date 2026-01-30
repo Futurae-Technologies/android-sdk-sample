@@ -64,7 +64,7 @@ class QRScannerViewModel : ViewModel() {
 
     private fun initiateEnrollmentFlow(qrCode: String) {
         viewModelScope.launch {
-            _onEnrollmentFlowRequested.emit(EnrollmentCase.ManualEntry(qrCode))
+            _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(qrCode))
         }
     }
 
