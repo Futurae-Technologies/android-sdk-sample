@@ -256,11 +256,11 @@ class FuturaeViewModel(
     private fun handleTokenExchangeEnrollUri(ftrUriType: FTRUriType.EnrollExchangeToken) {
         viewModelScope.launch {
             try {
-                val activationCode =
+                val activationShortCode =
                     FuturaeSDK.client.operationsApi.exchangeTokenForEnrollmentActivationCode(
                         ftrUriType.exchangeToken
                     ).await()
-                _onEnrollmentRequest.emit(EnrollmentCase.ActivationCodeInput(activationCode))
+                _onEnrollmentRequest.emit(EnrollmentCase.ManualEntry(activationShortCode))
             } catch (e: Throwable) {
                 Timber.e(e)
                 notifyUser(
