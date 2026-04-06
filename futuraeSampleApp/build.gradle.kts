@@ -85,6 +85,7 @@ android {
     packagingOptions {
         resources {
             excludes.add("META-INF/DEPENDENCIES")
+            excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
         }
     }
 
