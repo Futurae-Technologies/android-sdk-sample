@@ -48,10 +48,12 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
+        if(BuildConfig.ENABLE_SECURE_WINDOW) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        }
         enableEdgeToEdge()
         super<FragmentActivity>.onCreate(savedInstanceState)
         setContent {
