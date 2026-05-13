@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.futurae.sampleapp.BuildConfig
 import com.futurae.sampleapp.ui.shared.elements.authenticationconfirmationscreen.arch.AuthenticationViewModel
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 import com.futurae.sampleapp.ui.theme.SuccessColor
@@ -28,7 +29,11 @@ fun AuthenticationRouteComposable(
     }
 
     val approvalUIState by viewModel.approvalUIState.collectAsStateWithLifecycle()
-    val timeoutProgress by viewModel.timeoutCountdownProgress.collectAsStateWithLifecycle()
+    val timeoutProgress = if (BuildConfig.DISABLE_ANIMATIONS) {
+        1f
+    } else {
+        viewModel.timeoutCountdownProgress.collectAsStateWithLifecycle().value
+    }
     val shouldShowLoader by viewModel.showProgressLoader.collectAsStateWithLifecycle()
 
     LaunchedEffect(approvalUIState) {

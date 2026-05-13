@@ -10,31 +10,42 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
+import com.futurae.sampleapp.BuildConfig
 import com.futurae.sampleapp.ui.theme.DisableColor
 import com.futurae.sampleapp.ui.theme.SuccessColor
 import com.futurae.sampleapp.ui.theme.WarningColor
 
 @Composable
 fun TimeoutIndicator(progress: Float) {
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        label = "Timeout animation"
-    )
+    val displayProgress = if (BuildConfig.DISABLE_ANIMATIONS) {
+        progress
+    } else {
+        val animatedProgress by animateFloatAsState(
+            targetValue = progress,
+            label = "Timeout animation"
+        )
+        animatedProgress
+    }
 
     val progressColor = when {
-        animatedProgress > 0.2f -> SuccessColor
+        displayProgress > 0.2f -> SuccessColor
         else -> WarningColor
     }
 
-    val animatedColor by animateColorAsState(
-        targetValue = progressColor,
-        label = "Color animation"
-    )
+    val displayColor = if (BuildConfig.DISABLE_ANIMATIONS) {
+        progressColor
+    } else {
+        val animatedColor by animateColorAsState(
+            targetValue = progressColor,
+            label = "Color animation"
+        )
+        animatedColor
+    }
 
     LinearProgressIndicator(
-        progress = { animatedProgress },
+        progress = { displayProgress },
         modifier = Modifier.fillMaxWidth().height(6.dp),
-        color = animatedColor,
+        color = displayColor,
         strokeCap = StrokeCap.Square,
         trackColor = DisableColor,
         gapSize = (-15).dp,
