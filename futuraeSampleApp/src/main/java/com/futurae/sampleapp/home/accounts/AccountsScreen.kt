@@ -193,7 +193,9 @@ private fun AccountList(
         mutableStateOf<FuturaeAlertDialogUIState?>(null)
     }
 
-    TimeoutIndicator(progress = timeoutProgress)
+    if (BuildConfig.BUILD_TYPE != "qa") {
+        TimeoutIndicator(progress = timeoutProgress)
+    }
 
     LazyColumn(
         modifier = Modifier
