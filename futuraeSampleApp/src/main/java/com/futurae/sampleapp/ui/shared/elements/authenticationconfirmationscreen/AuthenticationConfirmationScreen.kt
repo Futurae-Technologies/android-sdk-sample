@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.futurae.sampleapp.BuildConfig
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.buttons.ActionButton
@@ -72,7 +73,9 @@ fun AuthenticationConfirmationScreen(
             textColor = OnPrimaryColor
         )
 
-        TimeoutIndicator(progress = timeoutCountdownProgress)
+        if (BuildConfig.BUILD_TYPE != "qa") {
+            TimeoutIndicator(progress = timeoutCountdownProgress)
+        }
 
         AnimatedContent(
             targetState = uiState.content,

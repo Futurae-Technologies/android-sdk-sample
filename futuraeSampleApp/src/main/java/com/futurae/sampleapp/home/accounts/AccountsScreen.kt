@@ -1,5 +1,6 @@
 package com.futurae.sampleapp.home.accounts
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +50,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.futurae.sampleapp.BuildConfig
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.arch.FuturaeViewModel
@@ -85,7 +88,11 @@ fun AccountsScreen(
 
     val uiState by accountsViewModel.uiState.collectAsStateWithLifecycle()
     val restoreAccountsBannerUIState by accountsViewModel.restorationBannerUIState.collectAsStateWithLifecycle()
-    val timeoutProgress by accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle()
+    val timeoutProgress = if (BuildConfig.BUILD_TYPE == "qa") {
+        1f
+    } else {
+        accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle().value
+    }
 
     AccountsScreen(
         uiState = uiState,
@@ -109,6 +116,10 @@ fun AccountsScreen(
         accountsRecoveryCheckViewModel.migrationInfo
             .onEach { accountsViewModel.onMigrationInfoChanges(it) }
             .launchIn(this)
+    }
+
+    SideEffect {
+        Log.e("ReComposition", "Recomposing UI")
     }
 
     DisposableEffect(lifecycleOwner) {
@@ -182,7 +193,9 @@ private fun AccountList(
         mutableStateOf<FuturaeAlertDialogUIState?>(null)
     }
 
-    TimeoutIndicator(progress = timeoutProgress)
+    if (BuildConfig.BUILD_TYPE != "qa") {
+        TimeoutIndicator(progress = timeoutProgress)
+    }
 
     LazyColumn(
         modifier = Modifier

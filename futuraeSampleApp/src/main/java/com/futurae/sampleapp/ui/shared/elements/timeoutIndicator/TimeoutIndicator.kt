@@ -16,25 +16,27 @@ import com.futurae.sampleapp.ui.theme.WarningColor
 
 @Composable
 fun TimeoutIndicator(progress: Float) {
-    val animatedProgress by animateFloatAsState(
+    val displayProgress by animateFloatAsState(
         targetValue = progress,
         label = "Timeout animation"
     )
 
     val progressColor = when {
-        animatedProgress > 0.2f -> SuccessColor
+        displayProgress > 0.2f -> SuccessColor
         else -> WarningColor
     }
 
-    val animatedColor by animateColorAsState(
+    val displayColor by animateColorAsState(
         targetValue = progressColor,
         label = "Color animation"
     )
 
     LinearProgressIndicator(
-        progress = { animatedProgress },
-        modifier = Modifier.fillMaxWidth().height(6.dp),
-        color = animatedColor,
+        progress = { displayProgress },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(6.dp),
+        color = displayColor,
         strokeCap = StrokeCap.Square,
         trackColor = DisableColor,
         gapSize = (-15).dp,
