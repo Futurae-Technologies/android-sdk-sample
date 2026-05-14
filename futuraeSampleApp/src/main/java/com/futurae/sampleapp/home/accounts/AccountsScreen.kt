@@ -48,6 +48,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.futurae.sampleapp.BuildConfig
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.arch.FuturaeViewModel
@@ -85,7 +86,11 @@ fun AccountsScreen(
 
     val uiState by accountsViewModel.uiState.collectAsStateWithLifecycle()
     val restoreAccountsBannerUIState by accountsViewModel.restorationBannerUIState.collectAsStateWithLifecycle()
-    val timeoutProgress by accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle()
+    val timeoutProgress = if (BuildConfig.DISABLE_ANIMATIONS) {
+        1f
+    } else {
+        accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle().value
+    }
 
     AccountsScreen(
         uiState = uiState,
