@@ -65,7 +65,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "SampleDebug")
             buildConfigField("Boolean", "ENABLE_SECURE_WINDOW", "false")
-            buildConfigField("boolean", "DISABLE_ANIMATIONS", "true")
         }
 
         create("qa") {
@@ -75,7 +74,6 @@ android {
             matchingFallbacks += listOf("release", "debug")
             resValue("string", "app_name", "SampleQA")
             buildConfigField("Boolean", "ENABLE_SECURE_WINDOW", "false")
-            buildConfigField("boolean", "DISABLE_ANIMATIONS", "true")
         }
 
         getByName("release") {
@@ -84,7 +82,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "Sample")
             buildConfigField("Boolean", "ENABLE_SECURE_WINDOW", "true")
-            buildConfigField("boolean", "DISABLE_ANIMATIONS", "false")
         }
     }
 

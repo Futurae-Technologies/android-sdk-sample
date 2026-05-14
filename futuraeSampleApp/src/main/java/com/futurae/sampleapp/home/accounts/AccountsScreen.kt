@@ -1,5 +1,6 @@
 package com.futurae.sampleapp.home.accounts
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -86,7 +88,7 @@ fun AccountsScreen(
 
     val uiState by accountsViewModel.uiState.collectAsStateWithLifecycle()
     val restoreAccountsBannerUIState by accountsViewModel.restorationBannerUIState.collectAsStateWithLifecycle()
-    val timeoutProgress = if (BuildConfig.DISABLE_ANIMATIONS) {
+    val timeoutProgress = if (BuildConfig.BUILD_TYPE == "qa") {
         1f
     } else {
         accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle().value
@@ -114,6 +116,10 @@ fun AccountsScreen(
         accountsRecoveryCheckViewModel.migrationInfo
             .onEach { accountsViewModel.onMigrationInfoChanges(it) }
             .launchIn(this)
+    }
+
+    SideEffect {
+        Log.e("ReComposition", "Recomposing UI")
     }
 
     DisposableEffect(lifecycleOwner) {

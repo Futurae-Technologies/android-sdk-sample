@@ -17,7 +17,7 @@ import com.futurae.sampleapp.ui.theme.WarningColor
 
 @Composable
 fun TimeoutIndicator(progress: Float) {
-    val displayProgress = if (BuildConfig.DISABLE_ANIMATIONS) {
+    val displayProgress = if (BuildConfig.BUILD_TYPE == "qa") {
         progress
     } else {
         val animatedProgress by animateFloatAsState(
@@ -32,7 +32,7 @@ fun TimeoutIndicator(progress: Float) {
         else -> WarningColor
     }
 
-    val displayColor = if (BuildConfig.DISABLE_ANIMATIONS) {
+    val displayColor = if (BuildConfig.BUILD_TYPE == "qa") {
         progressColor
     } else {
         val animatedColor by animateColorAsState(

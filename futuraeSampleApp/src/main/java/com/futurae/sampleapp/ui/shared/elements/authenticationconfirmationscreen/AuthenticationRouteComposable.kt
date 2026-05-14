@@ -29,7 +29,7 @@ fun AuthenticationRouteComposable(
     }
 
     val approvalUIState by viewModel.approvalUIState.collectAsStateWithLifecycle()
-    val timeoutProgress = if (BuildConfig.DISABLE_ANIMATIONS) {
+    val timeoutProgress = if (BuildConfig.BUILD_TYPE == "qa") {
         1f
     } else {
         viewModel.timeoutCountdownProgress.collectAsStateWithLifecycle().value
