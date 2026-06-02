@@ -60,6 +60,7 @@ android {
             manifestPlaceholders["appNameSuffix"] = " DEV"
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "SampleDebug")
+            buildConfigField("Boolean", "ENABLE_FLAG_SECURE", "false")
         }
 
         create("qa") {
@@ -68,6 +69,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release", "debug")
             resValue("string", "app_name", "SampleQA")
+            buildConfigField("Boolean", "ENABLE_FLAG_SECURE", "false")
         }
 
         getByName("release") {
@@ -75,6 +77,7 @@ android {
             applicationIdSuffix = ".prod"
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "Sample")
+            buildConfigField("Boolean", "ENABLE_FLAG_SECURE", "true")
         }
     }
 
