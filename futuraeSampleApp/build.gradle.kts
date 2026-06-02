@@ -61,6 +61,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "SampleDebug")
             buildConfigField("Boolean", "ENABLE_FLAG_SECURE", "false")
+            buildConfigField("Boolean", "ENABLE_TEST_TAGS", "true")
         }
 
         create("qa") {
@@ -70,6 +71,7 @@ android {
             matchingFallbacks += listOf("release", "debug")
             resValue("string", "app_name", "SampleQA")
             buildConfigField("Boolean", "ENABLE_FLAG_SECURE", "false")
+            buildConfigField("Boolean", "ENABLE_TEST_TAGS", "true")
         }
 
         getByName("release") {
@@ -78,6 +80,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "Sample")
             buildConfigField("Boolean", "ENABLE_FLAG_SECURE", "true")
+            buildConfigField("Boolean", "ENABLE_TEST_TAGS", "false")
         }
     }
 

@@ -131,7 +131,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
                 accountsRecoveryCheckViewModel = accountsRecoveryCheckViewModel,
                 modifier = Modifier
                     .fillMaxSize()
-                    .semantics { testTagsAsResourceId = true },
+                    .semantics { testTagsAsResourceId = BuildConfig.ENABLE_TEST_TAGS },
             )
         }
     }
