@@ -12,6 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCbrt
@@ -200,14 +203,18 @@ private fun ConfigurationScreenComposable(
         ) {
             if (!isConfigurationChange) {
                 ActionButton(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { testTag = TestTags.ConfigurationScreen.corruptDbButton },
                     onClick = {
                         FuturaeDebugUtil.corruptDBTokens(appContext)
                     },
                     text = TextWrapper.Resource(R.string.corrupt_v1_db)
                 )
                 ActionButton(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { testTag = TestTags.ConfigurationScreen.corruptKeysButton },
                     onClick = {
                         FuturaeDebugUtil.corruptV1Keys(appContext)
                     },
@@ -216,7 +223,9 @@ private fun ConfigurationScreenComposable(
             }
 
             ActionButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { testTag = TestTags.ConfigurationScreen.submitButton },
                 onClick = {
                     onSubmit()
                 },

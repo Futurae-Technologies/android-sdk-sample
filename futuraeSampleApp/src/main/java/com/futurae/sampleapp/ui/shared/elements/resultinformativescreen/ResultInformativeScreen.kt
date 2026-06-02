@@ -13,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,7 +41,10 @@ fun ResultInformativeScreen(
 
         uiState.actionCta?.let {
             FuturaeOutlinedButton(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .semantics { testTag = TestTags.ResultInformativeScreen.actionButton },
                 text = uiState.actionCta,
                 onClick = onAction
             )
@@ -67,13 +73,15 @@ fun InformativeContent(contentUIState: ResultInformativeScreenContentUIState.Inf
                 color = PrimaryColor,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.semantics { testTag = TestTags.ResultInformativeScreen.informativeTitle }
             )
             Text(
                 text = contentUIState.description.value(context),
                 color = PrimaryColor,
                 style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.semantics { testTag = TestTags.ResultInformativeScreen.informativeDescription }
             )
         }
 

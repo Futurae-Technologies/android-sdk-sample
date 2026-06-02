@@ -24,6 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -81,7 +84,7 @@ private fun AccountHistoryDetails(items: List<AccountHistoryItemUIState>) {
 private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
     val context = LocalContext.current
 
-    LazyColumn {
+    LazyColumn(modifier = Modifier.semantics { testTag = TestTags.AccountHistoryScreen.historyList }) {
         items(items = items) { item ->
             val icon = if (item.isSuccessful) {
                 R.drawable.ic_success
@@ -91,7 +94,7 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
             val fullDescription = "${item.description.first.value(context)} " +
                     item.description.second.value(context)
 
-            Column {
+            Column(modifier = Modifier.semantics { testTag = TestTags.AccountHistoryScreen.historyItem }) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -136,7 +139,8 @@ private fun AccountHistoryBlankSlate() {
         modifier = Modifier
             .background(color = OnPrimaryColor)
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .semantics { testTag = TestTags.AccountHistoryScreen.blankSlate },
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -159,7 +163,8 @@ private fun AccountHistoryErrorBlankSlate() {
         modifier = Modifier
             .background(color = OnPrimaryColor)
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .semantics { testTag = TestTags.AccountHistoryScreen.errorBlankSlate },
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

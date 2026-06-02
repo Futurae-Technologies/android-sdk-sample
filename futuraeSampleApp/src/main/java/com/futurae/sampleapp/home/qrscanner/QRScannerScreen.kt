@@ -23,6 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -156,7 +159,9 @@ fun CameraPreview(onQRCodeScanned: (String) -> Unit) {
         )
 
         Image(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .semantics { testTag = TestTags.QRScannerScreen.qrFrame },
             painter = painterResource(R.drawable.graphic_qr_frame),
             contentDescription = "QR frame"
         )

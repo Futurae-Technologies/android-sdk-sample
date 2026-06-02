@@ -32,6 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -120,7 +123,8 @@ fun LockScreen(
                             .padding(horizontal = 40.dp)
                             .clickable {
                                 viewModel.onSystemAuthRequested()
-                            },
+                            }
+                            .semantics { testTag = TestTags.LockScreen.bioCredsTitle },
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.weight(2f))
@@ -142,6 +146,7 @@ fun LockScreen(
 
             uiState.supportAlternativeAuthText?.let {
                 TextButton(
+                    modifier = Modifier.semantics { testTag = TestTags.LockScreen.alternativeAuthButton },
                     content = {
                         Text(
                             text = it.value(LocalContext.current),
@@ -223,7 +228,8 @@ fun PinLockScreen(
     Text(
         text = uiState.title.value(LocalContext.current),
         style = ItemTitleStyle,
-        color = Color.White
+        color = Color.White,
+        modifier = Modifier.semantics { testTag = TestTags.LockScreen.pinTitle }
     )
     Spacer(Modifier.height(12.dp))
     DigitCounter(
@@ -246,6 +252,7 @@ fun DigitCounter(
     error: String? = null,
 ) {
     Column(
+        modifier = Modifier.semantics { testTag = TestTags.LockScreen.pinDigitCounter },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(horizontalArrangement = Arrangement.Center) {
@@ -270,7 +277,8 @@ fun DigitCounter(
                     text = error,
                     color = WarningColor,
                     style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.semantics { testTag = TestTags.LockScreen.pinError }
                 )
 
             }
@@ -292,7 +300,9 @@ fun NumPad(
     )
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { testTag = TestTags.LockScreen.numPad },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         for (row in numbers) {
@@ -321,12 +331,14 @@ fun NumPad(
 @Composable
 fun NumPadButton(number: Int, onClick: () -> Unit) {
     val label = if (number == -1) "←" else number.toString()
+    val tag = TestTags.LockScreen.numPadButtonPrefix + if (number == -1) "backspace" else number.toString()
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .size(64.dp)
             .clip(CircleShape)
+            .semantics { testTag = tag }
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple(bounded = true)

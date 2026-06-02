@@ -37,6 +37,8 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,6 +50,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.sampleapp.R
+import com.futurae.sampleapp.TestTags
 import com.futurae.sampleapp.arch.FuturaeViewModel
 import com.futurae.sampleapp.home.accounts.arch.AccountsViewModel
 import com.futurae.sampleapp.home.accounts.restoreaccountsbanner.RestoreAccountsBanner
@@ -228,7 +231,7 @@ private fun AccountItem(
 ) {
     var showAccountActions by remember { mutableStateOf(false) }
 
-    Column {
+    Column(modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountItem }) {
         Row(
             modifier = Modifier
                 .background(OnPrimaryColor)
@@ -248,11 +251,13 @@ private fun AccountItem(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
+                    modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountServiceName },
                     text = uiState.serviceName,
                     style = FuturaeTypography.titleH4,
                     color = PrimaryColor
                 )
                 Text(
+                    modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountUsername },
                     text = uiState.username,
                     style = FuturaeTypography.bodyLarge,
                     color = Gray75
@@ -265,6 +270,7 @@ private fun AccountItem(
             ) {
                 if (uiState.isLocked) {
                     IconButton(
+                        modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.lockedAccountIcon },
                         onClick = {
                             onLockedAccountIconClicked(
                                 uiState.getLockedAccountInformativeDialogUIState()
@@ -299,6 +305,7 @@ private fun AccountItem(
                     )
                     Box {
                         Text(
+                            modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountCode },
                             text = uiState.code,
                             style = FuturaeTypography.titleH2,
                             color = PrimaryColor
@@ -343,6 +350,7 @@ private fun AccountActionsPopup(
         if (!isAccountLocked) {
             DropdownMenuItem(
                 contentPadding = PaddingValues(vertical = 2.dp, horizontal = 8.dp),
+                modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.generateHotpMenuItem },
                 text = {
                     Text(
                         text = TextWrapper.Resource(R.string.generate_hotp).value(context),
@@ -354,6 +362,7 @@ private fun AccountActionsPopup(
         }
         DropdownMenuItem(
             contentPadding = PaddingValues(vertical = 2.dp, horizontal = 8.dp),
+            modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.deleteAccountMenuItem },
             text = {
                 Text(
                     text = TextWrapper.Resource(R.string.delete_account).value(context),
@@ -371,7 +380,8 @@ private fun AccountsBlankSlate() {
         modifier = Modifier
             .background(color = OnPrimaryColor)
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .semantics { testTag = TestTags.AccountsScreen.blankSlate },
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

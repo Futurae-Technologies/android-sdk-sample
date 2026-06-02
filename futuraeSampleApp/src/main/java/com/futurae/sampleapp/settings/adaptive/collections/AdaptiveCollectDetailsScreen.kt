@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.unit.dp
 import com.futurae.sampleapp.ui.theme.OnPrimaryColor
 
@@ -24,7 +27,9 @@ fun AdaptiveCollectDetailsScreen(details: String) {
             .padding(16.dp)
     ) {
         Text(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .semantics { testTag = TestTags.AdaptiveCollectDetailsScreen.detailsText },
             text = details,
             color = Color.Black,
             style = MaterialTheme.typography.bodyMedium

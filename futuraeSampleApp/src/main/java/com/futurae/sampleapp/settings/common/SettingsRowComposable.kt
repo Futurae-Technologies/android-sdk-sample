@@ -24,6 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.futurae.sampleapp.settings.SettingsItem
@@ -52,11 +55,13 @@ fun SettingsRowComposable(item: SettingsListItem) {
 
 @Composable
 fun SettingsItemComposable(item: SettingsItem) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(OnPrimaryColor)
             .clickable(item.isItemClickable) { item.actionCallback() }
+            .semantics { testTag = TestTags.SettingsRow.settingsItemPrefix + item.title.value(context) }
     ) {
         Row(
             modifier = Modifier
@@ -101,10 +106,12 @@ fun SettingsItemComposable(item: SettingsItem) {
 
 @Composable
 fun SettingsToggleComposable(item: SettingsToggle) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(OnPrimaryColor)
+            .semantics { testTag = TestTags.SettingsRow.settingsTogglePrefix + item.title.value(context) }
     ) {
         Row(
             modifier = Modifier
@@ -116,12 +123,12 @@ fun SettingsToggleComposable(item: SettingsToggle) {
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = item.title.value(LocalContext.current),
+                    text = item.title.value(context),
                     style = ItemTitleStyle
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = item.subtitle.value(LocalContext.current),
+                    text = item.subtitle.value(context),
                     style = SubtitleStyle,
                 )
             }
@@ -129,7 +136,8 @@ fun SettingsToggleComposable(item: SettingsToggle) {
             Switch(
                 checked = item.isEnabled,
                 onCheckedChange = { item.onToggleChanged(it) },
-                colors = fTSwitchTheme()
+                colors = fTSwitchTheme(),
+                modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settingsToggleSwitchPrefix + item.title.value(context) }
             )
         }
         HorizontalDivider()
@@ -138,10 +146,12 @@ fun SettingsToggleComposable(item: SettingsToggle) {
 
 @Composable
 fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(OnPrimaryColor)
+            .semantics { testTag = TestTags.SettingsRow.settingsNestedGroupPrefix + item.title.value(context) }
     ) {
         Row(
             modifier = Modifier
@@ -151,19 +161,20 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = item.title.value(LocalContext.current),
+                    text = item.title.value(context),
                     style = ItemTitleStyle
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = item.subtitle.value(LocalContext.current),
+                    text = item.subtitle.value(context),
                     style = SubtitleStyle,
                 )
             }
             Switch(
                 checked = item.isToggled,
                 onCheckedChange = { item.onToggleChanged(it) },
-                colors = fTSwitchTheme()
+                colors = fTSwitchTheme(),
+                modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settingsNestedGroupSwitchPrefix + item.title.value(context) }
             )
         }
         HorizontalDivider(
@@ -182,7 +193,7 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = child.title.value(LocalContext.current),
+                    text = child.title.value(context),
                     style = SubtitleStyle,
                     modifier = Modifier.weight(1f),
                 )
@@ -190,7 +201,8 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
                     checked = child.isToggled,
                     onCheckedChange = { child.onToggleChanged(it) },
                     enabled = item.isToggled,
-                    colors = fTSwitchTheme()
+                    colors = fTSwitchTheme(),
+                    modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settingsNestedChildSwitchPrefix + child.title.value(context) }
                 )
             }
         }
