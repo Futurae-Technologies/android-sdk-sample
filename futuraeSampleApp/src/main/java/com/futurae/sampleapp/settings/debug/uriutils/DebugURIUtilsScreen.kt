@@ -15,9 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
-import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -79,9 +76,7 @@ private fun URIInput(
         TextField(
             value = uri,
             onValueChange = onURIChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { testTag = TestTags.DebugURIUtilsScreen.uriInput },
+            modifier = Modifier.fillMaxWidth(),
             textStyle = TextStyle(
                 textAlign = TextAlign.Center
             ),
@@ -97,7 +92,6 @@ private fun URIInput(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp, vertical = 40.dp)
-                .semantics { testTag = TestTags.DebugURIUtilsScreen.submitButton }
         )
     }
 }

@@ -43,8 +43,7 @@ fun ResultInformativeScreen(
             FuturaeOutlinedButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .semantics { testTag = TestTags.ResultInformativeScreen.actionButton },
+                    .padding(16.dp),
                 text = uiState.actionCta,
                 onClick = onAction
             )
@@ -73,15 +72,13 @@ fun InformativeContent(contentUIState: ResultInformativeScreenContentUIState.Inf
                 color = PrimaryColor,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.semantics { testTag = TestTags.ResultInformativeScreen.informativeTitle }
+                textAlign = TextAlign.Center
             )
             Text(
                 text = contentUIState.description.value(context),
                 color = PrimaryColor,
                 style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.semantics { testTag = TestTags.ResultInformativeScreen.informativeDescription }
+                textAlign = TextAlign.Center
             )
         }
 

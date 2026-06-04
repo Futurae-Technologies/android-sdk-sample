@@ -107,9 +107,7 @@ fun FuturaeFullScreenDecisionModal(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 ActionButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .semantics { testTag = TestTags.FuturaeFullScreenDecisionModal.primaryActionButton },
+                    modifier = Modifier.fillMaxWidth(),
                     text = TextWrapper.Resource(uiState.primaryActionResId),
                     onClick = onPrimaryActionClick
                 )
@@ -119,7 +117,6 @@ fun FuturaeFullScreenDecisionModal(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp)
-                        .semantics { testTag = TestTags.FuturaeFullScreenDecisionModal.secondaryActionButton }
                 ) {
                     Text(
                         text = stringResource(uiState.secondaryAction)

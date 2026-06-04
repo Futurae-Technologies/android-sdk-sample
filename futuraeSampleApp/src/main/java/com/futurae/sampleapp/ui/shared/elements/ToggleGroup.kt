@@ -11,7 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
+import com.futurae.sampleapp.TestTags
 import com.futurae.sampleapp.ui.shared.elements.configuration.SdkConfigOptionalFlag
 import com.futurae.sampleapp.ui.theme.SubtitleStyle
 import com.futurae.sampleapp.ui.theme.fTSwitchTheme
@@ -50,9 +53,32 @@ fun ToggleRow(
             style = SubtitleStyle,
         )
         Switch(
+            modifier = Modifier.semantics {
+                testTag = flag.asTestTag
+            },
             checked = isChecked,
             onCheckedChange = { onCheckChanged(flag to it) },
             colors = fTSwitchTheme()
         )
     }
 }
+
+
+private val SdkConfigOptionalFlag.asTestTag: String
+    get() = when (this) {
+        SdkConfigOptionalFlag.SKIP_HW_SECURITY -> {
+            TestTags.SdkConfiguration.skipHardwareSecurityToggle
+        }
+
+        SdkConfigOptionalFlag.REQUIRE_UNLOCKED_DEVICE -> {
+            TestTags.SdkConfiguration.requireUnlockedDeviceToggle
+        }
+
+        SdkConfigOptionalFlag.BIOMETRIC_INVALIDATION -> {
+            TestTags.SdkConfiguration.biometricInvalidationToggle
+        }
+
+        SdkConfigOptionalFlag.CHANGE_PIN_WITH_BIOMETRICS -> {
+            TestTags.SdkConfiguration.changePinWithBiometricsToggle
+        }
+    }

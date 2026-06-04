@@ -133,9 +133,7 @@ fun AuthenticationConfirmationScreen(
 
                             items(it.options) { option ->
                                 FuturaeOutlinedButton(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .semantics { testTag = TestTags.AuthenticationConfirmationScreen.multiNumberedChallengeOption },
+                                    modifier = Modifier.fillMaxSize(),
                                     text = TextWrapper.Primitive("$option")
                                 ) {
                                     onMultiNumberedChallengeResponse(option)
@@ -164,9 +162,7 @@ fun AuthenticationConfirmationScreen(
                                 iconResId = R.drawable.ic_failure,
                                 type = ActionButtonType.Warning,
                                 onClick = onReject,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .semantics { testTag = TestTags.AuthenticationConfirmationScreen.cancelButton },
+                                modifier = Modifier.weight(1f),
                                 enabled = areButtonsEnabled,
                             )
 
@@ -175,9 +171,7 @@ fun AuthenticationConfirmationScreen(
                                 iconResId = R.drawable.ic_success,
                                 type = ActionButtonType.Success,
                                 onClick = onApprove,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .semantics { testTag = TestTags.AuthenticationConfirmationScreen.approveButton },
+                                modifier = Modifier.weight(1f),
                                 enabled = areButtonsEnabled,
                             )
                         }
@@ -187,9 +181,7 @@ fun AuthenticationConfirmationScreen(
                                 text = TextWrapper.Resource(R.string.deny),
                                 type = ActionButtonType.Warning,
                                 onClick = onReject,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .semantics { testTag = TestTags.AuthenticationConfirmationScreen.denyButton }
+                                modifier = Modifier.weight(1f)
                             )
                         }
                     }

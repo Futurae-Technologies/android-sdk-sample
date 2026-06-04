@@ -10,9 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
-import com.futurae.sampleapp.TestTags
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -48,7 +45,6 @@ fun SDKDebugUtilScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(OnPrimaryColor)
-            .semantics { testTag = TestTags.SDKDebugUtilScreen.settingsList }
     ) {
         items(items) { item ->
             SettingsRowComposable(item)

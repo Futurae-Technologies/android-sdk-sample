@@ -12,9 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
-import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,9 +56,7 @@ private fun SplashScreen() {
         Image(
             painter = painterResource(R.drawable.ic_launcher_foreground),
             contentDescription = "Futurae Technologies Logo",
-            modifier = Modifier
-                .size(240.dp)
-                .semantics { testTag = TestTags.SplashScreen.logo }
+            modifier = Modifier.size(240.dp)
         )
     }
 }

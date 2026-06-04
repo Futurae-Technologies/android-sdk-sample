@@ -119,8 +119,7 @@ fun ActivationCodeScreen(
             onClick = { activationCodeViewModel.submitCode() },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 40.dp)
-                .semantics { testTag = TestTags.ActivationCodeScreen.submitButton },
+                .padding(horizontal = 32.dp, vertical = 40.dp),
             enabled = code.replace(" ", "").length == 16
         )
     }

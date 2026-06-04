@@ -43,7 +43,9 @@ fun SettingsScreen(
             .fillMaxSize()
             .background(Tertiary)
     ) {
-        LazyColumn(modifier = Modifier.semantics { testTag = TestTags.SDKSettingsScreen.settingsList }) {
+        LazyColumn(
+            modifier = Modifier.semantics { testTag = TestTags.SDKSettingsScreen.settingsList }
+        ) {
             items(items) { item ->
                 SettingsRowComposable(item)
             }

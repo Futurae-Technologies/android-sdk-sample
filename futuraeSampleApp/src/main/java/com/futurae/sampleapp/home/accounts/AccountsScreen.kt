@@ -190,6 +190,7 @@ private fun AccountList(
         modifier = Modifier
             .fillMaxSize()
             .background(color = OnPrimaryColor)
+            .semantics { testTag = TestTags.AccountsScreen.accountsList }
     ) {
         items(
             items = accountUIStates,
@@ -251,13 +252,11 @@ private fun AccountItem(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountServiceName },
                     text = uiState.serviceName,
                     style = FuturaeTypography.titleH4,
                     color = PrimaryColor
                 )
                 Text(
-                    modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountUsername },
                     text = uiState.username,
                     style = FuturaeTypography.bodyLarge,
                     color = Gray75
@@ -270,7 +269,6 @@ private fun AccountItem(
             ) {
                 if (uiState.isLocked) {
                     IconButton(
-                        modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.lockedAccountIcon },
                         onClick = {
                             onLockedAccountIconClicked(
                                 uiState.getLockedAccountInformativeDialogUIState()
@@ -305,7 +303,6 @@ private fun AccountItem(
                     )
                     Box {
                         Text(
-                            modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountCode },
                             text = uiState.code,
                             style = FuturaeTypography.titleH2,
                             color = PrimaryColor
@@ -350,7 +347,6 @@ private fun AccountActionsPopup(
         if (!isAccountLocked) {
             DropdownMenuItem(
                 contentPadding = PaddingValues(vertical = 2.dp, horizontal = 8.dp),
-                modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.generateHotpMenuItem },
                 text = {
                     Text(
                         text = TextWrapper.Resource(R.string.generate_hotp).value(context),
@@ -362,7 +358,6 @@ private fun AccountActionsPopup(
         }
         DropdownMenuItem(
             contentPadding = PaddingValues(vertical = 2.dp, horizontal = 8.dp),
-            modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.deleteAccountMenuItem },
             text = {
                 Text(
                     text = TextWrapper.Resource(R.string.delete_account).value(context),

@@ -135,7 +135,7 @@ fun SettingsToggleComposable(item: SettingsToggle) {
                 checked = item.isEnabled,
                 onCheckedChange = { item.onToggleChanged(it) },
                 colors = fTSwitchTheme(),
-                modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settingsToggleSwitch }
+                modifier = Modifier.semantics { testTag = item.testTag }
             )
         }
         HorizontalDivider()
@@ -171,7 +171,7 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
                 checked = item.isToggled,
                 onCheckedChange = { item.onToggleChanged(it) },
                 colors = fTSwitchTheme(),
-                modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settingsToggleSwitch }
+                modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settings_toggle }
             )
 }
         HorizontalDivider(
@@ -199,7 +199,7 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
                     onCheckedChange = { child.onToggleChanged(it) },
                     enabled = item.isToggled,
                     colors = fTSwitchTheme(),
-                    modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settingsToggleSwitch }
+                    modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settings_toggle }
                 )
             }
         }
@@ -251,6 +251,7 @@ fun SettingsToggleComposablePreview() {
     val item = SettingsToggle(
         title = TextWrapper.Primitive("Adaptive Settings"),
         subtitle = TextWrapper.Primitive("Manage your adaptive features"),
+        testTag = "test tag",
         isEnabled = true,
         onToggleChanged = { },
     )

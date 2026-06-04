@@ -84,17 +84,22 @@ private fun AccountHistoryDetails(items: List<AccountHistoryItemUIState>) {
 private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
     val context = LocalContext.current
 
-    LazyColumn(modifier = Modifier.semantics { testTag = TestTags.AccountHistoryScreen.historyList }) {
+    LazyColumn(
+        modifier = Modifier.semantics { testTag = TestTags.AccountHistoryScreen.historyList }
+    ) {
         items(items = items) { item ->
-            val icon = if (item.isSuccessful) {
-                R.drawable.ic_success
+            val (icon, iconTestTag) = if (item.isSuccessful) {
+                R.drawable.ic_success to TestTags.AccountHistoryScreen.historyItemSuccess
             } else {
-                R.drawable.ic_failure
+                R.drawable.ic_failure to TestTags.AccountHistoryScreen.historyItemFailure
             }
             val fullDescription = "${item.description.first.value(context)} " +
                     item.description.second.value(context)
 
-            Column(modifier = Modifier.semantics { testTag = TestTags.AccountHistoryScreen.historyItem }) {
+            Column(
+                modifier = Modifier
+                    .semantics { testTag = TestTags.AccountHistoryScreen.historyItem }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,7 +110,7 @@ private fun AccountHistoryList(items: List<AccountHistoryItemUIState>) {
                 ) {
                     Image(
                         painterResource(icon),
-                        modifier = Modifier.size(22.dp),
+                        modifier = Modifier.size(22.dp).semantics { testTag = iconTestTag },
                         contentDescription = "Result"
                     )
 

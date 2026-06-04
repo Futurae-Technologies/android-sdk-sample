@@ -97,8 +97,7 @@ private fun CollectionList(
         ActionButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .semantics { testTag = TestTags.AdaptiveCollectionsScreen.clearCollectionsButton },
+                .wrapContentHeight(),
             text = TextWrapper.Resource(R.string.adaptive_clear_collections),
             onClick = onClearCollectionsClick
         )
