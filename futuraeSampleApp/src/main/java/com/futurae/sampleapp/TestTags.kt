@@ -111,11 +111,7 @@ object TestTags {
     }
 
     object SettingsRow {
-        const val settingsItemPrefix = "settingsItem_"
-        const val settingsTogglePrefix = "settingsToggle_"
-        const val settingsToggleSwitchPrefix = "settingsToggleSwitch_"
-        const val settingsNestedGroupPrefix = "settingsNestedGroup_"
-        const val settingsNestedGroupSwitchPrefix = "settingsNestedGroupSwitch_"
-        const val settingsNestedChildSwitchPrefix = "settingsNestedChildSwitch_"
+        const val settingsRow = "settingsRow"
+        const val settingsToggleSwitch = "settingsToggleSwitch"
     }
 }
