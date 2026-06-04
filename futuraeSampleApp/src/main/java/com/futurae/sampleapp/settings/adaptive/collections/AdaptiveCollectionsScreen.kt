@@ -17,6 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -63,12 +66,16 @@ private fun CollectionList(
             .padding(vertical = 24.dp, horizontal = 16.dp)
     ) {
         LazyColumn(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .semantics { testTag = TestTags.AdaptiveCollectionsScreen.collectionsList },
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(collections) { item ->
                 Column(
-                    modifier = Modifier.clickable { onCollectionClick(item.json) }
+                    modifier = Modifier
+                        .clickable { onCollectionClick(item.json) }
+                        .semantics { testTag = TestTags.AdaptiveCollectionsScreen.collectionItem }
                 ) {
                     Text(
                         text = item.formattedTimestamp,

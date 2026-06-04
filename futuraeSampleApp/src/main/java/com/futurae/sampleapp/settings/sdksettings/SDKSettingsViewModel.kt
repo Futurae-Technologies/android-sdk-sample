@@ -10,6 +10,7 @@ import com.futurae.sampleapp.FuturaeSampleApplication
 import com.futurae.sampleapp.navigation.FuturaeSampleDestinations
 import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.R
+import com.futurae.sampleapp.TestTags
 import com.futurae.sampleapp.settings.SettingsItem
 import com.futurae.sampleapp.settings.SettingsListItem
 import com.futurae.sampleapp.settings.SettingsSpacer
@@ -91,6 +92,7 @@ class SDKSettingsViewModel(
             SettingsToggle(
                 title = TextWrapper.Resource(R.string.flow_binding),
                 subtitle = TextWrapper.Resource(R.string.flow_binding_subtitle),
+                testTag = TestTags.SettingsRow.flowBindingSettingsToggle,
                 isEnabled = LocalStorage.isFlowBindingEnabled(),
                 onToggleChanged = {
                     LocalStorage.setFlowBindingEnabled(
@@ -104,6 +106,7 @@ class SDKSettingsViewModel(
             SettingsToggle(
                 title = TextWrapper.Resource(R.string.session_info_without_unlock),
                 subtitle = TextWrapper.Resource(R.string.session_info_without_unlock_subtitle),
+                testTag = TestTags.SettingsRow.unprotectedSessionFetchingSettingsToggle,
                 isEnabled = LocalStorage.isSessionInfoWithoutUnlockEnabled,
                 onToggleChanged = {
                     LocalStorage.setSessionInfoWithoutUnlockEnabled(

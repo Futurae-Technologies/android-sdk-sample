@@ -37,6 +37,8 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,6 +50,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.sampleapp.R
+import com.futurae.sampleapp.TestTags
 import com.futurae.sampleapp.arch.FuturaeViewModel
 import com.futurae.sampleapp.home.accounts.arch.AccountsViewModel
 import com.futurae.sampleapp.home.accounts.restoreaccountsbanner.RestoreAccountsBanner
@@ -187,6 +190,7 @@ private fun AccountList(
         modifier = Modifier
             .fillMaxSize()
             .background(color = OnPrimaryColor)
+            .semantics { testTag = TestTags.AccountsScreen.accountsList }
     ) {
         items(
             items = accountUIStates,
@@ -228,7 +232,7 @@ private fun AccountItem(
 ) {
     var showAccountActions by remember { mutableStateOf(false) }
 
-    Column {
+    Column(modifier = Modifier.semantics { testTag = TestTags.AccountsScreen.accountItem }) {
         Row(
             modifier = Modifier
                 .background(OnPrimaryColor)
@@ -371,7 +375,8 @@ private fun AccountsBlankSlate() {
         modifier = Modifier
             .background(color = OnPrimaryColor)
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .semantics { testTag = TestTags.AccountsScreen.blankSlate },
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

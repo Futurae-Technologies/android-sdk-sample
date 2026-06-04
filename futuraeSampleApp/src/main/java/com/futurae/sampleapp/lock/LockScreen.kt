@@ -245,9 +245,7 @@ fun DigitCounter(
     pinLength: Int,
     error: String? = null,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(horizontalArrangement = Arrangement.Center) {
             repeat(pinLength) { index ->
                 val isFilled = index < digitsEntered.size

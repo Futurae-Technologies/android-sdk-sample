@@ -10,6 +10,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.futurae.sampleapp.FuturaeSampleApplication
@@ -40,7 +43,9 @@ fun SettingsScreen(
             .fillMaxSize()
             .background(Tertiary)
     ) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.semantics { testTag = TestTags.SDKSettingsScreen.settingsList }
+        ) {
             items(items) { item ->
                 SettingsRowComposable(item)
             }

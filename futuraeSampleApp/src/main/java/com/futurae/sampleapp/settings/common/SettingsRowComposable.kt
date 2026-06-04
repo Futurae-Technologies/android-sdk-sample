@@ -24,6 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.futurae.sampleapp.settings.SettingsItem
@@ -57,6 +60,7 @@ fun SettingsItemComposable(item: SettingsItem) {
             .fillMaxWidth()
             .background(OnPrimaryColor)
             .clickable(item.isItemClickable) { item.actionCallback() }
+            .semantics { testTag = TestTags.SettingsRow.settingsRow }
     ) {
         Row(
             modifier = Modifier
@@ -105,6 +109,7 @@ fun SettingsToggleComposable(item: SettingsToggle) {
         modifier = Modifier
             .fillMaxWidth()
             .background(OnPrimaryColor)
+            .semantics { testTag = TestTags.SettingsRow.settingsRow }
     ) {
         Row(
             modifier = Modifier
@@ -129,7 +134,8 @@ fun SettingsToggleComposable(item: SettingsToggle) {
             Switch(
                 checked = item.isEnabled,
                 onCheckedChange = { item.onToggleChanged(it) },
-                colors = fTSwitchTheme()
+                colors = fTSwitchTheme(),
+                modifier = Modifier.semantics { testTag = item.testTag }
             )
         }
         HorizontalDivider()
@@ -142,6 +148,7 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
         modifier = Modifier
             .fillMaxWidth()
             .background(OnPrimaryColor)
+            .semantics { testTag = TestTags.SettingsRow.settingsRow }
     ) {
         Row(
             modifier = Modifier
@@ -163,9 +170,10 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
             Switch(
                 checked = item.isToggled,
                 onCheckedChange = { item.onToggleChanged(it) },
-                colors = fTSwitchTheme()
+                colors = fTSwitchTheme(),
+                modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settings_toggle }
             )
-        }
+}
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -190,7 +198,8 @@ fun SettingsNestedToggleGroupComposable(item: SettingsNestedToggleGroup) {
                     checked = child.isToggled,
                     onCheckedChange = { child.onToggleChanged(it) },
                     enabled = item.isToggled,
-                    colors = fTSwitchTheme()
+                    colors = fTSwitchTheme(),
+                    modifier = Modifier.semantics { testTag = TestTags.SettingsRow.settings_toggle }
                 )
             }
         }
@@ -242,6 +251,7 @@ fun SettingsToggleComposablePreview() {
     val item = SettingsToggle(
         title = TextWrapper.Primitive("Adaptive Settings"),
         subtitle = TextWrapper.Primitive("Manage your adaptive features"),
+        testTag = "test tag",
         isEnabled = true,
         onToggleChanged = { },
     )

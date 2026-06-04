@@ -27,6 +27,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
+import com.futurae.sampleapp.TestTags
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -220,7 +223,10 @@ fun AuthenticationConfirmationScreen(
 
 @Composable
 private fun AuthenticationDetailItem(label: TextWrapper, value: TextWrapper) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.semantics { testTag = TestTags.AuthenticationConfirmationScreen.detailItem },
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = label.value(LocalContext.current),
             style = MaterialTheme.typography.bodyMedium,

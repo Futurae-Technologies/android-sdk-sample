@@ -10,7 +10,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
@@ -48,10 +51,12 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
+        if (BuildConfig.ENABLE_FLAG_SECURE) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        }
         enableEdgeToEdge()
         super<FragmentActivity>.onCreate(savedInstanceState)
         setContent {
@@ -113,6 +118,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
         }
     }
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun FuturaeSampleApp() {
         FuturaeTheme {
@@ -123,7 +129,9 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
                 authenticationViewModel = authenticationViewModel,
                 pinProviderViewModel = pinProviderViewModel,
                 accountsRecoveryCheckViewModel = accountsRecoveryCheckViewModel,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .semantics { testTagsAsResourceId = BuildConfig.ENABLE_TEST_TAGS },
             )
         }
     }

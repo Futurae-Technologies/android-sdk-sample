@@ -37,12 +37,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.futurae.sampleapp.BuildConfig
 import com.futurae.sampleapp.R
+import com.futurae.sampleapp.TestTags
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.resultinformativescreen.ResultState
 import com.futurae.sampleapp.ui.shared.elements.serviceinfosection.ServiceInfoSection
@@ -108,7 +111,9 @@ private fun AccountHistoryTopAppBar(
             .defaultMinSize(minHeight = 150.dp),
     ) {
         IconButton(
-            modifier = Modifier.align(Alignment.Top),
+            modifier = Modifier
+                .align(Alignment.Top)
+                .semantics { testTag = TestTags.TopAppBar.navigateUpButton },
             onClick = navigateUp
         ) {
             Icon(
@@ -144,7 +149,10 @@ private fun CommonTopAppBar(
         ),
         navigationIcon = {
             if (hasBackNavigation) {
-                IconButton(onClick = navigateUp) {
+                IconButton(
+                    modifier = Modifier.semantics { testTag = TestTags.TopAppBar.navigateUpButton },
+                    onClick = navigateUp
+                ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                         contentDescription = "Back",
@@ -245,7 +253,9 @@ private fun AccountPickerTopAppBar(navigateUp: () -> Unit) {
 
         IconButton(
             onClick = navigateUp,
-            modifier = Modifier.align(Alignment.TopEnd)
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .semantics { testTag = TestTags.TopAppBar.navigateUpButton }
         ) {
             Icon(
                 imageVector = Icons.Filled.Close,

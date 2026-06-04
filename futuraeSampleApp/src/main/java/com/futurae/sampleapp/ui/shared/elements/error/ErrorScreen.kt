@@ -50,9 +50,7 @@ fun ErrorScreen(
         }
         actionCallback?.let {
             Spacer(Modifier.height(30.dp))
-            ActionButton(
-                text = TextWrapper.Resource(R.string.sdk_reset),
-            ) {
+            ActionButton(text = TextWrapper.Resource(R.string.sdk_reset)) {
                 it.invoke()
             }
         }
