@@ -1,8 +1,6 @@
 package com.futurae.sampleapp
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
@@ -13,10 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import com.futurae.sampleapp.accountsrecovery.check.arch.AccountsRecoveryCheckViewModel
 import com.futurae.sampleapp.arch.FuturaeViewModel
 import com.futurae.sampleapp.arch.PinProviderViewModel
@@ -29,8 +25,6 @@ import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.utils.NotificationHelper
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.common.LockConfigurationType
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
 
@@ -62,26 +56,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
 
         handleIntent(intent)
 
-        // Observe here so we can collect even when app is in the background
-        lifecycleScope.launch {
-            futuraeViewModel.notifyUserFlow.collect {
-                if (isAppInForeground()) {
-                    // Let compose navigation graph handle it
-                } else {
-                    if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PERMISSION_GRANTED) {
-                        NotificationHelper.showNotification(this@MainActivity, it)
-                    } else {
-                        Timber.w("POST_NOTIFICATIONS not granted. Cannot display push notification")
-                    }
-                }
-            }
-        }
-
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-    }
-
-    private fun isAppInForeground(): Boolean {
-        return ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
     }
 
     override fun onStop(owner: LifecycleOwner) {
@@ -107,8 +82,8 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
         intent.extras?.let { extras ->
             val keys = extras.keySet()
             if (keys.any { it == NotificationHelper.EXTRA_AUTH || it == NotificationHelper.EXTRA_UNENROLL }){
-                // perform account refresh
-                futuraeViewModel.fetchAccountsStatus()
+                // perform account refresh, deferring until SDK is ready if needed
+                futuraeViewModel.scheduleAccountStatusFetch()
             } else if (keys.any { it == NotificationHelper.EXTRA_QR }) {
                 // navigate to QR
             }

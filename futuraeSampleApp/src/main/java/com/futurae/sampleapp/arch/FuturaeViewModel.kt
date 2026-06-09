@@ -78,6 +78,7 @@ class FuturaeViewModel(
 
     private var pendingUri: String? = null
     private var pendingBroadcastReceivedMessage: FTRNotificationEvent? = null
+    private var pendingNotificationAccountFetch: Boolean = false
 
     private var getAccountStatus: Job? = null
     private var lastHandledSessionId: String? = null
@@ -90,8 +91,17 @@ class FuturaeViewModel(
                 .collect {
                     checkForPendingURI()
                     checkForPendingBroadcastReceivedMessage()
+                    checkForPendingNotificationAccountFetch()
                 }
         }
+    }
+
+    fun scheduleAccountStatusFetch() {
+        if (!FuturaeSDK.isSDKInitialized || FuturaeSDK.client.lockApi.isLocked()) {
+            pendingNotificationAccountFetch = true
+            return
+        }
+        fetchAccountsStatus()
     }
 
     fun fetchAccountsStatus() {
@@ -219,6 +229,13 @@ class FuturaeViewModel(
         }
     }
 
+    private fun checkForPendingNotificationAccountFetch() {
+        if (pendingNotificationAccountFetch) {
+            pendingNotificationAccountFetch = false
+            fetchAccountsStatus()
+        }
+    }
+
     private fun handleUri(uri: String) {
         when (val ftrUriType = FTUriUtils.getFTRUriType(uri)) {
             is FTRUriType.Auth -> handleAuthenticationURI(uri)
@@ -307,7 +324,8 @@ class FuturaeViewModel(
                         title = TextWrapper.Resource(R.string.sdk_notification_auth_title),
                         text = TextWrapper.Resource(R.string.sdk_notification_auth_body),
                         confirmButtonCta = TextWrapper.Resource(R.string.ok),
-                    )
+                    ),
+                    timeoutEpochMs = authenticationSessionData.session.timeout * 1000L
                 )
             )
         }
