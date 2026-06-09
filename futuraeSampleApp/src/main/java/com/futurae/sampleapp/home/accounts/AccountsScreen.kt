@@ -118,10 +118,6 @@ fun AccountsScreen(
             .launchIn(this)
     }
 
-    SideEffect {
-        Log.e("ReComposition", "Recomposing UI")
-    }
-
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {

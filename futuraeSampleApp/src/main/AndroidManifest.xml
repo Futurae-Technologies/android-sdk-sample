@@ -56,7 +56,7 @@
         </activity>
 
         <service
-            android:name="com.futurae.sdk.messaging.FTRFcmMessagingService"
+            android:name=".services.FuturaeDemoFirebaseService"
             android:exported="false">
 
             <intent-filter>

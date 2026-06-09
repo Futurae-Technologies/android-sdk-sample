@@ -11,6 +11,7 @@ enum class NotificationType {
 }
 
 data class NotificationUI(
-    val type : NotificationType,
-    val dialogState: FuturaeAlertDialogUIState
+    val type: NotificationType,
+    val dialogState: FuturaeAlertDialogUIState,
+    val timeoutEpochMs: Long? = null
 )
