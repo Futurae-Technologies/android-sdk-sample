@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.CancellationException
 
 class FuturaeDemoFirebaseService : FirebaseMessagingService() {
@@ -20,19 +21,21 @@ class FuturaeDemoFirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        coroutineScope.launch {
+        // hacky/risky to use runBlocking + Dispatchers.Main but necessary to show notifications while the app is killed.
+        // using a coroutine (async job) means the current FCM service may be killed before the coroutine completes.
+        runBlocking(Dispatchers.Main) {
             val sdkStatus = FuturaeSDK.sdkState().value.status
             if (sdkStatus == FuturaeSDKStatus.Uninitialized) {
                 val hasSdkLaunchedSuccessfully = SdkWrapper.attemptToLaunchSDKSilently(application)
                 if (!hasSdkLaunchedSuccessfully) {
-                    return@launch
+                    return@runBlocking
                 }
             } else if (sdkStatus is FuturaeSDKStatus.Corrupted) {
                 // Todo handle this
+                return@runBlocking
             }
 
-            val messageData = message.data
-            FuturaeSDK.client.operationsApi.handlePushNotification(messageData)
+            FuturaeSDK.client.operationsApi.handlePushNotification(message.data)
         }
     }
 
