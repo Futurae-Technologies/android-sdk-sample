@@ -164,6 +164,8 @@ class AuthenticationViewModel(
             is AuthRequestData.OfflineQRCode -> handleOfflineQRAuthRequest(authRequestData)
 
             is AuthRequestData.AuthSession -> handleApproveSession(authRequestData)
+
+            is AuthRequestData.URI -> fetchSessionInfoAndPromptUserForApproval(authRequestData)
         }
     }
 
@@ -249,6 +251,35 @@ class AuthenticationViewModel(
                         approveSession = ApproveSession(sessionInfo = it),
                         extraInfo = it.approveInfo,
                         ftAccount = ftAccount
+                    )
+                }
+        }
+    }
+
+    private fun fetchSessionInfoAndPromptUserForApproval(
+        uri: AuthRequestData.URI
+    ) {
+        viewModelScope.launch {
+            getSessionInfo(
+                sessionInfoQuery = SessionInfoQuery(
+                    sessionIdentifier = ByToken(uri.ftrUriType.sessionToken),
+                    userId = uri.ftrUriType.userId
+                )
+            ).onSuccess {
+                    if (it.userId.isNullOrBlank()) {
+                        failureOnFetchingSessionInfo(
+                            message = TextWrapper.Resource(
+                                R.string.error_message_session_is_missing_user_id
+                            )
+                        )
+                        return@onSuccess
+                    }
+
+                    notifyUserForApproval(
+                        sessionIdentificationOption = SessionId(uri.ftrUriType.userId, it.sessionId),
+                        approveSession = ApproveSession(sessionInfo = it),
+                        extraInfo = it.approveInfo,
+                        ftAccount = null
                     )
                 }
         }
