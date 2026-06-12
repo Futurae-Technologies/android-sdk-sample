@@ -10,6 +10,12 @@ import com.futurae.sampleapp.MainActivity
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.arch.NotificationType
 import com.futurae.sampleapp.arch.NotificationUI
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 object NotificationHelper {
 
@@ -19,16 +25,17 @@ object NotificationHelper {
     private const val CHANNEL_ID = "futurae"
     private const val CHANNEL_NAME = "Futurae"
     private const val CHANNEL_DESC = "Futurae Push Notifications"
+    private const val NOTIFICATION_ID = 1
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     fun showNotification(context: Context, notificationUI: NotificationUI) {
-        val notificationId = 1
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance).apply {
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT).apply {
             description = CHANNEL_DESC
         }
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
 
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -47,16 +54,31 @@ object NotificationHelper {
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or
-                    PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val notificationBuilder = Notification.Builder(context, CHANNEL_ID)
+        val notification = Notification.Builder(context, CHANNEL_ID)
             .setContentTitle(notificationUI.dialogState.title.value(context))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentText(notificationUI.dialogState.text.value(context))
             .setPriority(Notification.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
 
-        notificationManager.notify(notificationId, notificationBuilder.build())
+        notificationManager.notify(NOTIFICATION_ID, notification)
+
+        notificationUI.timeoutEpochMs?.let { timeoutEpochMs ->
+            scope.launch {
+                val delayMs = timeoutEpochMs - System.currentTimeMillis()
+                if (delayMs > 0) delay(delayMs.milliseconds)
+                cancelNotification(context.applicationContext, NOTIFICATION_ID)
+            }
+        }
+    }
+
+    fun cancelNotification(context: Context, notificationId: Int) {
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationId)
     }
 }
