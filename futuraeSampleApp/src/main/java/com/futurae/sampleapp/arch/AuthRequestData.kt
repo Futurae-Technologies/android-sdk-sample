@@ -78,4 +78,8 @@ sealed class AuthRequestData {
         val userId: String,
         val approveSession: ApproveSession
     ) : AuthRequestData()
+
+    data class URI(
+        val ftrUriType: FTRUriType.Auth
+    ) : AuthRequestData()
 }
