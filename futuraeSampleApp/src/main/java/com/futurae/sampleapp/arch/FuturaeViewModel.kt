@@ -307,30 +307,21 @@ class FuturaeViewModel(
     }
 
     private fun onAccountUnenroll(notification: FTRNotificationEvent.AccountUnenrollment) {
-        FuturaeSDK.client.accountApi
-            .getAccount(
-                accountQuery = AccountQuery.WhereUserIdAndDevice(
-                    userId = notification.userId,
-                    deviceId = notification.deviceId
+        viewModelScope.launch {
+            _notifyUser.emit(
+                NotificationUI(
+                    type = NotificationType.UNENROLL,
+                    dialogState = FuturaeAlertDialogUIState(
+                        title = TextWrapper.Resource(R.string.sdk_notification_unenroll_title),
+                        text = TextWrapper.Resource(
+                            R.string.sdk_notification_unenroll_body,
+                            listOf(notification.userId)
+                        ),
+                        confirmButtonCta = TextWrapper.Resource(R.string.ok),
+                    )
                 )
             )
-            ?.let {
-                viewModelScope.launch {
-                    _notifyUser.emit(
-                        NotificationUI(
-                            type = NotificationType.UNENROLL,
-                            dialogState = FuturaeAlertDialogUIState(
-                                title = TextWrapper.Resource(R.string.sdk_notification_unenroll_title),
-                                text = TextWrapper.Resource(
-                                    R.string.sdk_notification_unenroll_body,
-                                    listOf(it.userId)
-                                ),
-                                confirmButtonCta = TextWrapper.Resource(R.string.ok),
-                            )
-                        )
-                    )
-                }
-            }
+        }
     }
 
     private fun handleApproveAuth(authenticationSessionData: FTRNotificationEvent.Authentication) {
