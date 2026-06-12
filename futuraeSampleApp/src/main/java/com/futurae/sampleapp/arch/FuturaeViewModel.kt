@@ -7,7 +7,6 @@ import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.enrollment.EnrollmentCase
 import com.futurae.sampleapp.usecase.GetAccountsStatusUseCase
-import com.futurae.sampleapp.usecase.HandleURIUseCase
 import com.futurae.sampleapp.ui.TextWrapper
 import com.futurae.sampleapp.ui.shared.elements.alertdialog.FuturaeAlertDialogUIState
 import com.futurae.sampleapp.ui.shared.elements.snackbar.FuturaeSnackbarUIState
@@ -17,13 +16,11 @@ import com.futurae.sdk.messaging.FTRNotificationEvent
 import com.futurae.sdk.model.internal.FTNotificationData
 import com.futurae.sdk.public_api.account.model.AccountQuery
 import com.futurae.sdk.public_api.common.FuturaeSDKStatus
-import com.futurae.sdk.public_api.exception.FTApiTimeoutException
 import com.futurae.sdk.public_api.session.model.ApproveSession
 import com.futurae.sdk.public_api.session.model.ByToken
 import com.futurae.sdk.public_api.session.model.SessionInfoQuery
 import com.futurae.sdk.public_api.uri.model.FTRUriType
 import com.futurae.sdk.utils.FTUriUtils
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,7 +31,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class FuturaeViewModel(
-    private val handleURIUseCase: HandleURIUseCase,
     private val getAccountsStatusUseCase: GetAccountsStatusUseCase,
     private val getPendingSessionsInfoUseCase: GetPendingSessionsInfoUseCase,
 ) : ViewModel() {
@@ -45,28 +41,14 @@ class FuturaeViewModel(
             override fun <T : ViewModel> create(
                 modelClass: Class<T>
             ): T = FuturaeViewModel(
-                handleURIUseCase = HandleURIUseCase(),
                 getAccountsStatusUseCase = GetAccountsStatusUseCase(),
                 getPendingSessionsInfoUseCase = GetPendingSessionsInfoUseCase()
             ) as T
         }
     }
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        if (throwable is FTApiTimeoutException) {
-            Timber.e(throwable.diagnostics)
-        } else if (throwable.cause is FTApiTimeoutException) {
-            Timber.e((throwable.cause as FTApiTimeoutException).diagnostics)
-        }
-
-        notifyUser(
-            message = TextWrapper.Resource(R.string.uri_handling_error_message),
-            isError = true
-        )
-    }
-
     // Replay is needed here to not lose an emission due to cases this flow emitting
-    // prior someone observing, e.g. when app is opened due to an usernameless URI
+    // prior someone observing, e.g. when app is opened due to a usernameless URI
     private val _onAuthRequest = MutableSharedFlow<AuthRequestData>(replay = 1)
     val onAuthRequest: SharedFlow<AuthRequestData> = _onAuthRequest
 
@@ -242,7 +224,7 @@ class FuturaeViewModel(
 
     private fun handleUri(uri: String) {
         when (val ftrUriType = FTUriUtils.getFTRUriType(uri)) {
-            is FTRUriType.Auth -> handleAuthenticationURI(uri)
+            is FTRUriType.Auth -> handleAuthenticationURI(ftrUriType)
             is FTRUriType.Enroll -> handleEnrollmentURI(uri)
             is FTRUriType.UsernamelessAuth -> handleUsernamelessAuth(ftrUriType)
             is FTRUriType.AuthExchangeToken -> handleTokenExchangeAuthUri(ftrUriType)
@@ -263,12 +245,11 @@ class FuturaeViewModel(
                 _onEnrollmentRequest.emit(EnrollmentCase.ManualEntry(activationShortCode))
             } catch (e: Throwable) {
                 Timber.e(e)
-                notifyUser(
+                notifyUserForError(
                     message = TextWrapper.Resource(
                         R.string.account_enrollment_failed,
                         listOf(e.localizedMessage ?: "")
-                    ),
-                    isError = true
+                    )
                 )
             }
         }
@@ -294,12 +275,11 @@ class FuturaeViewModel(
                 )
             } catch (e: Throwable) {
                 Timber.e(e)
-                notifyUser(
+                notifyUserForError(
                     message = TextWrapper.Resource(
                         R.string.error_message_authentication_failed,
                         listOf(e.localizedMessage ?: "")
-                    ),
-                    isError = true
+                    )
                 )
             }
         }
@@ -314,23 +294,9 @@ class FuturaeViewModel(
         }
     }
 
-    private fun handleAuthenticationURI(uri: String) {
-        viewModelScope.launch(exceptionHandler) {
-            handleURIUseCase(uri)
-                .onSuccess {
-                    notifyUser(
-                        message = TextWrapper.Resource(R.string.authenticated_successfully)
-                    )
-                }
-                .onFailure {
-                    notifyUser(
-                        message = TextWrapper.Resource(
-                            R.string.error_message_authentication_failed,
-                            listOf(it.localizedMessage ?: "")
-                        ),
-                        isError = true
-                    )
-                }
+    private fun handleAuthenticationURI(uri: FTRUriType.Auth) {
+        viewModelScope.launch {
+            _onAuthRequest.emit(AuthRequestData.URI(ftrUriType = uri))
         }
     }
 
@@ -389,12 +355,8 @@ class FuturaeViewModel(
         }
     }
 
-    private fun notifyUser(message: TextWrapper, isError: Boolean = false) {
-        val snackbarUIState = if (isError) {
-            FuturaeSnackbarUIState.Error(message)
-        } else {
-            FuturaeSnackbarUIState.Success(message)
-        }
+    private fun notifyUserForError(message: TextWrapper) {
+        val snackbarUIState = FuturaeSnackbarUIState.Error(message)
 
         viewModelScope.launch {
             _snackbarUIState.emit(snackbarUIState)
