@@ -95,6 +95,9 @@
     <string name="delete_all_accounts">Delete All Accounts</string>
     <string name="delete_all_accounts_confirmation_dialog_title">Delete Accounts?</string>
     <string name="delete_all_accounts_confirmation_dialog_text">Please note that this action cannot be undone!</string>
+    <string name="app2app_enrollment">App2App Enrollment</string>
+    <string name="initiate_app2app_enrollment">Initiate App2App Enrollment</string>
+    <string name="app2app_enrollment_subtitle">Initiate App2App Enrollment to enroll an already enrolled account to a new device by scanning displayed QR code.</string>
     <string name="delete_all_accounts_confirmation_dialog_cancel_cta">Go Back</string>
     <string name="delete_all_accounts_confirmation_dialog_delete_cta">Delete</string>
     <string name="restore_accounts_subtitle">There are accounts backed up, and you can restore them here.</string>

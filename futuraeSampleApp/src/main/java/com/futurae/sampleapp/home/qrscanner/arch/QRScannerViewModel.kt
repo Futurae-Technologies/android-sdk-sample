@@ -36,15 +36,19 @@ class QRScannerViewModel : ViewModel() {
     private val _onEnrollmentFlowRequested = MutableSharedFlow<EnrollmentCase>()
     val onEnrollmentFlowRequest: SharedFlow<EnrollmentCase> = _onEnrollmentFlowRequested
 
+    private var isProcessingScan = false
+
     fun handleUserInteraction(userInteraction: QRScannerScreenUserInteraction) {
         when (userInteraction) {
             is QRScannerScreenUserInteraction.OnQRCodeScanned -> {
+                if (isProcessingScan) return
                 onQRCodeScanned(userInteraction.code)
             }
         }
     }
 
     private fun onQRCodeScanned(code: String) {
+        isProcessingScan = true
         when (val qrCode = FuturaeSDK.client.qrCodeApi.getQRCode(code)) {
             is QRCode.Enroll -> initiateEnrollmentFlow(code)
             is QRCode.Invalid -> notifyUserForInvalidQRCodeScanned()
@@ -59,12 +63,14 @@ class QRScannerViewModel : ViewModel() {
     private fun notifyForAuthRequest(authRequestData: AuthRequestData) {
         viewModelScope.launch {
             _onAuthRequest.emit(authRequestData)
+            isProcessingScan = false
         }
     }
 
     private fun initiateEnrollmentFlow(qrCode: String) {
         viewModelScope.launch {
             _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(qrCode))
+            isProcessingScan = false
         }
     }
 
@@ -86,6 +92,7 @@ class QRScannerViewModel : ViewModel() {
     private fun notifyUserForInvalidQRCodeScanned() {
         viewModelScope.launch {
             _onFailure.emit(Unit)
+            isProcessingScan = false
         }
     }
 
@@ -110,6 +117,8 @@ class QRScannerViewModel : ViewModel() {
             } catch (e: Throwable) {
                 Timber.e(e)
                 _onFailure.emit(Unit)
+            } finally {
+                isProcessingScan = false
             }
         }
     }
@@ -125,6 +134,8 @@ class QRScannerViewModel : ViewModel() {
             } catch (e: Throwable) {
                 Timber.e(e)
                 _onFailure.emit(Unit)
+            } finally {
+                isProcessingScan = false
             }
         }
     }

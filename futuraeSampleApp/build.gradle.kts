@@ -131,6 +131,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
 
     // Third-party
+    implementation("com.google.zxing:core:3.5.3")
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("io.github.chaosleung:pinview:1.4.4")

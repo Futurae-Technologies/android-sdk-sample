@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -24,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -49,6 +52,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.futurae.sdk.public_api.operations.model.EnrollmentExchangeTokenQrCode
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.TestTags
 import com.futurae.sampleapp.arch.FuturaeViewModel
@@ -88,6 +92,8 @@ fun AccountsScreen(
     val restoreAccountsBannerUIState by accountsViewModel.restorationBannerUIState.collectAsStateWithLifecycle()
     val timeoutProgress by accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle()
 
+    val enrollmentQrCode by accountsViewModel.enrollmentQrCode.collectAsStateWithLifecycle()
+
     AccountsScreen(
         uiState = uiState,
         timeoutProgress = timeoutProgress,
@@ -95,12 +101,20 @@ fun AccountsScreen(
         onAccountClick = onAccountClick,
         onHOTPRequest = accountsViewModel::getHOTP,
         onDeleteAccountRequest = accountsViewModel::deleteAccount,
+        onInitiateApp2AppEnrollment = accountsViewModel::initiateApp2AppEnrollment,
         onAccountRestorationBannerDismiss = accountsViewModel::accountsRestorationBannerDismissed,
         onRestoreAccountsClick = {
             accountsViewModel.userHasBeenInformed()
             onAccountRestorationClick(it)
         }
     )
+
+    enrollmentQrCode?.let { qr ->
+        EnrollmentQrCodeDialog(
+            qrCode = qr,
+            onDismiss = accountsViewModel::dismissEnrollmentQrCode
+        )
+    }
 
     LaunchedEffect(Unit) {
         accountsViewModel.onHOTPGenerated
@@ -109,6 +123,10 @@ fun AccountsScreen(
 
         accountsRecoveryCheckViewModel.migrationInfo
             .onEach { accountsViewModel.onMigrationInfoChanges(it) }
+            .launchIn(this)
+
+        accountsViewModel.onApp2AppEnrollmentInitiated
+            .onEach { clipboardManager.setText(AnnotatedString(it)) }
             .launchIn(this)
     }
 
@@ -134,6 +152,7 @@ private fun AccountsScreen(
     onAccountClick: (String) -> Unit,
     onHOTPRequest: (String) -> Unit,
     onDeleteAccountRequest: (String) -> Unit,
+    onInitiateApp2AppEnrollment: (String) -> Unit,
     onAccountRestorationBannerDismiss: () -> Unit,
     onRestoreAccountsClick: (Boolean) -> Unit
 ) {
@@ -144,7 +163,8 @@ private fun AccountsScreen(
                 timeoutProgress = timeoutProgress,
                 onAccountClick = onAccountClick,
                 onHOTPRequest = onHOTPRequest,
-                onDeleteAccountRequest = onDeleteAccountRequest
+                onDeleteAccountRequest = onDeleteAccountRequest,
+                onInitiateApp2AppEnrollment = onInitiateApp2AppEnrollment
             )
         } else {
             NoneEnrolledAccountScreen(
@@ -178,6 +198,7 @@ private fun AccountList(
     timeoutProgress: Float,
     onAccountClick: (String) -> Unit,
     onHOTPRequest: (String) -> Unit,
+    onInitiateApp2AppEnrollment: (String) -> Unit,
     onDeleteAccountRequest: (String) -> Unit
 ) {
     var lockedAccountInformativeDialog by remember {
@@ -201,6 +222,7 @@ private fun AccountList(
                 onClick = onAccountClick,
                 onHOTPRequest = onHOTPRequest,
                 onDeleteAccountRequest = onDeleteAccountRequest,
+                onInitiateApp2AppEnrollment = onInitiateApp2AppEnrollment,
                 onLockedAccountIconClicked = { dialogUIState ->
                     lockedAccountInformativeDialog = dialogUIState
                 }
@@ -228,6 +250,7 @@ private fun AccountItem(
     onClick: (String) -> Unit,
     onHOTPRequest: (String) -> Unit,
     onDeleteAccountRequest: (String) -> Unit,
+    onInitiateApp2AppEnrollment: (String) -> Unit,
     onLockedAccountIconClicked: (FuturaeAlertDialogUIState) -> Unit
 ) {
     var showAccountActions by remember { mutableStateOf(false) }
@@ -292,6 +315,10 @@ private fun AccountItem(
                             onDeleteAccountRequest = {
                                 onDeleteAccountRequest(uiState.userId)
                                 showAccountActions = false
+                            },
+                            onInitiateApp2AppEnrollment = {
+                                onInitiateApp2AppEnrollment(uiState.userId)
+                                showAccountActions = false
                             }
                         )
                     }
@@ -318,6 +345,10 @@ private fun AccountItem(
                                 onDeleteAccountRequest = {
                                     onDeleteAccountRequest(uiState.userId)
                                     showAccountActions = false
+                                },
+                                onInitiateApp2AppEnrollment = {
+                                    onInitiateApp2AppEnrollment(uiState.userId)
+                                    showAccountActions = false
                                 }
                             )
                         }
@@ -335,7 +366,8 @@ private fun AccountActionsPopup(
     isAccountLocked: Boolean,
     onHOTPRequest: () -> Unit,
     onDeleteAccountRequest: () -> Unit,
-    onDismissPopup: () -> Unit
+    onDismissPopup: () -> Unit,
+    onInitiateApp2AppEnrollment: () -> Unit
 ) {
     val context = LocalContext.current
     DropdownMenu(
@@ -366,7 +398,82 @@ private fun AccountActionsPopup(
             },
             onClick = onDeleteAccountRequest
         )
+        DropdownMenuItem(
+            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 8.dp),
+            text = {
+                Text(
+                    text = TextWrapper
+                        .Resource(R.string.initiate_app2app_enrollment)
+                        .value(context),
+                    color = PrimaryColor
+                )
+            },
+            onClick = onInitiateApp2AppEnrollment
+        )
     }
+}
+
+@Composable
+private fun EnrollmentQrCodeDialog(
+    qrCode: EnrollmentExchangeTokenQrCode,
+    onDismiss: () -> Unit,
+) {
+    val bitmap = remember(qrCode.qrCode) {
+        runCatching {
+            val content = qrCode.qrCode
+            val size = 512
+            val bitMatrix = com.google.zxing.MultiFormatWriter()
+                .encode(content, com.google.zxing.BarcodeFormat.QR_CODE, size, size)
+            android.graphics.Bitmap.createBitmap(size, size, android.graphics.Bitmap.Config.RGB_565).apply {
+                for (x in 0 until size) {
+                    for (y in 0 until size) {
+                        setPixel(x, y, if (bitMatrix[x, y]) android.graphics.Color.BLACK else android.graphics.Color.WHITE)
+                    }
+                }
+            }.asImageBitmap()
+        }.getOrNull()
+    }
+
+    AlertDialog(
+        containerColor = OnPrimaryColor,
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Scan QR Code",
+                style = FuturaeTypography.titleH4,
+                color = PrimaryColor
+            )
+        },
+        text = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (bitmap != null) {
+                    Image(
+                        bitmap = bitmap,
+                        contentDescription = "Enrollment QR code",
+                        modifier = Modifier.size(240.dp)
+                    )
+                } else {
+                    Text(
+                        text = "Unable to render QR code",
+                        style = FuturaeTypography.bodySmallRegular,
+                        color = PrimaryColor
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(
+                    text = "Close",
+                    style = FuturaeTypography.button,
+                    color = PrimaryColor
+                )
+            }
+        }
+    )
 }
 
 @Composable
