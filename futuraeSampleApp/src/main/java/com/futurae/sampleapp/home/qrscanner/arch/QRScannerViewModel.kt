@@ -38,6 +38,10 @@ class QRScannerViewModel : ViewModel() {
 
     private var isProcessingScan = false
 
+    fun onScreenResumed() {
+        isProcessingScan = false
+    }
+
     fun handleUserInteraction(userInteraction: QRScannerScreenUserInteraction) {
         when (userInteraction) {
             is QRScannerScreenUserInteraction.OnQRCodeScanned -> {
@@ -63,14 +67,12 @@ class QRScannerViewModel : ViewModel() {
     private fun notifyForAuthRequest(authRequestData: AuthRequestData) {
         viewModelScope.launch {
             _onAuthRequest.emit(authRequestData)
-            isProcessingScan = false
         }
     }
 
     private fun initiateEnrollmentFlow(qrCode: String) {
         viewModelScope.launch {
             _onEnrollmentFlowRequested.emit(EnrollmentCase.ActivationCodeInput(qrCode))
-            isProcessingScan = false
         }
     }
 
@@ -92,7 +94,6 @@ class QRScannerViewModel : ViewModel() {
     private fun notifyUserForInvalidQRCodeScanned() {
         viewModelScope.launch {
             _onFailure.emit(Unit)
-            isProcessingScan = false
         }
     }
 
@@ -117,8 +118,6 @@ class QRScannerViewModel : ViewModel() {
             } catch (e: Throwable) {
                 Timber.e(e)
                 _onFailure.emit(Unit)
-            } finally {
-                isProcessingScan = false
             }
         }
     }
@@ -134,8 +133,6 @@ class QRScannerViewModel : ViewModel() {
             } catch (e: Throwable) {
                 Timber.e(e)
                 _onFailure.emit(Unit)
-            } finally {
-                isProcessingScan = false
             }
         }
     }
