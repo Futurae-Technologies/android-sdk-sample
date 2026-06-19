@@ -36,15 +36,23 @@ class QRScannerViewModel : ViewModel() {
     private val _onEnrollmentFlowRequested = MutableSharedFlow<EnrollmentCase>()
     val onEnrollmentFlowRequest: SharedFlow<EnrollmentCase> = _onEnrollmentFlowRequested
 
+    private var isProcessingScan = false
+
+    fun onScreenResumed() {
+        isProcessingScan = false
+    }
+
     fun handleUserInteraction(userInteraction: QRScannerScreenUserInteraction) {
         when (userInteraction) {
             is QRScannerScreenUserInteraction.OnQRCodeScanned -> {
+                if (isProcessingScan) return
                 onQRCodeScanned(userInteraction.code)
             }
         }
     }
 
     private fun onQRCodeScanned(code: String) {
+        isProcessingScan = true
         when (val qrCode = FuturaeSDK.client.qrCodeApi.getQRCode(code)) {
             is QRCode.Enroll -> initiateEnrollmentFlow(code)
             is QRCode.Invalid -> notifyUserForInvalidQRCodeScanned()

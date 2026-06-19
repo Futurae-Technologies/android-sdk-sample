@@ -8,7 +8,10 @@ import com.futurae.sampleapp.utils.LocalStorage
 import com.futurae.sampleapp.home.accounts.AccountRowUIState
 import com.futurae.sampleapp.home.accounts.AccountsScreenUIState
 import com.futurae.sampleapp.home.accounts.restoreaccountsbanner.RestoreAccountsBannerUIState
+import com.futurae.sampleapp.home.accounts.usecase.GetEnrollmentExchangeTokensUseCase
 import com.futurae.sampleapp.home.accounts.usecase.GetTOTPUseCase
+import com.futurae.sampleapp.home.accounts.usecase.InitiateApp2AppEnrollmentUseCase
+import com.futurae.sdk.public_api.operations.model.EnrollmentExchangeTokenQrCode
 import com.futurae.sampleapp.ui.shared.elements.timeoutIndicator.startCountdown
 import com.futurae.sdk.FuturaeSDK
 import com.futurae.sdk.public_api.auth.model.SDKAuthMode
@@ -31,15 +34,24 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class AccountsViewModel(val getTOTPUseCase: GetTOTPUseCase) : ViewModel() {
+class AccountsViewModel(
+    val getTOTPUseCase: GetTOTPUseCase,
+    val initiateApp2AppEnrollmentUseCase: InitiateApp2AppEnrollmentUseCase,
+    val getEnrollmentExchangeTokensUseCase: GetEnrollmentExchangeTokensUseCase,
+) : ViewModel() {
 
     companion object {
         fun provideFactory(): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(
                 modelClass: Class<T>
-            ): T = AccountsViewModel(getTOTPUseCase = GetTOTPUseCase()) as T
+            ): T = AccountsViewModel(
+                getTOTPUseCase = GetTOTPUseCase(),
+                initiateApp2AppEnrollmentUseCase = InitiateApp2AppEnrollmentUseCase(),
+                getEnrollmentExchangeTokensUseCase = GetEnrollmentExchangeTokensUseCase(),
+            ) as T
         }
     }
 
@@ -65,6 +77,12 @@ class AccountsViewModel(val getTOTPUseCase: GetTOTPUseCase) : ViewModel() {
 
     private val _onHOTPGenerated = MutableSharedFlow<String>()
     val onHOTPGenerated = _onHOTPGenerated.asSharedFlow()
+
+    private val _onApp2AppEnrollmentInitiated = MutableSharedFlow<String>()
+    val onApp2AppEnrollmentInitiated = _onApp2AppEnrollmentInitiated.asSharedFlow()
+
+    private val _enrollmentQrCode = MutableStateFlow<EnrollmentExchangeTokenQrCode?>(null)
+    val enrollmentQrCode = _enrollmentQrCode.asStateFlow()
 
     private val _restorationBannerUIState = MutableStateFlow<RestoreAccountsBannerUIState>(RestoreAccountsBannerUIState.None)
     val restorationBannerUIState = _restorationBannerUIState.asStateFlow()
@@ -149,6 +167,30 @@ class AccountsViewModel(val getTOTPUseCase: GetTOTPUseCase) : ViewModel() {
                 FuturaeSDK.client.accountApi.logoutAccount(userId).await()
             }
         }
+    }
+
+    fun initiateApp2AppEnrollment(userId: String) {
+        viewModelScope.launch {
+            initiateApp2AppEnrollmentUseCase(userId)
+                .onSuccess { enrollmentInfo ->
+                    _onApp2AppEnrollmentInitiated.emit(enrollmentInfo.toString())
+                    getEnrollmentExchangeTokensUseCase(
+                        userId = userId,
+                        activationCodeShort = enrollmentInfo.activationCodeShort,
+                    ).onSuccess { tokens ->
+                        Timber.d("Enrollment exchange tokens count: ${tokens.size}")
+                        _enrollmentQrCode.value = tokens.getOrNull(3)
+                            .also { if (it == null) Timber.w("4th QR code not available, list size: ${tokens.size}") }
+                    }
+                }
+                .onFailure {
+                    Timber.d("Enrollment failure")
+                }
+        }
+    }
+
+    fun dismissEnrollmentQrCode() {
+        _enrollmentQrCode.value = null
     }
 
     private fun ILCEState<MigratableAccounts>.toRestorationBannerUIState(): RestoreAccountsBannerUIState {
