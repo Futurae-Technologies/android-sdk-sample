@@ -52,6 +52,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.futurae.sampleapp.BuildConfig
 import com.futurae.sdk.public_api.operations.model.EnrollmentExchangeTokenQrCode
 import com.futurae.sampleapp.R
 import com.futurae.sampleapp.TestTags
@@ -90,7 +91,11 @@ fun AccountsScreen(
 
     val uiState by accountsViewModel.uiState.collectAsStateWithLifecycle()
     val restoreAccountsBannerUIState by accountsViewModel.restorationBannerUIState.collectAsStateWithLifecycle()
-    val timeoutProgress by accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle()
+    val timeoutProgress = if (BuildConfig.BUILD_TYPE == "qa") {
+        1f
+    } else {
+        accountsViewModel.timeoutCountdownProgress.collectAsStateWithLifecycle().value
+    }
 
     val enrollmentQrCode by accountsViewModel.enrollmentQrCode.collectAsStateWithLifecycle()
 
@@ -205,7 +210,9 @@ private fun AccountList(
         mutableStateOf<FuturaeAlertDialogUIState?>(null)
     }
 
-    TimeoutIndicator(progress = timeoutProgress)
+    if (BuildConfig.BUILD_TYPE != "qa") {
+        TimeoutIndicator(progress = timeoutProgress)
+    }
 
     LazyColumn(
         modifier = Modifier
