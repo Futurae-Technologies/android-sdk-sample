@@ -30,6 +30,7 @@ fun GeofencingSettingsScreen() {
 
     val finePermission = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
     val coarsePermission = rememberPermissionState(Manifest.permission.ACCESS_COARSE_LOCATION)
+    val backgroundPermission = rememberPermissionState(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
 
     val state by geofencingSettingsViewModel.state.collectAsStateWithLifecycle()
 
@@ -62,6 +63,14 @@ fun GeofencingSettingsScreen() {
             !finePermission.status.isGranted && coarsePermission.status.isGranted -> {
                 finePermission.launchPermissionRequest()
             }
+        }
+    }
+
+    // Background location can only be requested once foreground (fine/coarse) access is granted.
+    LaunchedEffect(finePermission.status, coarsePermission.status, backgroundPermission.status) {
+        val hasForegroundPermission = finePermission.status.isGranted || coarsePermission.status.isGranted
+        if (hasForegroundPermission && !backgroundPermission.status.isGranted) {
+            backgroundPermission.launchPermissionRequest()
         }
     }
 }

@@ -10,6 +10,7 @@ enum class UITestTags(val tag : String) {
     ToggleFlowBinding("toggle_flow_binding"),
     ToggleSessionFetchUnprotected("toggle_session_fetch_unprotected"),
     ToggleGeofencing("toggle_geofencing"),
+    ToggleBackgroundGeofencing("toggle_background_geofencing"),
     HeaderBackButton("header_back_button"),
     AccountsHistoryList("accounts_history_list"),
     AccountsHistorySuccess("account_history_success"),
