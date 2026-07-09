@@ -18,12 +18,22 @@ class GeofencingSettingsViewModel : ViewModel() {
 
     private fun generateSettingsItems() = listOf(
         SettingsToggle(
-            title = TextWrapper.Resource(R.string.geofencing),
-            subtitle = TextWrapper.Resource(R.string.geofencing_subtitle),
-            isEnabled = FuturaeSDK.client.geofencingApi.isLocationCollectionEnabled,
+            title = TextWrapper.Resource(R.string.geofencing_auth),
+            subtitle = TextWrapper.Resource(R.string.geofencing_auth_subtitle),
+            isEnabled = FuturaeSDK.client.geofencingApi.isLocationCollectionOnAuthEnabled,
             testTag = UITestTags.ToggleGeofencing.tag,
             onToggleChanged = {
-                FuturaeSDK.client.geofencingApi.enableOrDisableLocationCollection(it)
+                FuturaeSDK.client.geofencingApi.enableOrDisableLocationCollectionOnAuth(it)
+                reEvaluateState()
+            }
+        ),
+        SettingsToggle(
+            title = TextWrapper.Resource(R.string.geofencing_continuous),
+            subtitle = TextWrapper.Resource(R.string.geofencing_continuous_subtitle),
+            isEnabled = FuturaeSDK.client.geofencingApi.isBackgroundLocationCollectionEnabled,
+            testTag = UITestTags.ToggleGeofencing.tag,
+            onToggleChanged = {
+                FuturaeSDK.client.geofencingApi.enableOrDisableBackgroundLocationCollection(it)
                 reEvaluateState()
             }
         )
