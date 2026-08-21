@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -100,7 +102,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
                 authenticationViewModel = authenticationViewModel,
                 pinProviderViewModel = pinProviderViewModel,
                 accountsRecoveryCheckViewModel = accountsRecoveryCheckViewModel,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().semantics { testTagsAsResourceId = true },
             )
         }
     }
