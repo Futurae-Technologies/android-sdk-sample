@@ -20,10 +20,15 @@ class GeofencingSettingsViewModel : ViewModel() {
         SettingsToggle(
             title = TextWrapper.Resource(R.string.geofencing),
             subtitle = TextWrapper.Resource(R.string.geofencing_subtitle),
-            isEnabled = FuturaeSDK.client.geofencingApi.isLocationCollectionEnabled,
+            isEnabled = FuturaeSDK.client.geofencingApi.isBackgroundLocationCollectionEnabled,
             testTag = UITestTags.ToggleGeofencing.tag,
             onToggleChanged = {
-                FuturaeSDK.client.geofencingApi.enableOrDisableLocationCollection(it)
+                if(it){
+                    FuturaeSDK.client.geofencingApi.enableBackgroundLocationCollection()
+                } else {
+                    FuturaeSDK.client.geofencingApi.disableBackgroundLocationCollection()
+                }
+
                 reEvaluateState()
             }
         )

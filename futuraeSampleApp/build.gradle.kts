@@ -19,7 +19,7 @@ val getCommitCount: () -> Int = {
     stdout.toString().trim().toInt()
 }
 
-val sdkVersion = "3.10.0-beta"
+val sdkVersion = "3.10.1-rc1"
 val adaptiveSdkVersion = "1.1.2-alpha"
 
 android {
@@ -105,7 +105,7 @@ val composeBomVersion = "2026.05.01"
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
     implementation("com.futurae.sdk:adaptive:${adaptiveSdkVersion}")
-    implementation("com.futurae.sdk:futuraekit-beta:${sdkVersion}")
+    implementation("com.futurae.sdk:futuraekit:${sdkVersion}")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping
@@ -114,6 +114,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.material:material-icons-extended")
 
     implementation("androidx.activity:activity-compose:1.10.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
