@@ -101,7 +101,7 @@ android {
     }
 }
 
-val composeBomVersion = "2024.12.01"
+val composeBomVersion = "2026.05.01"
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
     implementation("com.futurae.sdk:adaptive:${adaptiveSdkVersion}")
