@@ -152,8 +152,13 @@
     <string name="adaptive_subtitle">Enable Adaptive capabilities</string>
     <string name="authentication">Authentication</string>
     <string name="migration">Migration</string>
-    <string name="geofencing">Location Collection</string>
-    <string name="geofencing_subtitle">If enabled Geolocation data will be submitted on Authentication when required and periodically.</string>
+    <string name="geofencing_on_auth">Location on Authentication</string>
+    <string name="geofencing_on_auth_subtitle">When enabled, geolocation data will be submitted during authentication when required by the server.</string>
+    <string name="geofencing_continuous">Continuous Location Collection</string>
+    <string name="geofencing_continuous_subtitle">When enabled, geolocation data will be submitted periodically in the background.</string>
+    <string name="geofencing_bg_permission_denied_title">Background Location Required</string>
+    <string name="geofencing_bg_permission_denied_message">Background location permission has been permanently denied. Please grant it from app settings to enable continuous location collection.</string>
+    <string name="go_to_settings">Go to Settings</string>
     <string name="lock_mechanism">Lock Type</string>
     <string name="lock_mechanism_subtitle">Select SDK lock Configuration</string>
     <string name="unlock_duration">Unlock Duration</string>
