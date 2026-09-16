@@ -63,9 +63,15 @@ class FuturaeViewModel(
     private val _notifyUser = MutableSharedFlow<NotificationUI>()
     val notifyUserFlow = _notifyUser.asSharedFlow()
 
+    // Replay is needed here to not lose an emission due to this flow emitting
+    // prior someone observing, e.g. when app is opened via a QR push notification
+    private val _onQrScanNavigationRequest = MutableSharedFlow<Unit>(replay = 1)
+    val onQrScanNavigationRequest: SharedFlow<Unit> = _onQrScanNavigationRequest
+
     private var pendingUri: String? = null
     private var pendingBroadcastReceivedMessage: FTRNotificationEvent? = null
     private var pendingNotificationAccountFetch: Boolean = false
+    private var pendingQrScanNavigation: Boolean = false
 
     private var getAccountStatus: Job? = null
 
@@ -78,6 +84,7 @@ class FuturaeViewModel(
                     checkForPendingURI()
                     checkForPendingBroadcastReceivedMessage()
                     checkForPendingNotificationAccountFetch()
+                    checkForPendingQrScanNavigation()
                 }
         }
     }
@@ -88,6 +95,21 @@ class FuturaeViewModel(
             return
         }
         fetchAccountsStatus()
+    }
+
+    fun scheduleQrScanNavigation() {
+        if (!FuturaeSDK.isSDKInitialized || FuturaeSDK.client.lockApi.isLocked()) {
+            pendingQrScanNavigation = true
+            return
+        }
+
+        requestQrScanNavigation()
+    }
+
+    private fun requestQrScanNavigation() {
+        viewModelScope.launch {
+            _onQrScanNavigationRequest.emit(Unit)
+        }
     }
 
     fun fetchAccountsStatus() {
@@ -236,6 +258,13 @@ class FuturaeViewModel(
         if (pendingNotificationAccountFetch) {
             pendingNotificationAccountFetch = false
             fetchAccountsStatus()
+        }
+    }
+
+    private fun checkForPendingQrScanNavigation() {
+        if (pendingQrScanNavigation) {
+            pendingQrScanNavigation = false
+            requestQrScanNavigation()
         }
     }
 
