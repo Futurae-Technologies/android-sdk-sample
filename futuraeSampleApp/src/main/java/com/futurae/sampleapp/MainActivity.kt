@@ -88,7 +88,7 @@ class MainActivity : FragmentActivity(), DefaultLifecycleObserver {
                 // perform account refresh, deferring until SDK is ready if needed
                 futuraeViewModel.scheduleAccountStatusFetch()
             } else if (keys.any { it == NotificationHelper.EXTRA_QR }) {
-                // navigate to QR
+                futuraeViewModel.scheduleQrScanNavigation()
             }
         }
     }

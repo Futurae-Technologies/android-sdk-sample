@@ -569,7 +569,7 @@ fun FuturaeNavigationGraph(
                     uiState = it.dialogState,
                     onConfirm = {
                         notificationMessage = null
-                        navController.navigate(FuturaeSampleDestinations.QR_SCANNER_ROUTE.route)
+                        navController.bottomNavigationTo(FuturaeSampleDestinations.QR_SCANNER_ROUTE)
                     },
                     onDeny = {
                         notificationMessage = null
@@ -663,6 +663,12 @@ fun FuturaeNavigationGraph(
         authenticationViewModel.navigateToAccounts
             .onEach {
                 navController.bottomNavigationTo(FuturaeSampleDestinations.ACCOUNTS_ROUTE)
+            }
+            .launchIn(this)
+
+        viewModel.onQrScanNavigationRequest
+            .onEach {
+                navController.bottomNavigationTo(FuturaeSampleDestinations.QR_SCANNER_ROUTE)
             }
             .launchIn(this)
 
