@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization")
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.google.services)
 }
@@ -24,7 +23,7 @@ val adaptiveSdkVersionName = "1.1.2-alpha"
 
 android {
     namespace = "com.futurae.sampleapp"
-    compileSdk = 35
+    compileSdk = 36
 
     buildFeatures {
         buildConfig = true
@@ -35,7 +34,7 @@ android {
     defaultConfig {
         applicationId = "com.futurae.sampleapp"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = getCommitCount()
         versionName = sdkVersionName
 
@@ -121,7 +120,7 @@ dependencies {
     implementation("androidx.camera:camera-camera2:1.4.1")
     implementation("androidx.camera:camera-lifecycle:1.4.1")
     implementation("androidx.camera:camera-view:1.4.1")
-    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-process:2.8.7")
 
