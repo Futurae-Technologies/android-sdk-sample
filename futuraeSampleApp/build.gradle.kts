@@ -99,38 +99,39 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // any version higher, requires Kotlin v2
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
     implementation("com.futurae.sdk:adaptive:${adaptiveSdkVersionName}")
     implementation("com.futurae.sdk:futuraekit:${sdkVersionName}")
 
     // Refer to BOM mapping page to verify individual app versions used
     // https://developer.android.com/develop/ui/compose/bom/bom-mapping
-    implementation(platform("androidx.compose:compose-bom:2024.12.01"))
+    implementation(platform("androidx.compose:compose-bom:2026.06.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material3:material3:1.4.0")
 
-    implementation("androidx.activity:activity-compose:1.10.0")
+    implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.navigation:navigation-compose:2.8.5")
-    implementation("androidx.camera:camera-core:1.4.1")
-    implementation("androidx.camera:camera-camera2:1.4.1")
-    implementation("androidx.camera:camera-lifecycle:1.4.1")
-    implementation("androidx.camera:camera-view:1.4.1")
-    implementation("androidx.core:core-ktx:1.17.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-process:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.10.0")
+    implementation("androidx.navigation:navigation-compose:2.9.8")
+    implementation("androidx.camera:camera-core:1.6.2")
+    implementation("androidx.camera:camera-camera2:1.6.2")
+    implementation("androidx.camera:camera-lifecycle:1.6.2")
+    implementation("androidx.camera:camera-view:1.6.2")
+    implementation("androidx.core:core-ktx:1.18.0")
 
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
-    implementation("com.google.firebase:firebase-messaging-ktx:24.1.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.37.0")
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:24.1.2")
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+    implementation("com.google.code.gson:gson:2.14.0")
 
     // Third-party
-    implementation("com.google.zxing:core:3.5.3")
+    implementation("com.google.zxing:core:3.5.4")
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("io.github.chaosleung:pinview:1.4.4")
