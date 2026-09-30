@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.ripple
@@ -76,6 +78,14 @@ fun LockScreen(
     )
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+
+    LaunchedEffect(uiState.error) {
+        uiState.error?.let { error ->
+            snackbarHostState.showSnackbar(error.value(context))
+        }
+    }
 
     when (configuration.lockMode) {
         LockScreenMode.UNLOCK,
@@ -100,10 +110,11 @@ fun LockScreen(
             .fillMaxSize()
             .background(BgLogo)
             .systemBarsPadding(),
-        contentAlignment = Alignment.Center
     ) {
         Column(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(56.dp))
@@ -155,6 +166,11 @@ fun LockScreen(
                 )
             }
         }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 
     LaunchedEffect(Unit) {
