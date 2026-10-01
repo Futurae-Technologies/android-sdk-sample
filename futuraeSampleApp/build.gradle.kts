@@ -20,7 +20,7 @@ val getCommitCount: () -> Int = {
 }
 
 val sdkVersion = "3.10.1-rc2"
-val adaptiveSdkVersion = "1.1.2-alpha"
+val adaptiveSdkVersion = "1.1.3-alpha"
 
 android {
     namespace = "com.futurae.sampleapp"
